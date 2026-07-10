@@ -3,3 +3,7 @@ __pycache__/
 *.pyc
 .env
 dist/
+
+# フェーズ6: 利用者投稿の周辺写真（実行時に生成される。サンプルデータではない）
+backend/data/photos/
+backend/data/photos.json

@@ -24,10 +24,29 @@ export async function fetchLockers(params = {}) {
 }
 
 /**
- * フェーズ4: ロッカー詳細
+ * フェーズ4: ロッカー詳細（フェーズ6: 周辺写真一覧を含む）
  */
 export async function fetchLockerDetail(facilityId) {
   const res = await fetch(`${API_BASE}/api/lockers/${facilityId}`);
   if (!res.ok) throw new Error("詳細情報の取得に失敗しました");
   return res.json();
+}
+
+/**
+ * フェーズ6: 利用者による周辺写真の投稿
+ */
+export async function uploadLockerPhoto(facilityId, file) {
+  const formData = new FormData();
+  formData.append("photo", file);
+  const res = await fetch(`${API_BASE}/api/lockers/${facilityId}/photos`, {
+    method: "POST",
+    body: formData,
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "写真の投稿に失敗しました");
+  return data;
+}
+
+export function photoUrl(photo) {
+  return `${API_BASE}${photo.url}`;
 }
