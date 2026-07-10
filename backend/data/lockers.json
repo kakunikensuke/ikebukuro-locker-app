@@ -6,13 +6,32 @@
     "latitude": 35.7301,
     "longitude": 139.7112,
     "nearest_station": "池袋駅",
+    "station_slug": "ikebukuro",
     "business_hours": "終日利用可",
-    "source": { "site_name": "サンプル情報サイトA", "site_url": "https://example.com/locker-a" },
+    "source": {
+      "site_name": "サンプル情報サイトA",
+      "site_url": "https://example.com/locker-a"
+    },
     "last_updated_at": "2026-07-01T09:00:00+09:00",
     "sizes": [
-      { "size_type": "S", "price": 400, "quantity": 20, "dimensions": "34×34×57cm" },
-      { "size_type": "M", "price": 500, "quantity": 12, "dimensions": "40×57×57cm" },
-      { "size_type": "L", "price": 700, "quantity": 6,  "dimensions": "40×57×115cm" }
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 20,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 12,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 700,
+        "quantity": 6,
+        "dimensions": "40×57×115cm"
+      }
     ]
   },
   {
@@ -22,13 +41,32 @@
     "latitude": 35.7292,
     "longitude": 139.7089,
     "nearest_station": "池袋駅",
+    "station_slug": "ikebukuro",
     "business_hours": "5:00〜25:00",
-    "source": { "site_name": "サンプル情報サイトA", "site_url": "https://example.com/locker-a" },
+    "source": {
+      "site_name": "サンプル情報サイトA",
+      "site_url": "https://example.com/locker-a"
+    },
     "last_updated_at": "2026-07-01T09:00:00+09:00",
     "sizes": [
-      { "size_type": "S", "price": 400, "quantity": 15, "dimensions": "34×34×57cm" },
-      { "size_type": "M", "price": 500, "quantity": 8,  "dimensions": "40×57×57cm" },
-      { "size_type": "L", "price": 700, "quantity": 0,  "dimensions": "40×57×115cm" }
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 15,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 8,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 700,
+        "quantity": 0,
+        "dimensions": "40×57×115cm"
+      }
     ]
   },
   {
@@ -38,13 +76,32 @@
     "latitude": 35.7306,
     "longitude": 139.7159,
     "nearest_station": "池袋駅",
+    "station_slug": "ikebukuro",
     "business_hours": "終日利用可",
-    "source": { "site_name": "サンプル情報サイトB", "site_url": "https://example.com/locker-b" },
+    "source": {
+      "site_name": "サンプル情報サイトB",
+      "site_url": "https://example.com/locker-b"
+    },
     "last_updated_at": "2026-06-30T18:30:00+09:00",
     "sizes": [
-      { "size_type": "S", "price": 300, "quantity": 10, "dimensions": "34×34×57cm" },
-      { "size_type": "M", "price": 500, "quantity": 10, "dimensions": "40×57×57cm" },
-      { "size_type": "L", "price": 600, "quantity": 4,  "dimensions": "40×57×115cm" }
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 10,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 10,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 4,
+        "dimensions": "40×57×115cm"
+      }
     ]
   },
   {
@@ -54,13 +111,32 @@
     "latitude": 35.7288,
     "longitude": 139.7134,
     "nearest_station": "池袋駅",
+    "station_slug": "ikebukuro",
     "business_hours": "10:00〜21:00",
-    "source": { "site_name": "サンプル情報サイトB", "site_url": "https://example.com/locker-b" },
+    "source": {
+      "site_name": "サンプル情報サイトB",
+      "site_url": "https://example.com/locker-b"
+    },
     "last_updated_at": "2026-06-30T18:30:00+09:00",
     "sizes": [
-      { "size_type": "S", "price": 400, "quantity": 6, "dimensions": "34×34×57cm" },
-      { "size_type": "M", "price": 500, "quantity": 4, "dimensions": "40×57×57cm" },
-      { "size_type": "L", "price": 700, "quantity": 2, "dimensions": "40×57×115cm" }
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 6,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 4,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 700,
+        "quantity": 2,
+        "dimensions": "40×57×115cm"
+      }
     ]
   },
   {
@@ -70,29 +146,67 @@
     "latitude": 35.7315,
     "longitude": 139.7101,
     "nearest_station": "池袋駅",
+    "station_slug": "ikebukuro",
     "business_hours": "終日利用可",
-    "source": { "site_name": "サンプル情報サイトA", "site_url": "https://example.com/locker-a" },
+    "source": {
+      "site_name": "サンプル情報サイトA",
+      "site_url": "https://example.com/locker-a"
+    },
     "last_updated_at": "2026-07-01T09:00:00+09:00",
     "sizes": [
-      { "size_type": "S", "price": 400, "quantity": 18, "dimensions": "34×34×57cm" },
-      { "size_type": "M", "price": 500, "quantity": 10, "dimensions": "40×57×57cm" },
-      { "size_type": "L", "price": 700, "quantity": 5,  "dimensions": "40×57×115cm" }
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 18,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 10,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 700,
+        "quantity": 5,
+        "dimensions": "40×57×115cm"
+      }
     ]
   },
   {
     "facility_id": 6,
     "name": "池袋駅 メトロポリタン口 コインロッカー",
     "address": "東京都豊島区西池袋1丁目 メトロポリタン口付近",
-    "latitude": 35.7280,
+    "latitude": 35.728,
     "longitude": 139.7106,
     "nearest_station": "池袋駅",
+    "station_slug": "ikebukuro",
     "business_hours": "終日利用可",
-    "source": { "site_name": "サンプル情報サイトB", "site_url": "https://example.com/locker-b" },
+    "source": {
+      "site_name": "サンプル情報サイトB",
+      "site_url": "https://example.com/locker-b"
+    },
     "last_updated_at": "2026-06-30T18:30:00+09:00",
     "sizes": [
-      { "size_type": "S", "price": 300, "quantity": 9, "dimensions": "34×34×57cm" },
-      { "size_type": "M", "price": 500, "quantity": 7, "dimensions": "40×57×57cm" },
-      { "size_type": "L", "price": 600, "quantity": 3, "dimensions": "40×57×115cm" }
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 9,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 7,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 3,
+        "dimensions": "40×57×115cm"
+      }
     ]
   },
   {
@@ -102,29 +216,67 @@
     "latitude": 35.6905,
     "longitude": 139.7005,
     "nearest_station": "新宿駅",
+    "station_slug": "shinjuku",
     "business_hours": "終日利用可",
-    "source": { "site_name": "サンプル情報サイトA", "site_url": "https://example.com/locker-a" },
+    "source": {
+      "site_name": "サンプル情報サイトA",
+      "site_url": "https://example.com/locker-a"
+    },
     "last_updated_at": "2026-07-01T09:00:00+09:00",
     "sizes": [
-      { "size_type": "S", "price": 400, "quantity": 25, "dimensions": "34×34×57cm" },
-      { "size_type": "M", "price": 500, "quantity": 14, "dimensions": "40×57×57cm" },
-      { "size_type": "L", "price": 700, "quantity": 8, "dimensions": "40×57×115cm" }
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 25,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 14,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 700,
+        "quantity": 8,
+        "dimensions": "40×57×115cm"
+      }
     ]
   },
   {
     "facility_id": 8,
     "name": "新宿駅 西口 コインロッカー",
     "address": "東京都新宿区西新宿1丁目 新宿駅西口付近",
-    "latitude": 35.6900,
+    "latitude": 35.69,
     "longitude": 139.6991,
     "nearest_station": "新宿駅",
+    "station_slug": "shinjuku",
     "business_hours": "5:00〜24:00",
-    "source": { "site_name": "サンプル情報サイトB", "site_url": "https://example.com/locker-b" },
+    "source": {
+      "site_name": "サンプル情報サイトB",
+      "site_url": "https://example.com/locker-b"
+    },
     "last_updated_at": "2026-06-30T18:30:00+09:00",
     "sizes": [
-      { "size_type": "S", "price": 400, "quantity": 10, "dimensions": "34×34×57cm" },
-      { "size_type": "M", "price": 500, "quantity": 0, "dimensions": "40×57×57cm" },
-      { "size_type": "L", "price": 700, "quantity": 5, "dimensions": "40×57×115cm" }
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 10,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 0,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 700,
+        "quantity": 5,
+        "dimensions": "40×57×115cm"
+      }
     ]
   },
   {
@@ -134,29 +286,67 @@
     "latitude": 35.6885,
     "longitude": 139.7003,
     "nearest_station": "新宿駅",
+    "station_slug": "shinjuku",
     "business_hours": "終日利用可",
-    "source": { "site_name": "サンプル情報サイトA", "site_url": "https://example.com/locker-a" },
+    "source": {
+      "site_name": "サンプル情報サイトA",
+      "site_url": "https://example.com/locker-a"
+    },
     "last_updated_at": "2026-07-01T09:00:00+09:00",
     "sizes": [
-      { "size_type": "S", "price": 300, "quantity": 12, "dimensions": "34×34×57cm" },
-      { "size_type": "M", "price": 500, "quantity": 9, "dimensions": "40×57×57cm" },
-      { "size_type": "L", "price": 600, "quantity": 2, "dimensions": "40×57×115cm" }
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 12,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 9,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 2,
+        "dimensions": "40×57×115cm"
+      }
     ]
   },
   {
     "facility_id": 10,
     "name": "渋谷駅 ハチ公口 コインロッカー",
     "address": "東京都渋谷区道玄坂1丁目 渋谷駅ハチ公口付近",
-    "latitude": 35.6580,
+    "latitude": 35.658,
     "longitude": 139.7016,
     "nearest_station": "渋谷駅",
+    "station_slug": "shibuya",
     "business_hours": "終日利用可",
-    "source": { "site_name": "サンプル情報サイトB", "site_url": "https://example.com/locker-b" },
+    "source": {
+      "site_name": "サンプル情報サイトB",
+      "site_url": "https://example.com/locker-b"
+    },
     "last_updated_at": "2026-06-30T18:30:00+09:00",
     "sizes": [
-      { "size_type": "S", "price": 400, "quantity": 16, "dimensions": "34×34×57cm" },
-      { "size_type": "M", "price": 500, "quantity": 10, "dimensions": "40×57×57cm" },
-      { "size_type": "L", "price": 700, "quantity": 4, "dimensions": "40×57×115cm" }
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 16,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 10,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 700,
+        "quantity": 4,
+        "dimensions": "40×57×115cm"
+      }
     ]
   },
   {
@@ -166,13 +356,32 @@
     "latitude": 35.6563,
     "longitude": 139.7028,
     "nearest_station": "渋谷駅",
+    "station_slug": "shibuya",
     "business_hours": "5:30〜24:00",
-    "source": { "site_name": "サンプル情報サイトA", "site_url": "https://example.com/locker-a" },
+    "source": {
+      "site_name": "サンプル情報サイトA",
+      "site_url": "https://example.com/locker-a"
+    },
     "last_updated_at": "2026-07-01T09:00:00+09:00",
     "sizes": [
-      { "size_type": "S", "price": 400, "quantity": 8, "dimensions": "34×34×57cm" },
-      { "size_type": "M", "price": 500, "quantity": 5, "dimensions": "40×57×57cm" },
-      { "size_type": "L", "price": 700, "quantity": 0, "dimensions": "40×57×115cm" }
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 8,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 5,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 700,
+        "quantity": 0,
+        "dimensions": "40×57×115cm"
+      }
     ]
   },
   {
@@ -182,13 +391,32 @@
     "latitude": 35.6595,
     "longitude": 139.7038,
     "nearest_station": "渋谷駅",
+    "station_slug": "shibuya",
     "business_hours": "終日利用可",
-    "source": { "site_name": "サンプル情報サイトB", "site_url": "https://example.com/locker-b" },
+    "source": {
+      "site_name": "サンプル情報サイトB",
+      "site_url": "https://example.com/locker-b"
+    },
     "last_updated_at": "2026-06-30T18:30:00+09:00",
     "sizes": [
-      { "size_type": "S", "price": 300, "quantity": 11, "dimensions": "34×34×57cm" },
-      { "size_type": "M", "price": 500, "quantity": 6, "dimensions": "40×57×57cm" },
-      { "size_type": "L", "price": 600, "quantity": 3, "dimensions": "40×57×115cm" }
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 11,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 6,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 3,
+        "dimensions": "40×57×115cm"
+      }
     ]
   }
 ]

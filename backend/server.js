@@ -68,19 +68,26 @@ const upload = multer({
 });
 
 // フェーズ5: 対応駅一覧（フロントの駅選択プルダウン用）
+// フェーズ7: 多言語化のため日本語名ではなくslugベースで返す（表示名はフロントのstations.jsが多言語で持つ）
 app.get("/api/stations", (req, res) => {
   const lockers = loadLockers();
-  const stations = [...new Set(lockers.map((l) => l.nearest_station))];
-  res.json({ stations });
+  const seen = new Map();
+  for (const l of lockers) {
+    if (!seen.has(l.station_slug)) {
+      seen.set(l.station_slug, { slug: l.station_slug, name: l.nearest_station });
+    }
+  }
+  res.json({ stations: [...seen.values()] });
 });
 
 // フェーズ2・3・5: 一覧取得＋検索（駅／キーワード／サイズ／最大料金でフィルタ）
+// フェーズ7: 駅の絞り込みはstation_slugベース（日本語名に依存しない）
 app.get("/api/lockers", (req, res) => {
-  const { keyword, size, maxPrice, station } = req.query;
+  const { keyword, size, maxPrice, station_slug: stationSlug } = req.query;
   let lockers = loadLockers();
 
-  if (station) {
-    lockers = lockers.filter((l) => l.nearest_station === station);
+  if (stationSlug) {
+    lockers = lockers.filter((l) => l.station_slug === stationSlug);
   }
 
   if (keyword) {

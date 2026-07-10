@@ -26,6 +26,9 @@ OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "lockers.jso
 # 対象エリア（フェーズ5: 池袋駅以外の主要駅へ拡大）
 TARGET_STATIONS = ["池袋駅", "新宿駅", "渋谷駅"]
 
+# フェーズ7: 多言語化対応。frontend/src/stations.js の STATIONS[].slug と一致させる規約
+STATION_SLUGS = {"池袋駅": "ikebukuro", "新宿駅": "shinjuku", "渋谷駅": "shibuya"}
+
 # 駅ごとのサンプルデータ（本番実装では fetch_from_source() 内で外部サイトから取得する）
 STATION_SAMPLE_DATA = {
     "池袋駅": [
@@ -101,6 +104,7 @@ def normalize(raw_facility: dict, facility_id: int, station: str, source_name: s
         "latitude": raw_facility["latitude"],
         "longitude": raw_facility["longitude"],
         "nearest_station": station,
+        "station_slug": STATION_SLUGS.get(station),
         "business_hours": raw_facility.get("business_hours", "不明"),
         "source": {"site_name": source_name, "site_url": source_url},
         "last_updated_at": now,

@@ -17,6 +17,8 @@ CREATE TABLE locker_facilities (
     latitude         DECIMAL(9,6) NOT NULL,
     longitude        DECIMAL(9,6) NOT NULL,
     nearest_station  VARCHAR(100) NOT NULL,
+    -- フェーズ7: 多言語化対応。frontend/src/stations.js の STATIONS[].slug と一致させる規約（日本語名に依存しない検索キー）
+    station_slug     VARCHAR(50) NOT NULL,
     business_hours   VARCHAR(100),
     source_id        INTEGER REFERENCES data_sources(source_id),
     last_updated_at  TIMESTAMP,
@@ -32,8 +34,8 @@ CREATE TABLE locker_sizes (
     dimensions   VARCHAR(50)
 );
 
--- フェーズ5: 駅での絞り込み検索を高速化
-CREATE INDEX idx_locker_facilities_station ON locker_facilities (nearest_station);
+-- フェーズ5: 駅での絞り込み検索を高速化。フェーズ7でslugベースの検索に変更したためstation_slugにインデックスを張る
+CREATE INDEX idx_locker_facilities_station ON locker_facilities (station_slug);
 
 -- 位置検索を高速化する場合(PostGIS導入時)
 -- CREATE INDEX idx_locker_facilities_geo ON locker_facilities USING GIST (
