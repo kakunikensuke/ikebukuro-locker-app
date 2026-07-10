@@ -31,9 +31,16 @@ export default function SearchBar({ onSearch, stations = [] }) {
     onSearch({ station });
   };
 
+  // 駅選択は検索ボタンを待たずに即座に反映する（絞り込み条件はそのまま引き継ぐ）
+  const handleStationChange = (e) => {
+    const newStation = e.target.value;
+    setStation(newStation);
+    onSearch({ station: newStation, keyword, size, maxPrice });
+  };
+
   return (
     <form className="search-bar" onSubmit={handleSubmit}>
-      <select value={station} onChange={(e) => setStation(e.target.value)}>
+      <select value={station} onChange={handleStationChange}>
         {stations.map((s) => (
           <option key={s} value={s}>
             {s}
