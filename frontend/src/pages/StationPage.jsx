@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   useParams,
   useNavigate,
@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { fetchLockers, fetchStations } from "../api";
-import { slugToName, nameToSlug } from "../stations";
+import { slugToName, nameToSlug, centerForName, distanceKm } from "../stations";
 import { SITE_URL } from "../config";
 import MapView from "../components/MapView";
 import SearchBar from "../components/SearchBar";
@@ -35,6 +35,18 @@ export default function StationPage() {
       next.set("view", "list");
     } else {
       next.delete("view");
+    }
+    setSearchParams(next);
+  };
+
+  // 並び替え（フェーズ7）もURLのクエリパラメータで管理する。既定は「駅から近い順」
+  const sortBy = searchParams.get("sort") || "distance";
+  const setSortBy = (nextSort) => {
+    const next = new URLSearchParams(searchParams);
+    if (nextSort === "distance") {
+      next.delete("sort");
+    } else {
+      next.set("sort", nextSort);
     }
     setSearchParams(next);
   };
@@ -72,6 +84,31 @@ export default function StationPage() {
     if (!newSlug) return;
     navigate(`/${newSlug}`, { state: { filters: { keyword, size, maxPrice } } });
   };
+
+  const sortedLockers = useMemo(() => {
+    const list = [...lockers];
+    if (sortBy === "price") {
+      list.sort(
+        (a, b) =>
+          Math.min(...a.sizes.map((s) => s.price)) -
+          Math.min(...b.sizes.map((s) => s.price))
+      );
+    } else if (sortBy === "availability") {
+      const totalAvailable = (l) => l.sizes.reduce((sum, s) => sum + s.quantity, 0);
+      list.sort((a, b) => totalAvailable(b) - totalAvailable(a));
+    } else {
+      // distance: 駅の中心座標からの直線距離が近い順（既定）
+      const center = centerForName(stationName);
+      if (center) {
+        list.sort(
+          (a, b) =>
+            distanceKm(center, [a.latitude, a.longitude]) -
+            distanceKm(center, [b.latitude, b.longitude])
+        );
+      }
+    }
+    return list;
+  }, [lockers, sortBy, stationName]);
 
   const handleSelectLocker = (facilityId) => {
     // 現在の表示切替（?view=）を維持したまま詳細を開く
@@ -126,17 +163,33 @@ export default function StationPage() {
       {error && <p className="error-message">{error}</p>}
 
       {!loading && !error && (
-        <main className="app-main">
-          {view === "map" ? (
-            <MapView
-              lockers={lockers}
-              station={stationName}
-              onSelectLocker={handleSelectLocker}
-            />
-          ) : (
-            <LockerList lockers={lockers} onSelectLocker={handleSelectLocker} />
-          )}
-        </main>
+        <>
+          <div className="result-bar">
+            <span className="result-count">{lockers.length}件見つかりました</span>
+            {view === "list" && (
+              <label className="sort-control">
+                並び替え:
+                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                  <option value="distance">駅から近い順</option>
+                  <option value="price">料金が安い順</option>
+                  <option value="availability">空きが多い順</option>
+                </select>
+              </label>
+            )}
+          </div>
+
+          <main className="app-main">
+            {view === "map" ? (
+              <MapView
+                lockers={lockers}
+                station={stationName}
+                onSelectLocker={handleSelectLocker}
+              />
+            ) : (
+              <LockerList lockers={sortedLockers} onSelectLocker={handleSelectLocker} />
+            )}
+          </main>
+        </>
       )}
 
       <Outlet />
