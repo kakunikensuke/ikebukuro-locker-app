@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { fetchLockerDetail, uploadLockerPhoto, photoUrl } from "../api";
+import AdSlot from "./AdSlot";
 
 const SIZE_LABEL = { S: "Sサイズ", M: "Mサイズ", L: "Lサイズ" };
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -155,6 +156,8 @@ export default function LockerDetail({ facilityId, onClose }) {
             <p className="detail-disclaimer">
               ※料金・空き個数は変動する場合があります。最新情報は現地または情報提供元サイトでご確認ください。
             </p>
+
+            <AdSlot />
           </>
         )}
       </div>

@@ -4,6 +4,7 @@ import MapView from "./components/MapView";
 import SearchBar from "./components/SearchBar";
 import LockerList from "./components/LockerList";
 import LockerDetail from "./components/LockerDetail";
+import AdSlot from "./components/AdSlot";
 
 export default function App() {
   const [lockers, setLockers] = useState([]);
@@ -82,6 +83,8 @@ export default function App() {
         facilityId={selectedFacilityId}
         onClose={() => setSelectedFacilityId(null)}
       />
+
+      <AdSlot />
     </div>
   );
 }
