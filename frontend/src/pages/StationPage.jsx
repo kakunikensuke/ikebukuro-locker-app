@@ -25,6 +25,8 @@ export default function StationPage() {
   const [stations, setStations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // 検索実行のたびに増やすトークン。地図のピンをマウントし直し、ヒットの点滅アニメーションを再生させるために使う
+  const [searchToken, setSearchToken] = useState(0);
 
   // 表示切替（地図/一覧）もURLのクエリパラメータで管理し、ブラウザの戻る/進むで切り替えられるようにする
   const [searchParams, setSearchParams] = useSearchParams();
@@ -76,6 +78,7 @@ export default function StationPage() {
   };
 
   const handleSearch = (params) => {
+    setSearchToken((t) => t + 1);
     loadLockers(params);
   };
 
@@ -184,6 +187,7 @@ export default function StationPage() {
                 lockers={lockers}
                 station={stationName}
                 onSelectLocker={handleSelectLocker}
+                highlightToken={searchToken}
               />
             ) : (
               <LockerList lockers={sortedLockers} onSelectLocker={handleSelectLocker} />

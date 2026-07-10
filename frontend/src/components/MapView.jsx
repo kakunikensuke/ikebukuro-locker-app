@@ -44,7 +44,7 @@ function MapUpdater({ lockers, station }) {
  * フェーズ5: 駅選択に応じて地図の中心・ズームを切り替える
  * 収集したロッカー施設をピンで地図上に表示する
  */
-export default function MapView({ lockers, station, onSelectLocker }) {
+export default function MapView({ lockers, station, onSelectLocker, highlightToken = 0 }) {
   return (
     <MapContainer
       center={DEFAULT_CENTER}
@@ -59,8 +59,10 @@ export default function MapView({ lockers, station, onSelectLocker }) {
       <MapUpdater lockers={lockers} station={station} />
 
       {lockers.map((locker) => (
+        // keyにhighlightTokenを含め、検索実行のたびにピンをマウントし直すことで
+        // 点滅アニメーション（styles.cssの.locker-marker-pin）を再生させる
         <Marker
-          key={locker.facility_id}
+          key={`${highlightToken}-${locker.facility_id}`}
           position={[locker.latitude, locker.longitude]}
           icon={lockerIcon}
           eventHandlers={{
