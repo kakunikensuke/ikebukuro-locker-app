@@ -73,6 +73,15 @@ export default function LockerDetail({ facilityId, onClose }) {
             </p>
             <p className="detail-hours">利用可能時間：{locker.business_hours}</p>
 
+            <a
+              className="gmaps-link"
+              href={`https://www.google.com/maps/search/?api=1&query=${locker.latitude},${locker.longitude}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Googleマップで見る
+            </a>
+
             <table className="size-table">
               <thead>
                 <tr>

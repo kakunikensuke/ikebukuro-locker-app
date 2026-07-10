@@ -182,6 +182,21 @@ body {
   margin: 4px 0;
 }
 
+.gmaps-link {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 14px;
+  border: 1px solid #1a3c6e;
+  border-radius: 4px;
+  color: #1a3c6e;
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.gmaps-link:hover {
+  background: #eef3fb;
+}
+
 .size-table {
   width: 100%;
   border-collapse: collapse;
