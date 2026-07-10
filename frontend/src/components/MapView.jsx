@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
-import { STATIONS, centerForName } from "../stations";
+import { STATIONS, centerForSlug } from "../stations";
+import { useT } from "../i18n/LangContext.js";
 
 // フェーズ5: 対応駅ごとの中心座標（対象エリアの拡大）。一覧はstations.jsで一元管理
 const DEFAULT_CENTER = STATIONS[0].center;
@@ -27,11 +28,11 @@ const lockerIconMatched = buildLockerIcon(true);
 const lockerIconMuted = buildLockerIcon(false);
 
 // 駅選択時はその駅を中心に、未選択時は表示中の全ロッカーが収まるように地図を調整する
-function MapUpdater({ lockers, station }) {
+function MapUpdater({ lockers, stationSlug }) {
   const map = useMap();
 
   useEffect(() => {
-    const center = station && centerForName(station);
+    const center = stationSlug && centerForSlug(stationSlug);
     if (center) {
       map.setView(center, 16);
     } else if (lockers.length > 0) {
@@ -40,7 +41,7 @@ function MapUpdater({ lockers, station }) {
       );
       map.fitBounds(bounds, { padding: [40, 40] });
     }
-  }, [station, lockers, map]);
+  }, [stationSlug, lockers, map]);
 
   return null;
 }
@@ -50,7 +51,8 @@ function MapUpdater({ lockers, station }) {
  * フェーズ5: 駅選択に応じて地図の中心・ズームを切り替える
  * 収集したロッカー施設をピンで地図上に表示する
  */
-export default function MapView({ lockers, matchedIds, station, onSelectLocker }) {
+export default function MapView({ lockers, matchedIds, stationSlug, onSelectLocker }) {
+  const t = useT();
   return (
     <MapContainer
       center={DEFAULT_CENTER}
@@ -62,7 +64,7 @@ export default function MapView({ lockers, matchedIds, station, onSelectLocker }
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      <MapUpdater lockers={lockers} station={station} />
+      <MapUpdater lockers={lockers} stationSlug={stationSlug} />
 
       {lockers.map((locker) => (
         <Marker
@@ -79,7 +81,7 @@ export default function MapView({ lockers, matchedIds, station, onSelectLocker }
             {locker.address}
             <br />
             <button onClick={() => onSelectLocker(locker.facility_id)}>
-              詳細を見る
+              {t("mapView.detailButton")}
             </button>
           </Popup>
         </Marker>

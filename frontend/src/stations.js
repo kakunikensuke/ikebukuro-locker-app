@@ -1,20 +1,43 @@
 // 対応駅の一覧（駅名⇔URLスラッグ⇔地図の中心座標を一元管理）
+// slugは backend/data/lockers.json の station_slug と一致させる規約
 export const STATIONS = [
-  { slug: "ikebukuro", name: "池袋駅", center: [35.7295, 139.7109] },
-  { slug: "shinjuku", name: "新宿駅", center: [35.6896, 139.7006] },
-  { slug: "shibuya", name: "渋谷駅", center: [35.658, 139.7016] },
+  {
+    slug: "ikebukuro",
+    name: { ja: "池袋駅", en: "Ikebukuro Station" },
+    center: [35.7295, 139.7109],
+  },
+  {
+    slug: "shinjuku",
+    name: { ja: "新宿駅", en: "Shinjuku Station" },
+    center: [35.6896, 139.7006],
+  },
+  {
+    slug: "shibuya",
+    name: { ja: "渋谷駅", en: "Shibuya Station" },
+    center: [35.658, 139.7016],
+  },
 ];
 
-export function slugToName(slug) {
-  return STATIONS.find((s) => s.slug === slug)?.name;
+export function slugToName(slug, lang = "ja") {
+  const station = STATIONS.find((s) => s.slug === slug);
+  return station ? station.name[lang] || station.name.ja : undefined;
 }
 
-export function nameToSlug(name) {
-  return STATIONS.find((s) => s.name === name)?.slug;
+export function centerForSlug(slug) {
+  return STATIONS.find((s) => s.slug === slug)?.center;
 }
 
-export function centerForName(name) {
-  return STATIONS.find((s) => s.name === name)?.center;
+// 日本語はプレフィックスなし（既定言語）、英語は/enを付ける
+export function langPrefix(lang) {
+  return lang === "en" ? "/en" : "";
+}
+
+export function pathForStation(lang, slug) {
+  return `${langPrefix(lang)}/${slug}`;
+}
+
+export function pathForLocker(lang, slug, facilityId) {
+  return `${pathForStation(lang, slug)}/lockers/${facilityId}`;
 }
 
 // 2点間の距離(km)をハバーサイン公式で算出。並び替え機能（駅から近い順）で使用

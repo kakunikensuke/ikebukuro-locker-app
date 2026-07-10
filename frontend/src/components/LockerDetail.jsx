@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { fetchLockerDetail, uploadLockerPhoto, photoUrl } from "../api";
-import { nameToSlug } from "../stations";
+import { pathForLocker, slugToName } from "../stations";
 import { SITE_URL } from "../config";
+import { useLang, useT } from "../i18n/LangContext.js";
+import { translateBusinessHours } from "../i18n/businessHours.js";
 import AdSlot from "./AdSlot";
 
-const SIZE_LABEL = { S: "Sサイズ", M: "Mサイズ", L: "Lサイズ" };
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_PHOTO_SIZE = 5 * 1024 * 1024;
 
@@ -15,6 +16,9 @@ const MAX_PHOTO_SIZE = 5 * 1024 * 1024;
  * フェーズ6: 利用者投稿による周辺写真の閲覧・投稿を追加（ストリートビューの代替）
  */
 export default function LockerDetail({ facilityId, onClose }) {
+  const lang = useLang();
+  const t = useT();
+  const SIZE_LABEL = { S: t("lockerDetail.sizeLabelS"), M: t("lockerDetail.sizeLabelM"), L: t("lockerDetail.sizeLabelL") };
   const [locker, setLocker] = useState(null);
   const [error, setError] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -28,7 +32,8 @@ export default function LockerDetail({ facilityId, onClose }) {
     setUploadError(null);
     fetchLockerDetail(facilityId)
       .then(setLocker)
-      .catch((e) => setError(e.message));
+      .catch(() => setError(t("errors.detailFetchFailed")));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [facilityId]);
 
   const handlePhotoSelect = async (e) => {
@@ -37,11 +42,11 @@ export default function LockerDetail({ facilityId, onClose }) {
     if (!file) return;
 
     if (!ALLOWED_TYPES.includes(file.type)) {
-      setUploadError("対応していないファイル形式です（JPEG・PNG・WebPのみ）");
+      setUploadError(t("lockerDetail.errorUnsupportedFile"));
       return;
     }
     if (file.size > MAX_PHOTO_SIZE) {
-      setUploadError("ファイルサイズは5MB以下にしてください");
+      setUploadError(t("lockerDetail.errorFileSize"));
       return;
     }
 
@@ -50,8 +55,9 @@ export default function LockerDetail({ facilityId, onClose }) {
     try {
       const { photos } = await uploadLockerPhoto(facilityId, file);
       setLocker((prev) => (prev ? { ...prev, photos } : prev));
-    } catch (err) {
-      setUploadError(err.message);
+    } catch {
+      // バックエンドは日本語の生エラーメッセージを返すため、英語ページではそのまま出さず固定文言にフォールバックする
+      setUploadError(t("lockerDetail.photoUploadFailed"));
     } finally {
       setUploading(false);
     }
@@ -67,17 +73,19 @@ export default function LockerDetail({ facilityId, onClose }) {
         </button>
 
         {error && <p className="error-message">{error}</p>}
-        {!locker && !error && <p>読み込み中...</p>}
+        {!locker && !error && <p>{t("lockerDetail.loading")}</p>}
 
         {locker && (
           <>
-            <LockerDetailMeta locker={locker} />
+            <LockerDetailMeta locker={locker} lang={lang} t={t} />
 
             <h2>{locker.name}</h2>
             <p className="detail-address">
-              {locker.nearest_station} ／ {locker.address}
+              {slugToName(locker.station_slug, lang) ?? locker.nearest_station} ／ {locker.address}
             </p>
-            <p className="detail-hours">利用可能時間：{locker.business_hours}</p>
+            <p className="detail-hours">
+              {t("lockerDetail.hours", { hours: translateBusinessHours(locker.business_hours, t) })}
+            </p>
 
             <a
               className="gmaps-link"
@@ -85,25 +93,27 @@ export default function LockerDetail({ facilityId, onClose }) {
               target="_blank"
               rel="noreferrer"
             >
-              Googleマップで見る
+              {t("lockerDetail.gmapsLink")}
             </a>
 
             <table className="size-table">
               <thead>
                 <tr>
-                  <th>サイズ</th>
-                  <th>料金</th>
-                  <th>設置個数</th>
-                  <th>内寸</th>
+                  <th>{t("lockerDetail.sizeHeader")}</th>
+                  <th>{t("lockerDetail.priceHeader")}</th>
+                  <th>{t("lockerDetail.quantityHeader")}</th>
+                  <th>{t("lockerDetail.dimensionsHeader")}</th>
                 </tr>
               </thead>
               <tbody>
                 {locker.sizes.map((s) => (
                   <tr key={s.size_type}>
                     <td>{SIZE_LABEL[s.size_type]}</td>
-                    <td>{s.price}円</td>
+                    <td>{t("lockerDetail.priceValue", { price: s.price })}</td>
                     <td className={s.quantity === 0 ? "qty-zero" : ""}>
-                      {s.quantity}個{s.quantity === 0 ? "（満）" : ""}
+                      {s.quantity === 0
+                        ? t("lockerDetail.quantityFull", { count: s.quantity })
+                        : t("lockerDetail.quantityValue", { count: s.quantity })}
                     </td>
                     <td>{s.dimensions}</td>
                   </tr>
@@ -112,7 +122,7 @@ export default function LockerDetail({ facilityId, onClose }) {
             </table>
 
             <div className="photo-section">
-              <h3 className="photo-section-title">周辺写真</h3>
+              <h3 className="photo-section-title">{t("lockerDetail.photoSectionTitle")}</h3>
 
               {locker.photos.length > 0 ? (
                 <div className="photo-gallery">
@@ -124,16 +134,16 @@ export default function LockerDetail({ facilityId, onClose }) {
                       rel="noreferrer"
                       className="photo-thumb"
                     >
-                      <img src={photoUrl(photo)} alt={`${locker.name}の周辺写真`} />
+                      <img src={photoUrl(photo)} alt={t("lockerDetail.photoAlt", { name: locker.name })} />
                     </a>
                   ))}
                 </div>
               ) : (
-                <p className="photo-empty">まだ写真が投稿されていません。</p>
+                <p className="photo-empty">{t("lockerDetail.photoEmpty")}</p>
               )}
 
               <label className="photo-upload-btn">
-                {uploading ? "アップロード中..." : "写真を投稿する"}
+                {uploading ? t("lockerDetail.photoUploading") : t("lockerDetail.photoUpload")}
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -144,23 +154,21 @@ export default function LockerDetail({ facilityId, onClose }) {
                 />
               </label>
               {uploadError && <p className="error-message photo-upload-error">{uploadError}</p>}
-              <p className="photo-disclaimer">
-                ※投稿された写真は現地の様子と異なる場合があります。不適切な写真の削除は今後対応予定です。
-              </p>
+              <p className="photo-disclaimer">{t("lockerDetail.photoDisclaimer")}</p>
             </div>
 
             <p className="detail-updated">
-              最終更新: {new Date(locker.last_updated_at).toLocaleString("ja-JP")}
+              {t("lockerDetail.updatedAt", {
+                datetime: new Date(locker.last_updated_at).toLocaleString(lang === "en" ? "en-US" : "ja-JP"),
+              })}
             </p>
             <p className="detail-source">
-              情報提供元:{" "}
+              {t("lockerDetail.sourceLabel")}{" "}
               <a href={locker.source.site_url} target="_blank" rel="noreferrer">
                 {locker.source.site_name}
               </a>
             </p>
-            <p className="detail-disclaimer">
-              ※料金・空き個数は変動する場合があります。最新情報は現地または情報提供元サイトでご確認ください。
-            </p>
+            <p className="detail-disclaimer">{t("lockerDetail.disclaimer")}</p>
 
             <AdSlot />
           </>
@@ -171,13 +179,12 @@ export default function LockerDetail({ facilityId, onClose }) {
 }
 
 // SEO対応：ロッカー詳細のtitle/meta description/OGP/構造化データ（schema.org）を設定
-function LockerDetailMeta({ locker }) {
-  const stationSlug = nameToSlug(locker.nearest_station);
+// フェーズ7: 多言語化対応。hreflang alternate（ja/en/x-default）も出力する
+function LockerDetailMeta({ locker, lang, t }) {
   const minPrice = Math.min(...locker.sizes.map((s) => s.price));
-  const description = `${locker.address}。${minPrice}円〜、利用可能時間：${locker.business_hours}`;
-  const pageUrl = stationSlug
-    ? `${SITE_URL}/${stationSlug}/lockers/${locker.facility_id}`
-    : SITE_URL;
+  const hours = translateBusinessHours(locker.business_hours, t);
+  const description = t("lockerDetail.metaDescription", { address: locker.address, price: minPrice, hours });
+  const pageUrl = `${SITE_URL}${pathForLocker(lang, locker.station_slug, locker.facility_id)}`;
   const ogImage = locker.photos?.[0] ? photoUrl(locker.photos[0]) : undefined;
 
   const structuredData = {
@@ -198,13 +205,16 @@ function LockerDetailMeta({ locker }) {
 
   return (
     <Helmet>
-      <title>{locker.name}｜コインロッカー検索</title>
+      <title>{t("lockerDetail.metaTitle", { name: locker.name })}</title>
       <meta name="description" content={description} />
       <meta property="og:title" content={locker.name} />
       <meta property="og:description" content={description} />
       <meta property="og:type" content="place" />
       {ogImage && <meta property="og:image" content={ogImage} />}
       <link rel="canonical" href={pageUrl} />
+      <link rel="alternate" hreflang="ja" href={`${SITE_URL}${pathForLocker("ja", locker.station_slug, locker.facility_id)}`} />
+      <link rel="alternate" hreflang="en" href={`${SITE_URL}${pathForLocker("en", locker.station_slug, locker.facility_id)}`} />
+      <link rel="alternate" hreflang="x-default" href={`${SITE_URL}${pathForLocker("ja", locker.station_slug, locker.facility_id)}`} />
       <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
     </Helmet>
   );

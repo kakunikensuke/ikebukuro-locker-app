@@ -1,0 +1,76 @@
+{
+  "app": { "title": "Coin Locker Search" },
+  "stationPage": {
+    "titleTag": "Coin Lockers near {{station}} | Coin Locker Search",
+    "descriptionLoading": "Find coin lockers near {{station}} — availability and prices at a glance.",
+    "descriptionLoaded": "Find coin lockers near {{station}} — availability and prices at a glance. {{count}} lockers listed.",
+    "ogTitle": "Coin Lockers near {{station}}",
+    "viewMap": "Map",
+    "viewList": "List",
+    "loading": "Loading...",
+    "resultCount": "{{count}} results found",
+    "sortLabel": "Sort:",
+    "sortDistance": "Nearest to station",
+    "sortPrice": "Lowest price",
+    "sortAvailability": "Most availability"
+  },
+  "searchBar": {
+    "keywordPlaceholder": "Search by name or address (e.g. East Exit, Sunshine)",
+    "sizeAny": "Any size",
+    "sizeS": "Size S available",
+    "sizeM": "Size M available",
+    "sizeL": "Size L available",
+    "priceAny": "Any price",
+    "priceUnder": "Under ¥{{price}}",
+    "search": "Search",
+    "reset": "Reset"
+  },
+  "lockerList": {
+    "empty": "No matching lockers found.",
+    "priceFrom": "From ¥{{price}}",
+    "availableSizes": "Available sizes: {{sizes}}",
+    "noneAvailable": "None"
+  },
+  "lockerDetail": {
+    "loading": "Loading...",
+    "hours": "Hours: {{hours}}",
+    "gmapsLink": "View on Google Maps",
+    "sizeHeader": "Size",
+    "priceHeader": "Price",
+    "quantityHeader": "Units",
+    "dimensionsHeader": "Dimensions",
+    "sizeLabelS": "Size S",
+    "sizeLabelM": "Size M",
+    "sizeLabelL": "Size L",
+    "priceValue": "¥{{price}}",
+    "quantityValue": "{{count}}",
+    "quantityFull": "{{count}} (Full)",
+    "photoSectionTitle": "Nearby Photos",
+    "photoEmpty": "No photos have been posted yet.",
+    "photoUpload": "Upload a photo",
+    "photoUploading": "Uploading...",
+    "photoDisclaimer": "Note: Submitted photos may differ from current on-site conditions. Removal of inappropriate photos is planned for a future update.",
+    "photoAlt": "Nearby photo of {{name}}",
+    "errorUnsupportedFile": "Unsupported file type (JPEG, PNG, or WebP only)",
+    "errorFileSize": "File size must be 5MB or less",
+    "photoUploadFailed": "Failed to upload photo",
+    "updatedAt": "Last updated: {{datetime}}",
+    "sourceLabel": "Source:",
+    "disclaimer": "Note: Prices and availability may change. Please check on-site or with the source for the latest information.",
+    "metaTitle": "{{name}} | Coin Locker Search",
+    "metaDescription": "{{address}}. From ¥{{price}}, Hours: {{hours}}"
+  },
+  "businessHours": { "allDay": "Open 24 hours" },
+  "mapView": { "detailButton": "View details" },
+  "adSlot": { "label": "Advertisement" },
+  "notFound": {
+    "title": "Page Not Found | Coin Locker Search",
+    "message": "Sorry, we couldn't find that page.",
+    "backHome": "Back to home"
+  },
+  "errors": {
+    "stationsFetchFailed": "Failed to load station list",
+    "lockersFetchFailed": "Failed to load locker information",
+    "detailFetchFailed": "Failed to load locker details"
+  }
+}

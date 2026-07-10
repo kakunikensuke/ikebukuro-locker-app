@@ -1,18 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { STATIONS, pathForStation } from "../stations";
+import { useLang, useT } from "../i18n/LangContext.js";
 
 export default function NotFound() {
+  const lang = useLang();
+  const t = useT();
+
   return (
     <div className="app-container">
       <Helmet>
-        <title>ページが見つかりません｜コインロッカー検索</title>
+        <title>{t("notFound.title")}</title>
         <meta name="robots" content="noindex" />
       </Helmet>
       <p className="empty-message">
-        お探しのページが見つかりませんでした。
+        {t("notFound.message")}
         <br />
-        <Link to="/">トップに戻る</Link>
+        <Link to={pathForStation(lang, STATIONS[0].slug)}>{t("notFound.backHome")}</Link>
       </p>
     </div>
   );

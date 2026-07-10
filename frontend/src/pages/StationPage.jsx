@@ -8,18 +8,22 @@ import {
 } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { fetchLockers, fetchStations } from "../api";
-import { slugToName, nameToSlug, centerForName, distanceKm } from "../stations";
+import { slugToName, centerForSlug, pathForStation, pathForLocker, distanceKm } from "../stations";
 import { SITE_URL } from "../config";
+import { useLang, useT } from "../i18n/LangContext.js";
 import MapView from "../components/MapView";
 import SearchBar from "../components/SearchBar";
 import LockerList from "../components/LockerList";
+import LangSwitcher from "../components/LangSwitcher.jsx";
 import AdSlot from "../components/AdSlot";
 
 export default function StationPage() {
   const { stationSlug } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const stationName = slugToName(stationSlug);
+  const lang = useLang();
+  const t = useT();
+  const stationName = slugToName(stationSlug, lang);
 
   const [lockers, setLockers] = useState([]);
   // 地図には駅の全ロッカーを常時表示するため、絞り込み条件なしの全件も別途保持する
@@ -64,9 +68,9 @@ export default function StationPage() {
   useEffect(() => {
     if (!stationName) return;
     const filters = location.state?.filters || {};
-    loadLockers({ station: stationName, ...filters });
+    loadLockers({ station_slug: stationSlug, ...filters });
     // 地図用の全件（絞り込みなし）は駅が変わったときだけ取得すればよい
-    fetchLockers({ station: stationName })
+    fetchLockers({ station_slug: stationSlug })
       .then((data) => setAllStationLockers(data.results))
       .catch(() => setAllStationLockers([]));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,7 +81,7 @@ export default function StationPage() {
     setError(null);
     fetchLockers(params)
       .then((data) => setLockers(data.results))
-      .catch((e) => setError(e.message))
+      .catch(() => setError(t("errors.lockersFetchFailed")))
       .finally(() => setLoading(false));
   };
 
@@ -85,10 +89,9 @@ export default function StationPage() {
     loadLockers(params);
   };
 
-  const handleStationChange = ({ station: newStationName, keyword, size, maxPrice }) => {
-    const newSlug = nameToSlug(newStationName);
-    if (!newSlug) return;
-    navigate(`/${newSlug}`, { state: { filters: { keyword, size, maxPrice } } });
+  const handleStationChange = ({ stationSlug: newStationSlug, keyword, size, maxPrice }) => {
+    if (!newStationSlug) return;
+    navigate(pathForStation(lang, newStationSlug), { state: { filters: { keyword, size, maxPrice } } });
   };
 
   const sortedLockers = useMemo(() => {
@@ -104,7 +107,7 @@ export default function StationPage() {
       list.sort((a, b) => totalAvailable(b) - totalAvailable(a));
     } else {
       // distance: 駅の中心座標からの直線距離が近い順（既定）
-      const center = centerForName(stationName);
+      const center = centerForSlug(stationSlug);
       if (center) {
         list.sort(
           (a, b) =>
@@ -114,7 +117,7 @@ export default function StationPage() {
       }
     }
     return list;
-  }, [lockers, sortBy, stationName]);
+  }, [lockers, sortBy, stationSlug]);
 
   // 地図上で「検索条件に一致したピン」を目立たせるためのID集合
   const matchedIds = useMemo(
@@ -124,67 +127,74 @@ export default function StationPage() {
 
   const handleSelectLocker = (facilityId) => {
     // 現在の表示切替（?view=）を維持したまま詳細を開く
-    navigate({ pathname: `/${stationSlug}/lockers/${facilityId}`, search: location.search });
+    navigate({ pathname: pathForLocker(lang, stationSlug, facilityId), search: location.search });
   };
 
   if (!stationName) {
     return null; // 不正なスラッグは親のcatch-allルート（NotFound）で処理される想定外ケース
   }
 
-  const description = `${stationName}周辺のコインロッカーの空き状況・料金をまとめて検索。${
-    loading ? "" : `${lockers.length}件のロッカー情報を掲載。`
-  }`;
+  const description = loading
+    ? t("stationPage.descriptionLoading", { station: stationName })
+    : t("stationPage.descriptionLoaded", { station: stationName, count: lockers.length });
 
   return (
     <div className="app-container">
       <Helmet>
-        <title>{stationName}のコインロッカー検索｜コインロッカー検索</title>
+        <title>{t("stationPage.titleTag", { station: stationName })}</title>
         <meta name="description" content={description} />
-        <meta property="og:title" content={`${stationName}のコインロッカー検索`} />
+        <meta property="og:title" content={t("stationPage.ogTitle", { station: stationName })} />
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
-        <link rel="canonical" href={`${SITE_URL}/${stationSlug}`} />
+        <link rel="canonical" href={`${SITE_URL}${pathForStation(lang, stationSlug)}`} />
+        <link rel="alternate" hreflang="ja" href={`${SITE_URL}${pathForStation("ja", stationSlug)}`} />
+        <link rel="alternate" hreflang="en" href={`${SITE_URL}${pathForStation("en", stationSlug)}`} />
+        <link rel="alternate" hreflang="x-default" href={`${SITE_URL}${pathForStation("ja", stationSlug)}`} />
       </Helmet>
 
       <header className="app-header">
-        <h1>コインロッカー検索</h1>
-        <div className="view-toggle">
-          <button
-            className={view === "map" ? "active" : ""}
-            onClick={() => setView("map")}
-          >
-            地図表示
-          </button>
-          <button
-            className={view === "list" ? "active" : ""}
-            onClick={() => setView("list")}
-          >
-            一覧表示
-          </button>
+        <h1>{t("app.title")}</h1>
+        <div className="header-controls">
+          <div className="view-toggle">
+            <button
+              className={view === "map" ? "active" : ""}
+              onClick={() => setView("map")}
+            >
+              {t("stationPage.viewMap")}
+            </button>
+            <button
+              className={view === "list" ? "active" : ""}
+              onClick={() => setView("list")}
+            >
+              {t("stationPage.viewList")}
+            </button>
+          </div>
+          <LangSwitcher />
         </div>
       </header>
 
       <SearchBar
-        station={stationName}
+        stationSlug={stationSlug}
+        lang={lang}
         onStationChange={handleStationChange}
         onSearch={handleSearch}
         stations={stations}
       />
 
-      {loading && <p className="loading-message">読み込み中...</p>}
+      {loading && <p className="loading-message">{t("stationPage.loading")}</p>}
       {error && <p className="error-message">{error}</p>}
 
       {!loading && !error && (
         <>
           <div className="result-bar">
-            <span className="result-count">{lockers.length}件見つかりました</span>
+            <span className="result-count">{t("stationPage.resultCount", { count: lockers.length })}</span>
             {view === "list" && (
               <label className="sort-control">
-                並び替え:
+                {t("stationPage.sortLabel")}
                 <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-                  <option value="distance">駅から近い順</option>
-                  <option value="price">料金が安い順</option>
-                  <option value="availability">空きが多い順</option>
+                  <option value="distance">{t("stationPage.sortDistance")}</option>
+                  <option value="price">{t("stationPage.sortPrice")}</option>
+                  <option value="availability">{t("stationPage.sortAvailability")}</option>
                 </select>
               </label>
             )}
@@ -195,7 +205,7 @@ export default function StationPage() {
               <MapView
                 lockers={allStationLockers}
                 matchedIds={matchedIds}
-                station={stationName}
+                stationSlug={stationSlug}
                 onSelectLocker={handleSelectLocker}
               />
             ) : (

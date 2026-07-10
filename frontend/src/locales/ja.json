@@ -1,0 +1,76 @@
+{
+  "app": { "title": "コインロッカー検索" },
+  "stationPage": {
+    "titleTag": "{{station}}のコインロッカー検索｜コインロッカー検索",
+    "descriptionLoading": "{{station}}周辺のコインロッカーの空き状況・料金をまとめて検索。",
+    "descriptionLoaded": "{{station}}周辺のコインロッカーの空き状況・料金をまとめて検索。{{count}}件のロッカー情報を掲載。",
+    "ogTitle": "{{station}}のコインロッカー検索",
+    "viewMap": "地図表示",
+    "viewList": "一覧表示",
+    "loading": "読み込み中...",
+    "resultCount": "{{count}}件見つかりました",
+    "sortLabel": "並び替え:",
+    "sortDistance": "駅から近い順",
+    "sortPrice": "料金が安い順",
+    "sortAvailability": "空きが多い順"
+  },
+  "searchBar": {
+    "keywordPlaceholder": "施設名・住所で検索（例：東口、サンシャイン）",
+    "sizeAny": "サイズ指定なし",
+    "sizeS": "Sサイズが空きあり",
+    "sizeM": "Mサイズが空きあり",
+    "sizeL": "Lサイズが空きあり",
+    "priceAny": "料金指定なし",
+    "priceUnder": "{{price}}円以下",
+    "search": "検索",
+    "reset": "リセット"
+  },
+  "lockerList": {
+    "empty": "該当するロッカーが見つかりませんでした。",
+    "priceFrom": "{{price}}円〜",
+    "availableSizes": "空きサイズ: {{sizes}}",
+    "noneAvailable": "なし"
+  },
+  "lockerDetail": {
+    "loading": "読み込み中...",
+    "hours": "利用可能時間：{{hours}}",
+    "gmapsLink": "Googleマップで見る",
+    "sizeHeader": "サイズ",
+    "priceHeader": "料金",
+    "quantityHeader": "設置個数",
+    "dimensionsHeader": "内寸",
+    "sizeLabelS": "Sサイズ",
+    "sizeLabelM": "Mサイズ",
+    "sizeLabelL": "Lサイズ",
+    "priceValue": "{{price}}円",
+    "quantityValue": "{{count}}個",
+    "quantityFull": "{{count}}個（満）",
+    "photoSectionTitle": "周辺写真",
+    "photoEmpty": "まだ写真が投稿されていません。",
+    "photoUpload": "写真を投稿する",
+    "photoUploading": "アップロード中...",
+    "photoDisclaimer": "※投稿された写真は現地の様子と異なる場合があります。不適切な写真の削除は今後対応予定です。",
+    "photoAlt": "{{name}}の周辺写真",
+    "errorUnsupportedFile": "対応していないファイル形式です（JPEG・PNG・WebPのみ）",
+    "errorFileSize": "ファイルサイズは5MB以下にしてください",
+    "photoUploadFailed": "写真の投稿に失敗しました",
+    "updatedAt": "最終更新: {{datetime}}",
+    "sourceLabel": "情報提供元:",
+    "disclaimer": "※料金・空き個数は変動する場合があります。最新情報は現地または情報提供元サイトでご確認ください。",
+    "metaTitle": "{{name}}｜コインロッカー検索",
+    "metaDescription": "{{address}}。{{price}}円〜、利用可能時間：{{hours}}"
+  },
+  "businessHours": { "allDay": "終日利用可" },
+  "mapView": { "detailButton": "詳細を見る" },
+  "adSlot": { "label": "広告" },
+  "notFound": {
+    "title": "ページが見つかりません｜コインロッカー検索",
+    "message": "お探しのページが見つかりませんでした。",
+    "backHome": "トップに戻る"
+  },
+  "errors": {
+    "stationsFetchFailed": "駅一覧の取得に失敗しました",
+    "lockersFetchFailed": "ロッカー情報の取得に失敗しました",
+    "detailFetchFailed": "詳細情報の取得に失敗しました"
+  }
+}
