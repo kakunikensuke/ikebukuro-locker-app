@@ -21,15 +21,17 @@ export default function LockerList({ lockers, onSelectLocker }) {
         return (
           <li
             key={locker.facility_id}
-            className="locker-list-item"
+            className="locker-card"
             onClick={() => onSelectLocker(locker.facility_id)}
           >
-            <div className="locker-list-name">{locker.name}</div>
-            <div className="locker-list-sub">{locker.address}</div>
-            <div className="locker-list-tags">
+            <div className="locker-card-top">
+              <span className="locker-card-name">{locker.name}</span>
+              <span className="locker-card-price">{minPrice}円〜</span>
+            </div>
+            <div className="locker-card-address">{locker.address}</div>
+            <div className="locker-card-tags">
               <span className="tag">{locker.nearest_station}</span>
-              <span className="tag">最安 {minPrice}円〜</span>
-              <span className="tag">
+              <span className={`tag ${availableSizes ? "" : "tag-empty"}`}>
                 空きサイズ: {availableSizes || "なし"}
               </span>
             </div>
