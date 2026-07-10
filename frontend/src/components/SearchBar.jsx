@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 /**
  * フェーズ3: 検索機能
  * フェーズ5: 駅選択（対象エリアの拡大）を追加
+ * 駅は必ずいずれか1駅を選択する（全駅横断検索は行わない）
  * 駅・キーワード（施設名・住所）、サイズ、上限料金でフィルタする
  */
 export default function SearchBar({ onSearch, stations = [] }) {
@@ -11,23 +12,28 @@ export default function SearchBar({ onSearch, stations = [] }) {
   const [size, setSize] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
 
+  // 駅一覧が取得できたら、未選択なら先頭の駅を初期選択にする
+  useEffect(() => {
+    if (!station && stations.length > 0) {
+      setStation(stations[0]);
+    }
+  }, [stations]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onSearch({ station, keyword, size, maxPrice });
   };
 
   const handleReset = () => {
-    setStation("");
     setKeyword("");
     setSize("");
     setMaxPrice("");
-    onSearch({});
+    onSearch({ station });
   };
 
   return (
     <form className="search-bar" onSubmit={handleSubmit}>
       <select value={station} onChange={(e) => setStation(e.target.value)}>
-        <option value="">すべての駅</option>
         {stations.map((s) => (
           <option key={s} value={s}>
             {s}

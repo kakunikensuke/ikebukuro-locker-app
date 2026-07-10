@@ -24,12 +24,19 @@ export default function App() {
       .finally(() => setLoading(false));
   };
 
-  // 初期表示：対応駅一覧と全ロッカーを取得（フェーズ2・5）
+  // 初期表示：対応駅一覧を取得し、先頭の駅でロッカーを絞り込む（フェーズ2・5・6）
+  // 全駅横断の検索は利用シーンとして想定しないため、常にいずれか1駅を選択させる
   useEffect(() => {
     fetchStations()
-      .then((data) => setStations(data.stations))
-      .catch(() => setStations([]));
-    loadLockers();
+      .then((data) => {
+        const list = data.stations || [];
+        setStations(list);
+        loadLockers({ station: list[0] || "" });
+      })
+      .catch(() => {
+        setStations([]);
+        loadLockers();
+      });
   }, []);
 
   return (
