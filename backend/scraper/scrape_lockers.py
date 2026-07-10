@@ -23,11 +23,19 @@ from datetime import datetime, timezone, timedelta
 JST = timezone(timedelta(hours=9))
 OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "lockers.json")
 
-# 対象エリア（フェーズ5: 池袋駅以外の主要駅へ拡大）
-TARGET_STATIONS = ["池袋駅", "新宿駅", "渋谷駅"]
+# 対象エリア（フェーズ5: 池袋駅以外の主要駅へ拡大、フェーズ8: 東京・品川・上野・横浜駅へさらに拡大）
+TARGET_STATIONS = ["池袋駅", "新宿駅", "渋谷駅", "東京駅", "品川駅", "上野駅", "横浜駅"]
 
 # フェーズ7: 多言語化対応。frontend/src/stations.js の STATIONS[].slug と一致させる規約
-STATION_SLUGS = {"池袋駅": "ikebukuro", "新宿駅": "shinjuku", "渋谷駅": "shibuya"}
+STATION_SLUGS = {
+    "池袋駅": "ikebukuro",
+    "新宿駅": "shinjuku",
+    "渋谷駅": "shibuya",
+    "東京駅": "tokyo",
+    "品川駅": "shinagawa",
+    "上野駅": "ueno",
+    "横浜駅": "yokohama",
+}
 
 # 駅ごとのサンプルデータ（本番実装では fetch_from_source() 内で外部サイトから取得する）
 STATION_SAMPLE_DATA = {
@@ -70,6 +78,62 @@ STATION_SAMPLE_DATA = {
                 {"size_type": "S", "price": 400, "quantity": 16, "dimensions": "34×34×57cm"},
                 {"size_type": "M", "price": 500, "quantity": 10, "dimensions": "40×57×57cm"},
                 {"size_type": "L", "price": 700, "quantity": 4, "dimensions": "40×57×115cm"},
+            ],
+        }
+    ],
+    "東京駅": [
+        {
+            "name": "東京駅 丸の内口 コインロッカー",
+            "address": "東京都千代田区丸の内1丁目 東京駅丸の内口付近",
+            "latitude": 35.6817,
+            "longitude": 139.7660,
+            "business_hours": "終日利用可",
+            "sizes": [
+                {"size_type": "S", "price": 400, "quantity": 22, "dimensions": "34×34×57cm"},
+                {"size_type": "M", "price": 500, "quantity": 14, "dimensions": "40×57×57cm"},
+                {"size_type": "L", "price": 700, "quantity": 7, "dimensions": "40×57×115cm"},
+            ],
+        }
+    ],
+    "品川駅": [
+        {
+            "name": "品川駅 港南口 コインロッカー",
+            "address": "東京都港区港南2丁目 品川駅港南口付近",
+            "latitude": 35.6280,
+            "longitude": 139.7407,
+            "business_hours": "終日利用可",
+            "sizes": [
+                {"size_type": "S", "price": 400, "quantity": 16, "dimensions": "34×34×57cm"},
+                {"size_type": "M", "price": 500, "quantity": 10, "dimensions": "40×57×57cm"},
+                {"size_type": "L", "price": 700, "quantity": 5, "dimensions": "40×57×115cm"},
+            ],
+        }
+    ],
+    "上野駅": [
+        {
+            "name": "上野駅 公園口 コインロッカー",
+            "address": "東京都台東区上野公園 上野駅公園口付近",
+            "latitude": 35.7144,
+            "longitude": 139.7745,
+            "business_hours": "終日利用可",
+            "sizes": [
+                {"size_type": "S", "price": 400, "quantity": 18, "dimensions": "34×34×57cm"},
+                {"size_type": "M", "price": 500, "quantity": 11, "dimensions": "40×57×57cm"},
+                {"size_type": "L", "price": 700, "quantity": 6, "dimensions": "40×57×115cm"},
+            ],
+        }
+    ],
+    "横浜駅": [
+        {
+            "name": "横浜駅 東口 コインロッカー",
+            "address": "神奈川県横浜市西区高島2丁目 横浜駅東口付近",
+            "latitude": 35.4661,
+            "longitude": 139.6244,
+            "business_hours": "終日利用可",
+            "sizes": [
+                {"size_type": "S", "price": 400, "quantity": 20, "dimensions": "34×34×57cm"},
+                {"size_type": "M", "price": 500, "quantity": 13, "dimensions": "40×57×57cm"},
+                {"size_type": "L", "price": 700, "quantity": 6, "dimensions": "40×57×115cm"},
             ],
         }
     ],

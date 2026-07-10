@@ -418,5 +418,425 @@
         "dimensions": "40×57×115cm"
       }
     ]
+  },
+  {
+    "facility_id": 13,
+    "name": "東京駅 丸の内口 コインロッカー",
+    "address": "東京都千代田区丸の内1丁目 東京駅丸の内口付近",
+    "latitude": 35.6817,
+    "longitude": 139.766,
+    "nearest_station": "東京駅",
+    "station_slug": "tokyo",
+    "business_hours": "終日利用可",
+    "source": {
+      "site_name": "サンプル情報サイトA",
+      "site_url": "https://example.com/locker-a"
+    },
+    "last_updated_at": "2026-07-10T10:00:00+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 22,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 14,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 700,
+        "quantity": 7,
+        "dimensions": "40×57×115cm"
+      }
+    ]
+  },
+  {
+    "facility_id": 14,
+    "name": "東京駅 八重洲口 コインロッカー",
+    "address": "東京都中央区八重洲1丁目 東京駅八重洲口付近",
+    "latitude": 35.6809,
+    "longitude": 139.7686,
+    "nearest_station": "東京駅",
+    "station_slug": "tokyo",
+    "business_hours": "5:00〜25:00",
+    "source": {
+      "site_name": "サンプル情報サイトB",
+      "site_url": "https://example.com/locker-b"
+    },
+    "last_updated_at": "2026-07-09T18:00:00+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 12,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 6,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 700,
+        "quantity": 3,
+        "dimensions": "40×57×115cm"
+      }
+    ]
+  },
+  {
+    "facility_id": 15,
+    "name": "東京駅 日本橋口 コインロッカー",
+    "address": "東京都千代田区丸の内1丁目 東京駅日本橋口付近",
+    "latitude": 35.6828,
+    "longitude": 139.7677,
+    "nearest_station": "東京駅",
+    "station_slug": "tokyo",
+    "business_hours": "終日利用可",
+    "source": {
+      "site_name": "サンプル情報サイトA",
+      "site_url": "https://example.com/locker-a"
+    },
+    "last_updated_at": "2026-07-10T10:00:00+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 9,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 8,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 2,
+        "dimensions": "40×57×115cm"
+      }
+    ]
+  },
+  {
+    "facility_id": 16,
+    "name": "品川駅 港南口 コインロッカー",
+    "address": "東京都港区港南2丁目 品川駅港南口付近",
+    "latitude": 35.628,
+    "longitude": 139.7407,
+    "nearest_station": "品川駅",
+    "station_slug": "shinagawa",
+    "business_hours": "終日利用可",
+    "source": {
+      "site_name": "サンプル情報サイトA",
+      "site_url": "https://example.com/locker-a"
+    },
+    "last_updated_at": "2026-07-10T10:00:00+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 16,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 10,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 700,
+        "quantity": 5,
+        "dimensions": "40×57×115cm"
+      }
+    ]
+  },
+  {
+    "facility_id": 17,
+    "name": "品川駅 高輪口 コインロッカー",
+    "address": "東京都港区高輪3丁目 品川駅高輪口付近",
+    "latitude": 35.6288,
+    "longitude": 139.7368,
+    "nearest_station": "品川駅",
+    "station_slug": "shinagawa",
+    "business_hours": "10:00〜21:00",
+    "source": {
+      "site_name": "サンプル情報サイトB",
+      "site_url": "https://example.com/locker-b"
+    },
+    "last_updated_at": "2026-07-09T18:00:00+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 7,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 3,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 700,
+        "quantity": 0,
+        "dimensions": "40×57×115cm"
+      }
+    ]
+  },
+  {
+    "facility_id": 18,
+    "name": "品川駅 新幹線改札内 コインロッカー",
+    "address": "東京都港区港南2丁目 品川駅新幹線改札内",
+    "latitude": 35.6285,
+    "longitude": 139.739,
+    "nearest_station": "品川駅",
+    "station_slug": "shinagawa",
+    "business_hours": "5:30〜24:00",
+    "source": {
+      "site_name": "サンプル情報サイトA",
+      "site_url": "https://example.com/locker-a"
+    },
+    "last_updated_at": "2026-07-10T10:00:00+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 10,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 8,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 700,
+        "quantity": 4,
+        "dimensions": "40×57×115cm"
+      }
+    ]
+  },
+  {
+    "facility_id": 19,
+    "name": "上野駅 公園口 コインロッカー",
+    "address": "東京都台東区上野公園 上野駅公園口付近",
+    "latitude": 35.7144,
+    "longitude": 139.7745,
+    "nearest_station": "上野駅",
+    "station_slug": "ueno",
+    "business_hours": "終日利用可",
+    "source": {
+      "site_name": "サンプル情報サイトA",
+      "site_url": "https://example.com/locker-a"
+    },
+    "last_updated_at": "2026-07-10T10:00:00+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 18,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 11,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 700,
+        "quantity": 6,
+        "dimensions": "40×57×115cm"
+      }
+    ]
+  },
+  {
+    "facility_id": 20,
+    "name": "上野駅 不忍口 コインロッカー",
+    "address": "東京都台東区上野7丁目 上野駅不忍口付近",
+    "latitude": 35.7138,
+    "longitude": 139.777,
+    "nearest_station": "上野駅",
+    "station_slug": "ueno",
+    "business_hours": "5:00〜24:00",
+    "source": {
+      "site_name": "サンプル情報サイトB",
+      "site_url": "https://example.com/locker-b"
+    },
+    "last_updated_at": "2026-07-09T18:00:00+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 8,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 5,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 1,
+        "dimensions": "40×57×115cm"
+      }
+    ]
+  },
+  {
+    "facility_id": 21,
+    "name": "上野駅 広小路口 コインロッカー",
+    "address": "東京都台東区上野6丁目 上野駅広小路口付近",
+    "latitude": 35.7115,
+    "longitude": 139.7757,
+    "nearest_station": "上野駅",
+    "station_slug": "ueno",
+    "business_hours": "終日利用可",
+    "source": {
+      "site_name": "サンプル情報サイトA",
+      "site_url": "https://example.com/locker-a"
+    },
+    "last_updated_at": "2026-07-10T10:00:00+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 6,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 4,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 700,
+        "quantity": 2,
+        "dimensions": "40×57×115cm"
+      }
+    ]
+  },
+  {
+    "facility_id": 22,
+    "name": "横浜駅 東口 コインロッカー",
+    "address": "神奈川県横浜市西区高島2丁目 横浜駅東口付近",
+    "latitude": 35.4661,
+    "longitude": 139.6244,
+    "nearest_station": "横浜駅",
+    "station_slug": "yokohama",
+    "business_hours": "終日利用可",
+    "source": {
+      "site_name": "サンプル情報サイトA",
+      "site_url": "https://example.com/locker-a"
+    },
+    "last_updated_at": "2026-07-10T10:00:00+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 20,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 13,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 700,
+        "quantity": 6,
+        "dimensions": "40×57×115cm"
+      }
+    ]
+  },
+  {
+    "facility_id": 23,
+    "name": "横浜駅 西口 コインロッカー",
+    "address": "神奈川県横浜市西区南幸1丁目 横浜駅西口付近",
+    "latitude": 35.4653,
+    "longitude": 139.6198,
+    "nearest_station": "横浜駅",
+    "station_slug": "yokohama",
+    "business_hours": "5:00〜25:00",
+    "source": {
+      "site_name": "サンプル情報サイトB",
+      "site_url": "https://example.com/locker-b"
+    },
+    "last_updated_at": "2026-07-09T18:00:00+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 9,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 7,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 700,
+        "quantity": 0,
+        "dimensions": "40×57×115cm"
+      }
+    ]
+  },
+  {
+    "facility_id": 24,
+    "name": "横浜駅 きた西口 コインロッカー",
+    "address": "神奈川県横浜市神奈川区鶴屋町2丁目 横浜駅きた西口付近",
+    "latitude": 35.4675,
+    "longitude": 139.6205,
+    "nearest_station": "横浜駅",
+    "station_slug": "yokohama",
+    "business_hours": "終日利用可",
+    "source": {
+      "site_name": "サンプル情報サイトA",
+      "site_url": "https://example.com/locker-a"
+    },
+    "last_updated_at": "2026-07-10T10:00:00+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 10,
+        "dimensions": "34×34×57cm"
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 6,
+        "dimensions": "40×57×57cm"
+      },
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 3,
+        "dimensions": "40×57×115cm"
+      }
+    ]
   }
 ]

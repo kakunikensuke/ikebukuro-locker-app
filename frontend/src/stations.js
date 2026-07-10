@@ -16,6 +16,26 @@ export const STATIONS = [
     name: { ja: "渋谷駅", en: "Shibuya Station" },
     center: [35.658, 139.7016],
   },
+  {
+    slug: "tokyo",
+    name: { ja: "東京駅", en: "Tokyo Station" },
+    center: [35.6812, 139.7671],
+  },
+  {
+    slug: "shinagawa",
+    name: { ja: "品川駅", en: "Shinagawa Station" },
+    center: [35.6284, 139.7387],
+  },
+  {
+    slug: "ueno",
+    name: { ja: "上野駅", en: "Ueno Station" },
+    center: [35.7141, 139.7774],
+  },
+  {
+    slug: "yokohama",
+    name: { ja: "横浜駅", en: "Yokohama Station" },
+    center: [35.4657, 139.6222],
+  },
 ];
 
 export function slugToName(slug, lang = "ja") {
