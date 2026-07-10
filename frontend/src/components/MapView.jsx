@@ -6,19 +6,25 @@ import { STATIONS, centerForName } from "../stations";
 // フェーズ5: 対応駅ごとの中心座標（対象エリアの拡大）。一覧はstations.jsで一元管理
 const DEFAULT_CENTER = STATIONS[0].center;
 
-// マーカーアイコン設定（従来のピン形状を維持しつつ、色はアプリのアクセントカラーに）
-const lockerIcon = L.divIcon({
-  className: "locker-marker",
-  html: `
-    <svg width="28" height="38" viewBox="0 0 28 38" xmlns="http://www.w3.org/2000/svg" class="locker-marker-pin">
-      <path class="locker-pin-fill" d="M14 0C6.3 0 0 6.3 0 14c0 10 14 24 14 24s14-14 14-24C28 6.3 21.7 0 14 0z" stroke="#fff" stroke-width="2"/>
-      <circle cx="14" cy="14" r="5.5" fill="#fff"/>
-    </svg>
-  `,
-  iconSize: [28, 38],
-  iconAnchor: [14, 38],
-  popupAnchor: [0, -34],
-});
+// マーカーアイコン設定。検索条件に一致したロッカーは目立つ色、それ以外は控えめな色にする
+function buildLockerIcon(matched) {
+  const pinClass = matched ? "locker-marker-pin locker-marker-pin-matched" : "locker-marker-pin locker-marker-pin-muted";
+  return L.divIcon({
+    className: "locker-marker",
+    html: `
+      <svg width="28" height="38" viewBox="0 0 28 38" xmlns="http://www.w3.org/2000/svg" class="${pinClass}">
+        <path class="locker-pin-fill" d="M14 0C6.3 0 0 6.3 0 14c0 10 14 24 14 24s14-14 14-24C28 6.3 21.7 0 14 0z" stroke="#fff" stroke-width="2"/>
+        <circle cx="14" cy="14" r="5.5" fill="#fff"/>
+      </svg>
+    `,
+    iconSize: [28, 38],
+    iconAnchor: [14, 38],
+    popupAnchor: [0, -34],
+  });
+}
+
+const lockerIconMatched = buildLockerIcon(true);
+const lockerIconMuted = buildLockerIcon(false);
 
 // 駅選択時はその駅を中心に、未選択時は表示中の全ロッカーが収まるように地図を調整する
 function MapUpdater({ lockers, station }) {
@@ -44,7 +50,7 @@ function MapUpdater({ lockers, station }) {
  * フェーズ5: 駅選択に応じて地図の中心・ズームを切り替える
  * 収集したロッカー施設をピンで地図上に表示する
  */
-export default function MapView({ lockers, station, onSelectLocker, highlightToken = 0 }) {
+export default function MapView({ lockers, matchedIds, station, onSelectLocker }) {
   return (
     <MapContainer
       center={DEFAULT_CENTER}
@@ -59,12 +65,10 @@ export default function MapView({ lockers, station, onSelectLocker, highlightTok
       <MapUpdater lockers={lockers} station={station} />
 
       {lockers.map((locker) => (
-        // keyにhighlightTokenを含め、検索実行のたびにピンをマウントし直すことで
-        // 点滅アニメーション（styles.cssの.locker-marker-pin）を再生させる
         <Marker
-          key={`${highlightToken}-${locker.facility_id}`}
+          key={locker.facility_id}
           position={[locker.latitude, locker.longitude]}
-          icon={lockerIcon}
+          icon={matchedIds.has(locker.facility_id) ? lockerIconMatched : lockerIconMuted}
           eventHandlers={{
             click: () => onSelectLocker(locker.facility_id),
           }}

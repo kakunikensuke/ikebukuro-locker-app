@@ -22,11 +22,11 @@ export default function StationPage() {
   const stationName = slugToName(stationSlug);
 
   const [lockers, setLockers] = useState([]);
+  // 地図には駅の全ロッカーを常時表示するため、絞り込み条件なしの全件も別途保持する
+  const [allStationLockers, setAllStationLockers] = useState([]);
   const [stations, setStations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // 検索実行のたびに増やすトークン。地図のピンをマウントし直し、ヒットの点滅アニメーションを再生させるために使う
-  const [searchToken, setSearchToken] = useState(0);
 
   // 表示切替（地図/一覧）もURLのクエリパラメータで管理し、ブラウザの戻る/進むで切り替えられるようにする
   const [searchParams, setSearchParams] = useSearchParams();
@@ -65,6 +65,10 @@ export default function StationPage() {
     if (!stationName) return;
     const filters = location.state?.filters || {};
     loadLockers({ station: stationName, ...filters });
+    // 地図用の全件（絞り込みなし）は駅が変わったときだけ取得すればよい
+    fetchLockers({ station: stationName })
+      .then((data) => setAllStationLockers(data.results))
+      .catch(() => setAllStationLockers([]));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stationSlug]);
 
@@ -78,7 +82,6 @@ export default function StationPage() {
   };
 
   const handleSearch = (params) => {
-    setSearchToken((t) => t + 1);
     loadLockers(params);
   };
 
@@ -112,6 +115,12 @@ export default function StationPage() {
     }
     return list;
   }, [lockers, sortBy, stationName]);
+
+  // 地図上で「検索条件に一致したピン」を目立たせるためのID集合
+  const matchedIds = useMemo(
+    () => new Set(lockers.map((l) => l.facility_id)),
+    [lockers]
+  );
 
   const handleSelectLocker = (facilityId) => {
     // 現在の表示切替（?view=）を維持したまま詳細を開く
@@ -184,10 +193,10 @@ export default function StationPage() {
           <main className="app-main">
             {view === "map" ? (
               <MapView
-                lockers={lockers}
+                lockers={allStationLockers}
+                matchedIds={matchedIds}
                 station={stationName}
                 onSelectLocker={handleSelectLocker}
-                highlightToken={searchToken}
               />
             ) : (
               <LockerList lockers={sortedLockers} onSelectLocker={handleSelectLocker} />

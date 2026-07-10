@@ -6,7 +6,7 @@
   --color-primary-light: #e6e5ee;
   --color-accent: #ff6b4a;
   --color-accent-dark: #e0532f;
-  --color-highlight: #ffd23f;
+  --color-marker-muted: #8a8371;
   --color-text: #1c2130;
   --color-text-muted: #75705f;
   --color-border: #ded5bd;
@@ -534,19 +534,17 @@ body {
   filter: drop-shadow(0 2px 4px rgba(20, 24, 38, 0.35));
 }
 
-/* 検索実行時、該当ピンだと分かりやすいようハイライト色→通常色へ一度だけ色を戻す */
-.locker-pin-fill {
+/* 検索条件に一致したロッカーは目立つ色、それ以外は控えめな色で表示する */
+.locker-marker-pin-matched .locker-pin-fill {
   fill: var(--color-accent);
-  animation: locker-pin-highlight 1.4s ease-out 1;
 }
 
-@keyframes locker-pin-highlight {
-  0% {
-    fill: var(--color-highlight);
-  }
-  100% {
-    fill: var(--color-accent);
-  }
+.locker-marker-pin-muted {
+  opacity: 0.55;
+}
+
+.locker-marker-pin-muted .locker-pin-fill {
+  fill: var(--color-marker-muted);
 }
 
 .leaflet-popup-content-wrapper {
