@@ -1,0 +1,5 @@
+# 本番公開時はSitemap行のドメインを実際の公開URLに差し替えること
+User-agent: *
+Allow: /
+
+Sitemap: https://example.com/sitemap.xml

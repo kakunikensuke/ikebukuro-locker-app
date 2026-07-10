@@ -1,23 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 /**
  * フェーズ3: 検索機能
  * フェーズ5: 駅選択（対象エリアの拡大）を追加
- * 駅は必ずいずれか1駅を選択する（全駅横断検索は行わない）
- * 駅・キーワード（施設名・住所）、サイズ、上限料金でフィルタする
+ * SEO対応: 駅選択は親（StationPage）がURLで管理する制御propに変更。
+ * キーワード・サイズ・料金は引き続きこのコンポーネントのローカルstateで管理する。
  */
-export default function SearchBar({ onSearch, stations = [] }) {
-  const [station, setStation] = useState("");
+export default function SearchBar({ station, onStationChange, onSearch, stations = [] }) {
   const [keyword, setKeyword] = useState("");
   const [size, setSize] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-
-  // 駅一覧が取得できたら、未選択なら先頭の駅を初期選択にする
-  useEffect(() => {
-    if (!station && stations.length > 0) {
-      setStation(stations[0]);
-    }
-  }, [stations]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,9 +25,7 @@ export default function SearchBar({ onSearch, stations = [] }) {
 
   // 駅選択は検索ボタンを待たずに即座に反映する（絞り込み条件はそのまま引き継ぐ）
   const handleStationChange = (e) => {
-    const newStation = e.target.value;
-    setStation(newStation);
-    onSearch({ station: newStation, keyword, size, maxPrice });
+    onStationChange({ station: e.target.value, keyword, size, maxPrice });
   };
 
   return (

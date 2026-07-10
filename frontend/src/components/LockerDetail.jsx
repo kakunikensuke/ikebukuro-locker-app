@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { fetchLockerDetail, uploadLockerPhoto, photoUrl } from "../api";
+import { nameToSlug } from "../stations";
+import { SITE_URL } from "../config";
 import AdSlot from "./AdSlot";
 
 const SIZE_LABEL = { S: "Sサイズ", M: "Mサイズ", L: "Lサイズ" };
@@ -68,6 +71,8 @@ export default function LockerDetail({ facilityId, onClose }) {
 
         {locker && (
           <>
+            <LockerDetailMeta locker={locker} />
+
             <h2>{locker.name}</h2>
             <p className="detail-address">
               {locker.nearest_station} ／ {locker.address}
@@ -162,5 +167,45 @@ export default function LockerDetail({ facilityId, onClose }) {
         )}
       </div>
     </div>
+  );
+}
+
+// SEO対応：ロッカー詳細のtitle/meta description/OGP/構造化データ（schema.org）を設定
+function LockerDetailMeta({ locker }) {
+  const stationSlug = nameToSlug(locker.nearest_station);
+  const minPrice = Math.min(...locker.sizes.map((s) => s.price));
+  const description = `${locker.address}。${minPrice}円〜、利用可能時間：${locker.business_hours}`;
+  const pageUrl = stationSlug
+    ? `${SITE_URL}/${stationSlug}/lockers/${locker.facility_id}`
+    : SITE_URL;
+  const ogImage = locker.photos?.[0] ? photoUrl(locker.photos[0]) : undefined;
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: locker.name,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: locker.address,
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: locker.latitude,
+      longitude: locker.longitude,
+    },
+    url: pageUrl,
+  };
+
+  return (
+    <Helmet>
+      <title>{locker.name}｜コインロッカー検索</title>
+      <meta name="description" content={description} />
+      <meta property="og:title" content={locker.name} />
+      <meta property="og:description" content={description} />
+      <meta property="og:type" content="place" />
+      {ogImage && <meta property="og:image" content={ogImage} />}
+      <link rel="canonical" href={pageUrl} />
+      <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
+    </Helmet>
   );
 }

@@ -1,14 +1,10 @@
 import React, { useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
+import { STATIONS, centerForName } from "../stations";
 
-// フェーズ5: 対応駅ごとの中心座標（対象エリアの拡大）
-const STATION_CENTERS = {
-  池袋駅: [35.7295, 139.7109],
-  新宿駅: [35.6896, 139.7006],
-  渋谷駅: [35.658, 139.7016],
-};
-const DEFAULT_CENTER = STATION_CENTERS["池袋駅"];
+// フェーズ5: 対応駅ごとの中心座標（対象エリアの拡大）。一覧はstations.jsで一元管理
+const DEFAULT_CENTER = STATIONS[0].center;
 
 // マーカーアイコン設定（従来のピン形状を維持しつつ、色はアプリのアクセントカラーに）
 const lockerIcon = L.divIcon({
@@ -29,8 +25,9 @@ function MapUpdater({ lockers, station }) {
   const map = useMap();
 
   useEffect(() => {
-    if (station && STATION_CENTERS[station]) {
-      map.setView(STATION_CENTERS[station], 16);
+    const center = station && centerForName(station);
+    if (center) {
+      map.setView(center, 16);
     } else if (lockers.length > 0) {
       const bounds = L.latLngBounds(
         lockers.map((l) => [l.latitude, l.longitude])
