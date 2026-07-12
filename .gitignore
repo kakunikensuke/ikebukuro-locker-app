@@ -10,3 +10,6 @@ backend/data/photos.json
 
 # SEO対応: sitemap.xmlはビルド時（prebuild）にlockers.jsonから自動生成される
 frontend/public/sitemap.xml
+
+# フェーズ9: 自動更新バッチの実行ログ（実行時に生成される）
+backend/data/update-log.json
