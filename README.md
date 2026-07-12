@@ -18,11 +18,13 @@
 バックエンドがNode.js/Express構成であること、開発機でPythonが実行できず動作検証ができなかったことから、
 フェーズ9（データ自動更新バッチ）でNode.js側に統合し、Python版は退役させました（`削除用フォルダ/`に移動済み）。
 現在の収集・更新の仕組みは`backend/scraper/updateLockers.js`を参照してください。
-実際に外部サイトから収集する場合は、対象サイトの利用規約・robots.txtの確認や、
-可能であれば公式APIの利用を検討してください（詳細は同ファイル内コメント参照）。
 
-`backend/data/lockers.json` に入っている池袋駅・新宿駅・渋谷駅周辺のロッカー情報（住所・料金・個数等）は
-**デモ用のサンプルデータ**であり、実際の現地情報とは異なります。
+`backend/data/lockers.json` の内容は、マルチエキューブ（JR東日本スマートロジスティクス運営 multiecube.com）の
+公開JSON APIから取得した**実データ**です（2026-07-12〜）。予約・決済等の機能には一切関与せず、
+サイト上に表示されているのと同じ空きロッカー情報（設置場所・サイズ・料金・空き数）のみを取得しています。
+サイズ区分はSS/S/M/L/LWの5段階（マルチエキューブの区分に準拠、SS/S/M/Lの内寸はよくある質問ページで公開されている値、
+LWは公式な寸法記載が見当たらず未掲載）。住所欄はマルチエキューブAPIが番地までの住所を提供しないため、
+駅名・改札・目印を組み合わせた説明文で代用しています（正式な住所ではありません）。
 
 ## ディレクトリ構成
 
@@ -31,8 +33,8 @@ ikebukuro-locker-app/
 ├── backend/
 │   ├── package.json
 │   ├── server.js              # APIサーバー（一覧・検索・詳細）
-│   ├── data/lockers.json      # サンプルデータ（DB代わり）
-│   ├── scraper/updateLockers.js  # フェーズ9: 自動更新バッチ（仕組みのみ）
+│   ├── data/lockers.json      # マルチエキューブAPI由来の実データ（DB代わり）
+│   ├── scraper/updateLockers.js  # フェーズ9: 自動更新バッチ（マルチエキューブAPI連携）
 │   └── db/schema.sql          # 本番用DBスキーマ
 └── frontend/
     ├── package.json
@@ -87,9 +89,9 @@ npm run update:lockers
 - フロントエンド: React + Vite
 - 地図表示: Leaflet（OpenStreetMap、APIキー不要）
 - バックエンド: Node.js + Express
-- データ収集・自動更新: Node.js（`backend/scraper/updateLockers.js`、実サイト取得は未実装）
+- データ収集・自動更新: Node.js（`backend/scraper/updateLockers.js`、マルチエキューブの公開JSON APIから取得）
 - データ保存: JSONファイル（本番はPostgreSQL等への移行を想定、`db/schema.sql`参照）
 
 ## 次のステップ
 
-- データ自動更新バッチの実サイト対応（対象サイト選定・利用規約確認が前提、現状は仕組みのみ実装済み）
+- （フェーズ9のデータ自動更新バッチは実サイト対応まで完了。次フェーズは未定）

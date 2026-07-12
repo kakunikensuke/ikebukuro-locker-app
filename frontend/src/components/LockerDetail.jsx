@@ -18,7 +18,13 @@ const MAX_PHOTO_SIZE = 5 * 1024 * 1024;
 export default function LockerDetail({ facilityId, onClose }) {
   const lang = useLang();
   const t = useT();
-  const SIZE_LABEL = { S: t("lockerDetail.sizeLabelS"), M: t("lockerDetail.sizeLabelM"), L: t("lockerDetail.sizeLabelL") };
+  const SIZE_LABEL = {
+    SS: t("lockerDetail.sizeLabelSS"),
+    S: t("lockerDetail.sizeLabelS"),
+    M: t("lockerDetail.sizeLabelM"),
+    L: t("lockerDetail.sizeLabelL"),
+    LW: t("lockerDetail.sizeLabelLW"),
+  };
   const [locker, setLocker] = useState(null);
   const [error, setError] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -110,10 +116,7 @@ export default function LockerDetail({ facilityId, onClose }) {
                   <tr key={s.size_type}>
                     <td>{SIZE_LABEL[s.size_type]}</td>
                     <td>{t("lockerDetail.priceValue", { price: s.price })}</td>
-                    <td className={s.quantity === 0 ? "qty-zero" : ""}>
-                      {s.quantity === 0
-                        ? t("lockerDetail.quantityFull", { count: s.quantity })
-                        : t("lockerDetail.quantityValue", { count: s.quantity })}
+                    <td>{t("lockerDetail.quantityValue", { count: s.quantity })}
                     </td>
                     <td>{s.dimensions}</td>
                   </tr>

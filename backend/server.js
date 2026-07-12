@@ -103,7 +103,7 @@ app.get("/api/lockers", (req, res) => {
   }
 
   if (size) {
-    // 指定サイズの空き（quantity > 0）があるロッカーのみ
+    // 指定サイズを設置しているロッカーのみ（quantityは設置個数。リアルタイムの空き数は扱わない）
     lockers = lockers.filter((l) =>
       l.sizes.some((s) => s.size_type === size.toUpperCase() && s.quantity > 0)
     );

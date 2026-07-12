@@ -2,8 +2,8 @@
   "app": { "title": "コインロッカー検索" },
   "stationPage": {
     "titleTag": "{{station}}のコインロッカー検索｜コインロッカー検索",
-    "descriptionLoading": "{{station}}周辺のコインロッカーの空き状況・料金をまとめて検索。",
-    "descriptionLoaded": "{{station}}周辺のコインロッカーの空き状況・料金をまとめて検索。{{count}}件のロッカー情報を掲載。",
+    "descriptionLoading": "{{station}}周辺のコインロッカーの設置場所・サイズ・料金をまとめて検索。",
+    "descriptionLoaded": "{{station}}周辺のコインロッカーの設置場所・サイズ・料金をまとめて検索。{{count}}件のロッカー情報を掲載。",
     "ogTitle": "{{station}}のコインロッカー検索",
     "viewMap": "地図表示",
     "viewList": "一覧表示",
@@ -12,14 +12,16 @@
     "sortLabel": "並び替え:",
     "sortDistance": "駅から近い順",
     "sortPrice": "料金が安い順",
-    "sortAvailability": "空きが多い順"
+    "sortAvailability": "設置数が多い順"
   },
   "searchBar": {
     "keywordPlaceholder": "施設名・住所で検索（例：東口、サンシャイン）",
     "sizeAny": "サイズ指定なし",
-    "sizeS": "Sサイズが空きあり",
-    "sizeM": "Mサイズが空きあり",
-    "sizeL": "Lサイズが空きあり",
+    "sizeSS": "SSサイズあり",
+    "sizeS": "Sサイズあり",
+    "sizeM": "Mサイズあり",
+    "sizeL": "Lサイズあり",
+    "sizeLW": "LWサイズあり",
     "priceAny": "料金指定なし",
     "priceUnder": "{{price}}円以下",
     "search": "検索",
@@ -28,8 +30,7 @@
   "lockerList": {
     "empty": "該当するロッカーが見つかりませんでした。",
     "priceFrom": "{{price}}円〜",
-    "availableSizes": "空きサイズ: {{sizes}}",
-    "noneAvailable": "なし"
+    "offeredSizes": "対応サイズ: {{sizes}}"
   },
   "lockerDetail": {
     "loading": "読み込み中...",
@@ -39,12 +40,13 @@
     "priceHeader": "料金",
     "quantityHeader": "設置個数",
     "dimensionsHeader": "内寸",
+    "sizeLabelSS": "SSサイズ",
     "sizeLabelS": "Sサイズ",
     "sizeLabelM": "Mサイズ",
     "sizeLabelL": "Lサイズ",
+    "sizeLabelLW": "LWサイズ（スーツケース対応）",
     "priceValue": "{{price}}円",
     "quantityValue": "{{count}}個",
-    "quantityFull": "{{count}}個（満）",
     "photoSectionTitle": "周辺写真",
     "photoEmpty": "まだ写真が投稿されていません。",
     "photoUpload": "写真を投稿する",
@@ -56,7 +58,7 @@
     "photoUploadFailed": "写真の投稿に失敗しました",
     "updatedAt": "最終更新: {{datetime}}",
     "sourceLabel": "情報提供元:",
-    "disclaimer": "※料金・空き個数は変動する場合があります。最新情報は現地または情報提供元サイトでご確認ください。",
+    "disclaimer": "※料金・設置個数は変動する場合があります。空き状況など最新情報は現地または情報提供元サイトでご確認ください。",
     "metaTitle": "{{name}}｜コインロッカー検索",
     "metaDescription": "{{address}}。{{price}}円〜、利用可能時間：{{hours}}"
   },

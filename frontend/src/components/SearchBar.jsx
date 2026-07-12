@@ -51,16 +51,19 @@ export default function SearchBar({ stationSlug, lang, onStationChange, onSearch
 
       <select value={size} onChange={(e) => setSize(e.target.value)}>
         <option value="">{t("searchBar.sizeAny")}</option>
+        <option value="SS">{t("searchBar.sizeSS")}</option>
         <option value="S">{t("searchBar.sizeS")}</option>
         <option value="M">{t("searchBar.sizeM")}</option>
         <option value="L">{t("searchBar.sizeL")}</option>
+        <option value="LW">{t("searchBar.sizeLW")}</option>
       </select>
 
       <select value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)}>
         <option value="">{t("searchBar.priceAny")}</option>
-        <option value="400">{t("searchBar.priceUnder", { price: 400 })}</option>
-        <option value="500">{t("searchBar.priceUnder", { price: 500 })}</option>
-        <option value="700">{t("searchBar.priceUnder", { price: 700 })}</option>
+        <option value="800">{t("searchBar.priceUnder", { price: 800 })}</option>
+        <option value="1000">{t("searchBar.priceUnder", { price: 1000 })}</option>
+        <option value="1200">{t("searchBar.priceUnder", { price: 1200 })}</option>
+        <option value="1400">{t("searchBar.priceUnder", { price: 1400 })}</option>
       </select>
 
       <button type="submit">{t("searchBar.search")}</button>

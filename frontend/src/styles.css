@@ -310,11 +310,6 @@ body {
   border-radius: 999px;
 }
 
-.tag-empty {
-  background: #fdeceb;
-  color: #c0392b;
-}
-
 .empty-message,
 .loading-message {
   text-align: center;
@@ -446,11 +441,6 @@ body {
 .size-table th {
   background: var(--color-primary-light);
   color: var(--color-primary-dark);
-  font-weight: 700;
-}
-
-.qty-zero {
-  color: #c0392b;
   font-weight: 700;
 }
 

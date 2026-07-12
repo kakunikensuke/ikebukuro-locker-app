@@ -18,10 +18,7 @@ export default function LockerList({ lockers, onSelectLocker }) {
     <ul className="locker-list">
       {lockers.map((locker) => {
         const minPrice = Math.min(...locker.sizes.map((s) => s.price));
-        const availableSizes = locker.sizes
-          .filter((s) => s.quantity > 0)
-          .map((s) => s.size_type)
-          .join(" / ");
+        const offeredSizes = locker.sizes.map((s) => s.size_type).join(" / ");
 
         return (
           <li
@@ -36,9 +33,7 @@ export default function LockerList({ lockers, onSelectLocker }) {
             <div className="locker-card-address">{locker.address}</div>
             <div className="locker-card-tags">
               <span className="tag">{slugToName(locker.station_slug, lang) ?? locker.nearest_station}</span>
-              <span className={`tag ${availableSizes ? "" : "tag-empty"}`}>
-                {t("lockerList.availableSizes", { sizes: availableSizes || t("lockerList.noneAvailable") })}
-              </span>
+              <span className="tag">{t("lockerList.offeredSizes", { sizes: offeredSizes })}</span>
             </div>
           </li>
         );

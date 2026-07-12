@@ -103,8 +103,8 @@ export default function StationPage() {
           Math.min(...b.sizes.map((s) => s.price))
       );
     } else if (sortBy === "availability") {
-      const totalAvailable = (l) => l.sizes.reduce((sum, s) => sum + s.quantity, 0);
-      list.sort((a, b) => totalAvailable(b) - totalAvailable(a));
+      const totalLockerCount = (l) => l.sizes.reduce((sum, s) => sum + s.quantity, 0);
+      list.sort((a, b) => totalLockerCount(b) - totalLockerCount(a));
     } else {
       // distance: 駅の中心座標からの直線距離が近い順（既定）
       const center = centerForSlug(stationSlug);

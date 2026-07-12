@@ -2,8 +2,8 @@
   "app": { "title": "Coin Locker Search" },
   "stationPage": {
     "titleTag": "Coin Lockers near {{station}} | Coin Locker Search",
-    "descriptionLoading": "Find coin lockers near {{station}} — availability and prices at a glance.",
-    "descriptionLoaded": "Find coin lockers near {{station}} — availability and prices at a glance. {{count}} lockers listed.",
+    "descriptionLoading": "Find coin lockers near {{station}} — locations, sizes, and prices at a glance.",
+    "descriptionLoaded": "Find coin lockers near {{station}} — locations, sizes, and prices at a glance. {{count}} lockers listed.",
     "ogTitle": "Coin Lockers near {{station}}",
     "viewMap": "Map",
     "viewList": "List",
@@ -12,14 +12,16 @@
     "sortLabel": "Sort:",
     "sortDistance": "Nearest to station",
     "sortPrice": "Lowest price",
-    "sortAvailability": "Most availability"
+    "sortAvailability": "Most lockers"
   },
   "searchBar": {
     "keywordPlaceholder": "Search by name or address (e.g. East Exit, Sunshine)",
     "sizeAny": "Any size",
-    "sizeS": "Size S available",
-    "sizeM": "Size M available",
-    "sizeL": "Size L available",
+    "sizeSS": "Size SS offered",
+    "sizeS": "Size S offered",
+    "sizeM": "Size M offered",
+    "sizeL": "Size L offered",
+    "sizeLW": "Size LW offered",
     "priceAny": "Any price",
     "priceUnder": "Under ¥{{price}}",
     "search": "Search",
@@ -28,8 +30,7 @@
   "lockerList": {
     "empty": "No matching lockers found.",
     "priceFrom": "From ¥{{price}}",
-    "availableSizes": "Available sizes: {{sizes}}",
-    "noneAvailable": "None"
+    "offeredSizes": "Sizes offered: {{sizes}}"
   },
   "lockerDetail": {
     "loading": "Loading...",
@@ -39,12 +40,13 @@
     "priceHeader": "Price",
     "quantityHeader": "Units",
     "dimensionsHeader": "Dimensions",
+    "sizeLabelSS": "Size SS",
     "sizeLabelS": "Size S",
     "sizeLabelM": "Size M",
     "sizeLabelL": "Size L",
+    "sizeLabelLW": "Size LW (fits suitcases)",
     "priceValue": "¥{{price}}",
     "quantityValue": "{{count}}",
-    "quantityFull": "{{count}} (Full)",
     "photoSectionTitle": "Nearby Photos",
     "photoEmpty": "No photos have been posted yet.",
     "photoUpload": "Upload a photo",
@@ -56,7 +58,7 @@
     "photoUploadFailed": "Failed to upload photo",
     "updatedAt": "Last updated: {{datetime}}",
     "sourceLabel": "Source:",
-    "disclaimer": "Note: Prices and availability may change. Please check on-site or with the source for the latest information.",
+    "disclaimer": "Note: Prices and the number of lockers installed may change. For real-time availability, please check on-site or with the source.",
     "metaTitle": "{{name}} | Coin Locker Search",
     "metaDescription": "{{address}}. From ¥{{price}}, Hours: {{hours}}"
   },
