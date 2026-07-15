@@ -30,7 +30,9 @@
   "lockerList": {
     "empty": "該当するロッカーが見つかりませんでした。",
     "priceFrom": "{{price}}円〜",
-    "offeredSizes": "対応サイズ: {{sizes}}"
+    "priceUnknown": "料金情報なし",
+    "offeredSizes": "対応サイズ: {{sizes}}",
+    "userSubmittedTag": "利用者投稿"
   },
   "lockerDetail": {
     "loading": "読み込み中...",
@@ -42,6 +44,7 @@
     "priceHeader": "料金",
     "quantityHeader": "設置個数",
     "dimensionsHeader": "内寸",
+    "sizeInfoUnknown": "サイズ・料金の情報はありません。",
     "sizeLabelSS": "SSサイズ",
     "sizeLabelS": "Sサイズ",
     "sizeLabelM": "Mサイズ",
@@ -60,13 +63,41 @@
     "photoUploadFailed": "写真の投稿に失敗しました",
     "updatedAt": "最終更新: {{datetime}}",
     "sourceLabel": "情報提供元:",
+    "sourceUserSubmitted": "利用者投稿",
     "disclaimer": "※料金・設置個数は変動する場合があります。空き状況など最新情報は現地または情報提供元サイトでご確認ください。",
     "metaTitle": "{{name}}｜コインロッカー検索",
-    "metaDescription": "{{address}}。{{price}}円〜、利用可能時間：{{hours}}"
+    "metaDescription": "{{address}}。{{price}}円〜、利用可能時間：{{hours}}",
+    "metaDescriptionNoPrice": "{{address}}。利用可能時間：{{hours}}"
   },
   "businessHours": { "allDay": "終日利用可" },
   "mapView": { "detailButton": "詳細を見る" },
   "adSlot": { "label": "広告" },
+  "lockerSubmit": {
+    "openButton": "ロッカー情報を投稿する",
+    "title": "ロッカー情報を投稿する",
+    "intro": "駅の鍵式・現金式など、掲載されていないコインロッカーの情報をお寄せください。投稿内容はすぐにサイトに公開されます。",
+    "stationLabel": "駅",
+    "mapHint": "地図をタップしてロッカーの位置にピンを立ててください",
+    "pinSet": "ピンを設置しました",
+    "pinNotSet": "ピン未設定",
+    "nameLabel": "名称",
+    "namePlaceholder": "例：西口 コインロッカー",
+    "commentLabel": "コメント",
+    "commentPlaceholder": "例：改札を出てすぐ左手にあります",
+    "addressLabel": "補足住所（任意）",
+    "hoursLabel": "営業時間（任意）",
+    "detailsLabel": "サイズ・料金など（任意）",
+    "detailsPlaceholder": "例：小200円・中300円、現金のみ",
+    "submit": "投稿する",
+    "submitting": "投稿中...",
+    "cancel": "キャンセル",
+    "close": "閉じる",
+    "errorPinRequired": "地図をタップしてピンを立ててください",
+    "errorRequired": "名称とコメントを入力してください",
+    "errorGeneric": "投稿に失敗しました",
+    "disclaimer": "※投稿内容はすぐに公開され、承認は行われません。実際の情報と異なる場合があります。不適切な投稿の削除は今後対応予定です。",
+    "successMessage": "投稿ありがとうございました！"
+  },
   "notFound": {
     "title": "ページが見つかりません｜コインロッカー検索",
     "message": "お探しのページが見つかりませんでした。",

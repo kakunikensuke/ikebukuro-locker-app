@@ -102,35 +102,49 @@ export default function LockerDetail({ facilityId, onClose }) {
               {t("lockerDetail.gmapsLink")}
             </a>
 
-            {/* アフィリエイト提携（キャリー預かりサービス）が決まり次第、disabledを外して実際のURLに差し替える */}
-            <div className="reserve-cta">
-              <span className="reserve-cta-badge">{t("lockerDetail.reserveBadge")}</span>
-              <button type="button" className="reserve-cta-btn" disabled>
-                {t("lockerDetail.reserveButton")}
-              </button>
-            </div>
+            {/* アフィリエイト提携先はマルチエキューブ等のスマートロッカー想定のため、利用者投稿分には表示しない */}
+            {!locker.user_submitted && (
+              <div className="reserve-cta">
+                <span className="reserve-cta-badge">{t("lockerDetail.reserveBadge")}</span>
+                <button type="button" className="reserve-cta-btn" disabled>
+                  {t("lockerDetail.reserveButton")}
+                </button>
+              </div>
+            )}
 
-            <table className="size-table">
-              <thead>
-                <tr>
-                  <th>{t("lockerDetail.sizeHeader")}</th>
-                  <th>{t("lockerDetail.priceHeader")}</th>
-                  <th>{t("lockerDetail.quantityHeader")}</th>
-                  <th>{t("lockerDetail.dimensionsHeader")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {locker.sizes.map((s) => (
-                  <tr key={s.size_type}>
-                    <td>{SIZE_LABEL[s.size_type]}</td>
-                    <td>{t("lockerDetail.priceValue", { price: s.price })}</td>
-                    <td>{t("lockerDetail.quantityValue", { count: s.quantity })}
-                    </td>
-                    <td>{s.dimensions}</td>
+            {locker.user_submitted && (
+              <div className="submitted-info">
+                <span className="tag tag-user-submitted">{t("lockerList.userSubmittedTag")}</span>
+                <p className="submitted-comment">{locker.comment}</p>
+                {locker.details && <p className="submitted-details">{locker.details}</p>}
+              </div>
+            )}
+
+            {locker.sizes.length > 0 ? (
+              <table className="size-table">
+                <thead>
+                  <tr>
+                    <th>{t("lockerDetail.sizeHeader")}</th>
+                    <th>{t("lockerDetail.priceHeader")}</th>
+                    <th>{t("lockerDetail.quantityHeader")}</th>
+                    <th>{t("lockerDetail.dimensionsHeader")}</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {locker.sizes.map((s) => (
+                    <tr key={s.size_type}>
+                      <td>{SIZE_LABEL[s.size_type]}</td>
+                      <td>{t("lockerDetail.priceValue", { price: s.price })}</td>
+                      <td>{t("lockerDetail.quantityValue", { count: s.quantity })}
+                      </td>
+                      <td>{s.dimensions}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p className="size-table-empty">{t("lockerDetail.sizeInfoUnknown")}</p>
+            )}
 
             <div className="photo-section">
               <h3 className="photo-section-title">{t("lockerDetail.photoSectionTitle")}</h3>
@@ -175,9 +189,13 @@ export default function LockerDetail({ facilityId, onClose }) {
             </p>
             <p className="detail-source">
               {t("lockerDetail.sourceLabel")}{" "}
-              <a href={locker.source.site_url} target="_blank" rel="noreferrer">
-                {locker.source.site_name}
-              </a>
+              {locker.user_submitted ? (
+                t("lockerDetail.sourceUserSubmitted")
+              ) : (
+                <a href={locker.source.site_url} target="_blank" rel="noreferrer">
+                  {locker.source.site_name}
+                </a>
+              )}
             </p>
             <p className="detail-disclaimer">{t("lockerDetail.disclaimer")}</p>
 
@@ -192,9 +210,15 @@ export default function LockerDetail({ facilityId, onClose }) {
 // SEO対応：ロッカー詳細のtitle/meta description/OGP/構造化データ（schema.org）を設定
 // フェーズ7: 多言語化対応。hreflang alternate（ja/en/x-default）も出力する
 function LockerDetailMeta({ locker, lang, t }) {
-  const minPrice = Math.min(...locker.sizes.map((s) => s.price));
   const hours = translateBusinessHours(locker.business_hours, t);
-  const description = t("lockerDetail.metaDescription", { address: locker.address, price: minPrice, hours });
+  const description =
+    locker.sizes.length > 0
+      ? t("lockerDetail.metaDescription", {
+          address: locker.address,
+          price: Math.min(...locker.sizes.map((s) => s.price)),
+          hours,
+        })
+      : t("lockerDetail.metaDescriptionNoPrice", { address: locker.address, hours });
   const pageUrl = `${SITE_URL}${pathForLocker(lang, locker.station_slug, locker.facility_id)}`;
   const ogImage = locker.photos?.[0] ? photoUrl(locker.photos[0]) : undefined;
 

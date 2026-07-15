@@ -51,3 +51,17 @@ export async function uploadLockerPhoto(facilityId, file) {
 export function photoUrl(photo) {
   return `${API_BASE}${photo.url}`;
 }
+
+/**
+ * フェーズ11: 利用者による「昔ながらのロッカー」等の情報投稿
+ */
+export async function submitLocker(payload) {
+  const res = await fetch(`${API_BASE}/api/lockers/submit`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "投稿に失敗しました");
+  return data;
+}

@@ -17,7 +17,8 @@ export default function LockerList({ lockers, onSelectLocker }) {
   return (
     <ul className="locker-list">
       {lockers.map((locker) => {
-        const minPrice = Math.min(...locker.sizes.map((s) => s.price));
+        const hasSizes = locker.sizes.length > 0;
+        const minPrice = hasSizes ? Math.min(...locker.sizes.map((s) => s.price)) : null;
         const offeredSizes = locker.sizes.map((s) => s.size_type).join(" / ");
 
         return (
@@ -28,12 +29,17 @@ export default function LockerList({ lockers, onSelectLocker }) {
           >
             <div className="locker-card-top">
               <span className="locker-card-name">{locker.name}</span>
-              <span className="locker-card-price">{t("lockerList.priceFrom", { price: minPrice })}</span>
+              <span className="locker-card-price">
+                {hasSizes ? t("lockerList.priceFrom", { price: minPrice }) : t("lockerList.priceUnknown")}
+              </span>
             </div>
             <div className="locker-card-address">{locker.address}</div>
             <div className="locker-card-tags">
               <span className="tag">{slugToName(locker.station_slug, lang) ?? locker.nearest_station}</span>
-              <span className="tag">{t("lockerList.offeredSizes", { sizes: offeredSizes })}</span>
+              {hasSizes && <span className="tag">{t("lockerList.offeredSizes", { sizes: offeredSizes })}</span>}
+              {locker.user_submitted && (
+                <span className="tag tag-user-submitted">{t("lockerList.userSubmittedTag")}</span>
+              )}
             </div>
           </li>
         );

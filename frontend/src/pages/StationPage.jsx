@@ -16,6 +16,7 @@ import SearchBar from "../components/SearchBar";
 import LockerList from "../components/LockerList";
 import LangSwitcher from "../components/LangSwitcher.jsx";
 import AdSlot from "../components/AdSlot";
+import LockerSubmitForm from "../components/LockerSubmitForm";
 
 export default function StationPage() {
   const { stationSlug } = useParams();
@@ -31,6 +32,7 @@ export default function StationPage() {
   const [stations, setStations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showSubmitForm, setShowSubmitForm] = useState(false);
 
   // 表示切替（地図/一覧）もURLのクエリパラメータで管理し、ブラウザの戻る/進むで切り替えられるようにする
   const [searchParams, setSearchParams] = useSearchParams();
@@ -87,6 +89,17 @@ export default function StationPage() {
 
   const handleSearch = (params) => {
     loadLockers(params);
+  };
+
+  // 投稿完了後は絞り込み条件をリセットし、投稿したロッカーが確実に見えるよう全件を再取得する
+  // モーダルを閉じるのはフォーム側の完了画面（ユーザー操作）に任せ、ここでは閉じない
+  const handleLockerSubmitted = () => {
+    fetchLockers({ station_slug: stationSlug })
+      .then((data) => {
+        setLockers(data.results);
+        setAllStationLockers(data.results);
+      })
+      .catch(() => {});
   };
 
   const handleStationChange = ({ stationSlug: newStationSlug, keyword, size, maxPrice }) => {
@@ -180,6 +193,21 @@ export default function StationPage() {
         onSearch={handleSearch}
         stations={stations}
       />
+
+      <div className="submit-cta-row">
+        <button type="button" className="submit-cta-btn" onClick={() => setShowSubmitForm(true)}>
+          {t("lockerSubmit.openButton")}
+        </button>
+      </div>
+
+      {showSubmitForm && (
+        <LockerSubmitForm
+          stationSlug={stationSlug}
+          lang={lang}
+          onClose={() => setShowSubmitForm(false)}
+          onSubmitted={handleLockerSubmitted}
+        />
+      )}
 
       {loading && <p className="loading-message">{t("stationPage.loading")}</p>}
       {error && <p className="error-message">{error}</p>}

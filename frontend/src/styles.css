@@ -7,6 +7,8 @@
   --color-accent: #ff6b4a;
   --color-accent-dark: #e0532f;
   --color-marker-muted: #8a8371;
+  --color-user-submitted: #3f8f5f;
+  --color-user-submitted-light: #e3efe6;
   --color-text: #1c2130;
   --color-text-muted: #75705f;
   --color-border: #ded5bd;
@@ -310,6 +312,11 @@ body {
   border-radius: 999px;
 }
 
+.tag-user-submitted {
+  background: var(--color-user-submitted-light);
+  color: var(--color-user-submitted);
+}
+
 .empty-message,
 .loading-message {
   text-align: center;
@@ -476,6 +483,166 @@ body {
   font-weight: 700;
 }
 
+.size-table-empty {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  margin: 12px 0;
+}
+
+/* フェーズ11: 利用者投稿情報 */
+.submitted-info {
+  margin: 10px 0;
+  padding: 12px 14px;
+  background: var(--color-user-submitted-light);
+  border-radius: var(--radius-md);
+}
+
+.submitted-comment {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  white-space: pre-wrap;
+}
+
+.submitted-details {
+  margin: 6px 0 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  white-space: pre-wrap;
+}
+
+/* フェーズ11: ロッカー情報投稿の導線・フォーム */
+.submit-cta-row {
+  display: flex;
+  justify-content: flex-end;
+  margin: -8px 0 16px;
+}
+
+.submit-cta-btn {
+  padding: 8px 18px;
+  border: 1px solid var(--color-user-submitted);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-user-submitted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.submit-cta-btn:hover {
+  background: var(--color-user-submitted-light);
+}
+
+.submit-panel h2 {
+  margin: 0 0 8px;
+}
+
+.submit-intro {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  margin: 0 0 16px;
+}
+
+.submit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 14px;
+}
+
+.submit-field input,
+.submit-field select,
+.submit-field textarea {
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: 400;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.submit-field input:focus,
+.submit-field select:focus,
+.submit-field textarea:focus {
+  outline: none;
+  border-color: var(--color-user-submitted);
+  box-shadow: 0 0 0 3px rgba(63, 143, 95, 0.16);
+}
+
+.submit-map-hint {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin: 0 0 6px;
+}
+
+.submit-map-wrap {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.submit-map {
+  height: 220px;
+  width: 100%;
+}
+
+.submit-pin-status {
+  font-size: 0.78rem;
+  color: var(--color-user-submitted);
+  font-weight: 600;
+  margin: 6px 0 16px;
+}
+
+.submit-disclaimer {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin: 4px 0 14px;
+}
+
+.submit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.submit-actions button[type="submit"] {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-user-submitted);
+  color: white;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.submit-actions button[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submit-actions button[type="button"] {
+  padding: 10px 18px;
+}
+
+.submit-success {
+  padding: 20px 0 12px;
+  text-align: center;
+  color: var(--color-user-submitted);
+  font-weight: 700;
+}
+
+.submit-success-wrap .submit-actions {
+  justify-content: center;
+}
+
 /* フェーズ6: 周辺写真（利用者投稿） */
 .photo-section {
   margin: 20px 0;
@@ -599,6 +766,10 @@ body {
 
 .locker-marker-pin-muted .locker-pin-fill {
   fill: var(--color-marker-muted);
+}
+
+.locker-marker-pin-user-submitted .locker-pin-fill {
+  fill: var(--color-user-submitted);
 }
 
 .leaflet-popup-content-wrapper {

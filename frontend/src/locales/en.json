@@ -30,7 +30,9 @@
   "lockerList": {
     "empty": "No matching lockers found.",
     "priceFrom": "From ¥{{price}}",
-    "offeredSizes": "Sizes offered: {{sizes}}"
+    "priceUnknown": "No price info",
+    "offeredSizes": "Sizes offered: {{sizes}}",
+    "userSubmittedTag": "User submitted"
   },
   "lockerDetail": {
     "loading": "Loading...",
@@ -42,6 +44,7 @@
     "priceHeader": "Price",
     "quantityHeader": "Units",
     "dimensionsHeader": "Dimensions",
+    "sizeInfoUnknown": "No size or price information available.",
     "sizeLabelSS": "Size SS",
     "sizeLabelS": "Size S",
     "sizeLabelM": "Size M",
@@ -60,13 +63,41 @@
     "photoUploadFailed": "Failed to upload photo",
     "updatedAt": "Last updated: {{datetime}}",
     "sourceLabel": "Source:",
+    "sourceUserSubmitted": "User submitted",
     "disclaimer": "Note: Prices and the number of lockers installed may change. For real-time availability, please check on-site or with the source.",
     "metaTitle": "{{name}} | Coin Locker Search",
-    "metaDescription": "{{address}}. From ¥{{price}}, Hours: {{hours}}"
+    "metaDescription": "{{address}}. From ¥{{price}}, Hours: {{hours}}",
+    "metaDescriptionNoPrice": "{{address}}. Hours: {{hours}}"
   },
   "businessHours": { "allDay": "Open 24 hours" },
   "mapView": { "detailButton": "View details" },
   "adSlot": { "label": "Advertisement" },
+  "lockerSubmit": {
+    "openButton": "Submit locker info",
+    "title": "Submit locker info",
+    "intro": "Share information about key/cash coin lockers not listed above. Submissions are published to the site immediately.",
+    "stationLabel": "Station",
+    "mapHint": "Tap the map to place a pin at the locker's location",
+    "pinSet": "Pin placed",
+    "pinNotSet": "No pin placed yet",
+    "nameLabel": "Name",
+    "namePlaceholder": "e.g. West Exit Coin Locker",
+    "commentLabel": "Comment",
+    "commentPlaceholder": "e.g. Just to the left after the ticket gate",
+    "addressLabel": "Additional address (optional)",
+    "hoursLabel": "Hours (optional)",
+    "detailsLabel": "Sizes, prices, etc. (optional)",
+    "detailsPlaceholder": "e.g. Small ¥200, Medium ¥300, cash only",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "cancel": "Cancel",
+    "close": "Close",
+    "errorPinRequired": "Please tap the map to place a pin",
+    "errorRequired": "Please enter a name and comment",
+    "errorGeneric": "Failed to submit",
+    "disclaimer": "Note: Submissions are published immediately without review and may differ from the actual situation. Removal of inappropriate submissions is planned for a future update.",
+    "successMessage": "Thank you for your submission!"
+  },
   "notFound": {
     "title": "Page Not Found | Coin Locker Search",
     "message": "Sorry, we couldn't find that page.",

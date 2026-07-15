@@ -8,8 +8,9 @@ import { useT } from "../i18n/LangContext.js";
 const DEFAULT_CENTER = STATIONS[0].center;
 
 // マーカーアイコン設定。検索条件に一致したロッカーは目立つ色、それ以外は控えめな色にする
-function buildLockerIcon(matched) {
-  const pinClass = matched ? "locker-marker-pin locker-marker-pin-matched" : "locker-marker-pin locker-marker-pin-muted";
+// フェーズ11: 利用者投稿分は自動取得データと区別できるよう専用の色にする
+function buildLockerIcon(variant) {
+  const pinClass = `locker-marker-pin locker-marker-pin-${variant}`;
   return L.divIcon({
     className: "locker-marker",
     html: `
@@ -24,8 +25,9 @@ function buildLockerIcon(matched) {
   });
 }
 
-const lockerIconMatched = buildLockerIcon(true);
-const lockerIconMuted = buildLockerIcon(false);
+const lockerIconMatched = buildLockerIcon("matched");
+const lockerIconMuted = buildLockerIcon("muted");
+const lockerIconUserSubmitted = buildLockerIcon("user-submitted");
 
 // 駅選択時はその駅を中心に、未選択時は表示中の全ロッカーが収まるように地図を調整する
 function MapUpdater({ lockers, stationSlug }) {
@@ -70,7 +72,13 @@ export default function MapView({ lockers, matchedIds, stationSlug, onSelectLock
         <Marker
           key={locker.facility_id}
           position={[locker.latitude, locker.longitude]}
-          icon={matchedIds.has(locker.facility_id) ? lockerIconMatched : lockerIconMuted}
+          icon={
+            locker.user_submitted
+              ? lockerIconUserSubmitted
+              : matchedIds.has(locker.facility_id)
+              ? lockerIconMatched
+              : lockerIconMuted
+          }
           eventHandlers={{
             click: () => onSelectLocker(locker.facility_id),
           }}
