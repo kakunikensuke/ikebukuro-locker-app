@@ -1,4 +1,5 @@
-const API_BASE = "http://localhost:4000";
+// 開発時、スマホ等の別端末から確認する際もアクセス元と同じホスト名でAPIを呼べるようにする
+const API_BASE = `http://${window.location.hostname}:4000`;
 
 /**
  * フェーズ5: 対応駅一覧
