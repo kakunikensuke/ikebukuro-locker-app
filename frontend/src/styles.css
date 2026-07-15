@@ -416,6 +416,38 @@ body {
   background: var(--color-primary-light);
 }
 
+/* アフィリエイト導線（提携決定前のプレースホルダー） */
+.reserve-cta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 10px 0 4px;
+}
+
+.reserve-cta-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  background: var(--color-primary-light);
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.reserve-cta-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .size-table {
   width: 100%;
   border-collapse: separate;

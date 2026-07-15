@@ -102,6 +102,14 @@ export default function LockerDetail({ facilityId, onClose }) {
               {t("lockerDetail.gmapsLink")}
             </a>
 
+            {/* アフィリエイト提携（キャリー預かりサービス）が決まり次第、disabledを外して実際のURLに差し替える */}
+            <div className="reserve-cta">
+              <span className="reserve-cta-badge">{t("lockerDetail.reserveBadge")}</span>
+              <button type="button" className="reserve-cta-btn" disabled>
+                {t("lockerDetail.reserveButton")}
+              </button>
+            </div>
+
             <table className="size-table">
               <thead>
                 <tr>

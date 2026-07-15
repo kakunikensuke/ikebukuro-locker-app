@@ -36,6 +36,8 @@
     "loading": "Loading...",
     "hours": "Hours: {{hours}}",
     "gmapsLink": "View on Google Maps",
+    "reserveBadge": "Coming soon",
+    "reserveButton": "Check availability & reserve",
     "sizeHeader": "Size",
     "priceHeader": "Price",
     "quantityHeader": "Units",
