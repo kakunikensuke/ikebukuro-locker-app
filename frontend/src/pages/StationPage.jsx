@@ -17,6 +17,7 @@ import LockerList from "../components/LockerList";
 import LangSwitcher from "../components/LangSwitcher.jsx";
 import AdSlot from "../components/AdSlot";
 import LockerSubmitForm from "../components/LockerSubmitForm";
+import NotFound from "./NotFound.jsx";
 
 export default function StationPage() {
   const { stationSlug } = useParams();
@@ -144,7 +145,9 @@ export default function StationPage() {
   };
 
   if (!stationName) {
-    return null; // 不正なスラッグは親のcatch-allルート（NotFound）で処理される想定外ケース
+    // :stationSlugは任意の1階層パスにマッチするため、親のcatch-allルート（*）には到達しない。
+    // 存在しない駅slugの場合はここで明示的にNotFoundを表示する。
+    return <NotFound />;
   }
 
   const description = loading

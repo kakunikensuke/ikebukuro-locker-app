@@ -89,7 +89,9 @@ const upload = multer({
       cb(null, `${req.params.id}-${Date.now()}-${crypto.randomUUID()}.${ext}`);
     },
   }),
-  limits: { fileSize: MAX_PHOTO_SIZE },
+  // multer(busboy)はfileSizeちょうどのファイルを超過扱いで拒否するため、
+  // 「5MB以下」という案内文言どおりの挙動にするには+1して境界を1バイト緩める必要がある
+  limits: { fileSize: MAX_PHOTO_SIZE + 1 },
   fileFilter: (req, file, cb) => {
     if (!ALLOWED_MIME_TYPES[file.mimetype]) {
       return cb(new Error("対応していないファイル形式です（JPEG・PNG・WebPのみ）"));
@@ -215,7 +217,10 @@ app.post("/api/lockers/submit", (req, res) => {
 
   const errors = [];
 
-  if (!stationSlug || typeof stationSlug !== "string" || !/^[a-z0-9-]+$/.test(stationSlug)) {
+  // 実在する駅（自動取得データに含まれる駅）のみ受け付ける。フロントの選択肢は常にこの集合の
+  // 範囲内だが、APIを直接叩かれた場合に備え、形式チェックだけでなく実在性もここで担保する。
+  const knownStationSlugs = new Set(loadAutoLockers().map((l) => l.station_slug));
+  if (!stationSlug || typeof stationSlug !== "string" || !knownStationSlugs.has(stationSlug)) {
     errors.push("駅を選択してください");
   }
   if (!name || typeof name !== "string" || !name.trim()) {

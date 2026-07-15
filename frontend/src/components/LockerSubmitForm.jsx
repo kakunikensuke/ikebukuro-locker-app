@@ -7,6 +7,8 @@ import { useT } from "../i18n/LangContext.js";
 const COMMENT_MAX = 500;
 const NAME_MAX = 100;
 const DETAILS_MAX = 500;
+const ADDRESS_MAX = 200;
+const HOURS_MAX = 100;
 
 // 地図クリックでピンの位置を更新するための内部コンポーネント（react-leafletの流儀）
 function PinPicker({ onPick }) {
@@ -143,12 +145,22 @@ export default function LockerSubmitForm({ stationSlug, lang, onClose, onSubmitt
 
             <label className="submit-field">
               {t("lockerSubmit.addressLabel")}
-              <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
+              <input
+                type="text"
+                value={address}
+                maxLength={ADDRESS_MAX}
+                onChange={(e) => setAddress(e.target.value)}
+              />
             </label>
 
             <label className="submit-field">
               {t("lockerSubmit.hoursLabel")}
-              <input type="text" value={businessHours} onChange={(e) => setBusinessHours(e.target.value)} />
+              <input
+                type="text"
+                value={businessHours}
+                maxLength={HOURS_MAX}
+                onChange={(e) => setBusinessHours(e.target.value)}
+              />
             </label>
 
             <label className="submit-field">
