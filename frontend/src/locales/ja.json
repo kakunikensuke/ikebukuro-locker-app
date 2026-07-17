@@ -12,7 +12,22 @@
     "sortLabel": "並び替え:",
     "sortDistance": "駅から近い順",
     "sortPrice": "料金が安い順",
-    "sortAvailability": "設置数が多い順"
+    "sortAvailability": "設置数が多い順",
+    "otherStationsInPrefecture": "{{prefecture}}の他の駅を見る"
+  },
+  "areasPage": {
+    "titleTag": "都道府県から探すコインロッカー｜コインロッカー検索",
+    "description": "全国{{count}}駅のコインロッカー情報を都道府県ごとにまとめて検索。",
+    "ogTitle": "都道府県から探すコインロッカー",
+    "heading": "都道府県から探す",
+    "prefectureStationCount": "{{count}}駅"
+  },
+  "prefecturePage": {
+    "titleTag": "{{prefecture}}のコインロッカー設置駅一覧｜コインロッカー検索",
+    "description": "{{prefecture}}のコインロッカー設置駅{{count}}件をまとめて掲載。",
+    "ogTitle": "{{prefecture}}のコインロッカー設置駅一覧",
+    "heading": "{{prefecture}}の対応駅",
+    "backToAreas": "都道府県一覧に戻る"
   },
   "searchBar": {
     "keywordPlaceholder": "施設名・住所で検索（例：東口、サンシャイン）",

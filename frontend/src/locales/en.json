@@ -12,7 +12,22 @@
     "sortLabel": "Sort:",
     "sortDistance": "Nearest to station",
     "sortPrice": "Lowest price",
-    "sortAvailability": "Most lockers"
+    "sortAvailability": "Most lockers",
+    "otherStationsInPrefecture": "See other stations in {{prefecture}}"
+  },
+  "areasPage": {
+    "titleTag": "Browse Coin Lockers by Prefecture | Coin Locker Search",
+    "description": "Find coin locker information for {{count}} stations nationwide, organized by prefecture.",
+    "ogTitle": "Browse Coin Lockers by Prefecture",
+    "heading": "Browse by Prefecture",
+    "prefectureStationCount": "{{count}} stations"
+  },
+  "prefecturePage": {
+    "titleTag": "Coin Locker Stations in {{prefecture}} | Coin Locker Search",
+    "description": "{{count}} coin locker stations in {{prefecture}}, all in one place.",
+    "ogTitle": "Coin Locker Stations in {{prefecture}}",
+    "heading": "Stations in {{prefecture}}",
+    "backToAreas": "Back to prefecture list"
   },
   "searchBar": {
     "keywordPlaceholder": "Search by name or address (e.g. East Exit, Sunshine)",

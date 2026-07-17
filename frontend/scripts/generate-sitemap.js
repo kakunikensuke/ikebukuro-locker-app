@@ -3,7 +3,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { STATIONS, pathForStation, pathForLocker } from "../src/stations.js";
+import { STATIONS, PREFECTURES, pathForStation, pathForLocker, pathForPrefecture } from "../src/stations.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SITE_URL = process.env.VITE_SITE_URL || "https://example.com";
@@ -27,6 +27,10 @@ function urlPair(pathJa, pathEn, lastmod) {
 }
 
 const urls = [...urlPair("/", "/en")];
+
+for (const prefecture of PREFECTURES) {
+  urls.push(...urlPair(pathForPrefecture("ja", prefecture), pathForPrefecture("en", prefecture)));
+}
 
 for (const station of STATIONS) {
   urls.push(...urlPair(pathForStation("ja", station.slug), pathForStation("en", station.slug)));

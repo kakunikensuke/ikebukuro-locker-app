@@ -5,10 +5,20 @@ import {
   useLocation,
   useSearchParams,
   Outlet,
+  Link,
 } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { fetchLockers, fetchStations } from "../api";
-import { slugToName, centerForSlug, pathForStation, pathForLocker, distanceKm } from "../stations";
+import {
+  slugToName,
+  centerForSlug,
+  pathForStation,
+  pathForLocker,
+  distanceKm,
+  prefectureForSlug,
+  prefectureName,
+  pathForPrefecture,
+} from "../stations";
 import { SITE_URL } from "../config";
 import { useLang, useT } from "../i18n/LangContext.js";
 import MapView from "../components/MapView";
@@ -153,6 +163,7 @@ export default function StationPage() {
   const description = loading
     ? t("stationPage.descriptionLoading", { station: stationName })
     : t("stationPage.descriptionLoaded", { station: stationName, count: lockers.length });
+  const prefecture = prefectureForSlug(stationSlug);
 
   return (
     <div className="app-container">
@@ -188,6 +199,12 @@ export default function StationPage() {
           <LangSwitcher />
         </div>
       </header>
+
+      {prefecture && (
+        <Link className="back-to-areas" to={pathForPrefecture(lang, prefecture)}>
+          {t("stationPage.otherStationsInPrefecture", { prefecture: prefectureName(prefecture, lang) })}
+        </Link>
+      )}
 
       <SearchBar
         stationSlug={stationSlug}

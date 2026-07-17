@@ -2497,6 +2497,26 @@ export function prefectureName(prefecture, lang = "ja") {
   return lang === "en" ? PREFECTURE_EN[prefecture] || prefecture : prefecture;
 }
 
+// 都道府県ごとのまとめページ（/areas/:prefectureSlug）用のURLスラッグ。
+// PREFECTURE_ENの値（スペースなしの単語）をlowercase化するだけで衝突なく生成できる。
+export function prefectureSlug(prefecture) {
+  return (PREFECTURE_EN[prefecture] || "").toLowerCase();
+}
+
+export function prefectureForPrefectureSlug(slug) {
+  return PREFECTURES.find((pref) => prefectureSlug(pref) === slug);
+}
+
+// トップページ（都道府県一覧）のパス。langPrefix(lang) + "/" だと en が "/en/"（末尾スラッシュ付き）に
+// なりsitemapの "/en" 表記と割れるため、明示的に分岐する。
+export function pathForPrefectureList(lang) {
+  return lang === "en" ? "/en" : "/";
+}
+
+export function pathForPrefecture(lang, prefecture) {
+  return `${langPrefix(lang)}/areas/${prefectureSlug(prefecture)}`;
+}
+
 export function slugToName(slug, lang = "ja") {
   const station = STATIONS.find((s) => s.slug === slug);
   return station ? station.name[lang] || station.name.ja : undefined;
