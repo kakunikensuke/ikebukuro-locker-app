@@ -20,14 +20,19 @@
     "description": "Find coin locker information for {{count}} stations nationwide, organized by prefecture.",
     "ogTitle": "Browse Coin Lockers by Prefecture",
     "heading": "Browse by Prefecture",
-    "prefectureStationCount": "{{count}} stations"
+    "prefectureStationCount": "{{count}} stations",
+    "searchPlaceholder": "Search by prefecture or station (e.g. Tokyo, Shinagawa)",
+    "searchNoResults": "No matching prefectures or stations found.",
+    "stationResultsHeading": "Matching Stations"
   },
   "prefecturePage": {
     "titleTag": "Coin Locker Stations in {{prefecture}} | Coin Locker Search",
     "description": "{{count}} coin locker stations in {{prefecture}}, all in one place.",
     "ogTitle": "Coin Locker Stations in {{prefecture}}",
     "heading": "Stations in {{prefecture}}",
-    "backToAreas": "Back to prefecture list"
+    "backToAreas": "Back to prefecture list",
+    "searchPlaceholder": "Search by station name (e.g. Shinjuku)",
+    "searchNoResults": "No matching stations found."
   },
   "searchBar": {
     "keywordPlaceholder": "Search by name or address (e.g. East Exit, Sunshine)",

@@ -20,14 +20,19 @@
     "description": "全国{{count}}駅のコインロッカー情報を都道府県ごとにまとめて検索。",
     "ogTitle": "都道府県から探すコインロッカー",
     "heading": "都道府県から探す",
-    "prefectureStationCount": "{{count}}駅"
+    "prefectureStationCount": "{{count}}駅",
+    "searchPlaceholder": "都道府県名・駅名で検索（例：東京、品川）",
+    "searchNoResults": "該当する都道府県・駅が見つかりませんでした。",
+    "stationResultsHeading": "駅名の検索結果"
   },
   "prefecturePage": {
     "titleTag": "{{prefecture}}のコインロッカー設置駅一覧｜コインロッカー検索",
     "description": "{{prefecture}}のコインロッカー設置駅{{count}}件をまとめて掲載。",
     "ogTitle": "{{prefecture}}のコインロッカー設置駅一覧",
     "heading": "{{prefecture}}の対応駅",
-    "backToAreas": "都道府県一覧に戻る"
+    "backToAreas": "都道府県一覧に戻る",
+    "searchPlaceholder": "駅名で検索（例：池袋）",
+    "searchNoResults": "該当する駅が見つかりませんでした。"
   },
   "searchBar": {
     "keywordPlaceholder": "施設名・住所で検索（例：東口、サンシャイン）",

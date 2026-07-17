@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import {
@@ -19,6 +19,7 @@ export default function PrefecturePage() {
   const { prefectureSlug } = useParams();
   const lang = useLang();
   const t = useT();
+  const [query, setQuery] = useState("");
   const prefecture = prefectureForPrefectureSlug(prefectureSlug);
 
   if (!prefecture) {
@@ -29,6 +30,14 @@ export default function PrefecturePage() {
   const stations = stationsInPrefecture(prefecture);
   const prefLabel = prefectureName(prefecture, lang);
   const description = t("prefecturePage.description", { prefecture: prefLabel, count: stations.length });
+
+  const q = query.trim().toLowerCase();
+  const filteredStations = q
+    ? stations.filter((s) => {
+        const name = slugToName(s.slug, lang) || "";
+        return name.toLowerCase().includes(q) || s.kana.includes(query.trim());
+      })
+    : stations;
 
   return (
     <div className="app-container">
@@ -56,15 +65,26 @@ export default function PrefecturePage() {
           {t("prefecturePage.backToAreas")}
         </Link>
         <h2>{t("prefecturePage.heading", { prefecture: prefLabel })}</h2>
-        <ul className="area-grid">
-          {stations.map((s) => (
-            <li key={s.slug}>
-              <Link className="area-card" to={pathForStation(lang, s.slug)}>
-                <span className="area-card-name">{slugToName(s.slug, lang)}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <input
+          type="text"
+          className="page-search-input"
+          placeholder={t("prefecturePage.searchPlaceholder")}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        {filteredStations.length === 0 ? (
+          <p className="empty-message">{t("prefecturePage.searchNoResults")}</p>
+        ) : (
+          <ul className="area-grid">
+            {filteredStations.map((s) => (
+              <li key={s.slug}>
+                <Link className="area-card" to={pathForStation(lang, s.slug)}>
+                  <span className="area-card-name">{slugToName(s.slug, lang)}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </main>
     </div>
   );
