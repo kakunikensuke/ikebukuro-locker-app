@@ -8,10 +8,19 @@ import { STATIONS, PREFECTURES, pathForStation, pathForLocker, pathForPrefecture
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SITE_URL = process.env.VITE_SITE_URL || "https://example.com";
 const LOCKERS_PATH = path.join(__dirname, "..", "..", "backend", "data", "lockers.json");
+const USER_SUBMITTED_PATH = path.join(__dirname, "..", "..", "backend", "data", "user-submitted-lockers.json");
 const OUTPUT_DIR = path.join(__dirname, "..", "public");
 const OUTPUT_PATH = path.join(OUTPUT_DIR, "sitemap.xml");
 
 const lockers = JSON.parse(fs.readFileSync(LOCKERS_PATH, "utf-8"));
+const userSubmittedLockers = fs.existsSync(USER_SUBMITTED_PATH)
+  ? JSON.parse(fs.readFileSync(USER_SUBMITTED_PATH, "utf-8"))
+  : [];
+// ロッカー実データ（自動取得＋利用者投稿）が無い駅はStationPage側でnoindexになるため、
+// sitemapにも含めない（noindexページをsitemapに載せる矛盾を避ける）
+const stationsWithLockers = new Set(
+  [...lockers, ...userSubmittedLockers].map((l) => l.station_slug)
+);
 
 // ja/enのURLペアを生成し、双方に同じhreflang alternateセットを持たせる
 function urlPair(pathJa, pathEn, lastmod) {
@@ -33,6 +42,7 @@ for (const prefecture of PREFECTURES) {
 }
 
 for (const station of STATIONS) {
+  if (!stationsWithLockers.has(station.slug)) continue;
   urls.push(...urlPair(pathForStation("ja", station.slug), pathForStation("en", station.slug)));
 }
 

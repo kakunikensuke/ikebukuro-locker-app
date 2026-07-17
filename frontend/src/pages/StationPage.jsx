@@ -164,6 +164,8 @@ export default function StationPage() {
     ? t("stationPage.descriptionLoading", { station: stationName })
     : t("stationPage.descriptionLoaded", { station: stationName, count: lockers.length });
   const prefecture = prefectureForSlug(stationSlug);
+  // 検索絞り込みの影響を受けない駅の全ロッカー件数で判定する（loading中は安全側でnoindex扱い）
+  const showNoindex = loading || allStationLockers.length === 0;
 
   return (
     <div className="app-container">
@@ -177,6 +179,7 @@ export default function StationPage() {
         <link rel="alternate" hreflang="ja" href={`${SITE_URL}${pathForStation("ja", stationSlug)}`} />
         <link rel="alternate" hreflang="en" href={`${SITE_URL}${pathForStation("en", stationSlug)}`} />
         <link rel="alternate" hreflang="x-default" href={`${SITE_URL}${pathForStation("ja", stationSlug)}`} />
+        {showNoindex && <meta name="robots" content="noindex" />}
       </Helmet>
 
       <header className="app-header">
@@ -213,6 +216,10 @@ export default function StationPage() {
         onSearch={handleSearch}
         stations={stations}
       />
+
+      {!loading && allStationLockers.length === 0 && (
+        <p className="no-lockers-yet-message">{t("stationPage.noLockersYet")}</p>
+      )}
 
       <div className="submit-cta-row">
         <button type="button" className="submit-cta-btn" onClick={() => setShowSubmitForm(true)}>

@@ -13,7 +13,8 @@
     "sortDistance": "駅から近い順",
     "sortPrice": "料金が安い順",
     "sortAvailability": "設置数が多い順",
-    "otherStationsInPrefecture": "{{prefecture}}の他の駅を見る"
+    "otherStationsInPrefecture": "{{prefecture}}の他の駅を見る",
+    "noLockersYet": "この駅のロッカー情報はまだ登録されていません。ご存知の情報があれば、下のボタンから投稿にご協力ください。"
   },
   "areasPage": {
     "titleTag": "都道府県から探すコインロッカー｜コインロッカー検索",
@@ -23,7 +24,8 @@
     "prefectureStationCount": "{{count}}駅",
     "searchPlaceholder": "都道府県名・駅名で検索（例：東京、品川）",
     "searchNoResults": "該当する都道府県・駅が見つかりませんでした。",
-    "stationResultsHeading": "駅名の検索結果"
+    "stationResultsHeading": "駅名の検索結果",
+    "dataSourceCredit": "私鉄・地下鉄の駅データの一部は、国土数値情報（鉄道データ、国土交通省 https://nlftp.mlit.go.jp/ksj/）を加工して作成しています。"
   },
   "prefecturePage": {
     "titleTag": "{{prefecture}}のコインロッカー設置駅一覧｜コインロッカー検索",

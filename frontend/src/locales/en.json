@@ -13,7 +13,8 @@
     "sortDistance": "Nearest to station",
     "sortPrice": "Lowest price",
     "sortAvailability": "Most lockers",
-    "otherStationsInPrefecture": "See other stations in {{prefecture}}"
+    "otherStationsInPrefecture": "See other stations in {{prefecture}}",
+    "noLockersYet": "No locker information has been registered for this station yet. If you know of any, please help by submitting it using the button below."
   },
   "areasPage": {
     "titleTag": "Browse Coin Lockers by Prefecture | Coin Locker Search",
@@ -23,7 +24,8 @@
     "prefectureStationCount": "{{count}} stations",
     "searchPlaceholder": "Search by prefecture or station (e.g. Tokyo, Shinagawa)",
     "searchNoResults": "No matching prefectures or stations found.",
-    "stationResultsHeading": "Matching Stations"
+    "stationResultsHeading": "Matching Stations",
+    "dataSourceCredit": "Some private railway and subway station data is created by processing National Land Numerical Information (Railway Data, MLIT Japan, https://nlftp.mlit.go.jp/ksj/)."
   },
   "prefecturePage": {
     "titleTag": "Coin Locker Stations in {{prefecture}} | Coin Locker Search",

@@ -107,6 +107,8 @@ export default function AreasIndexPage() {
             ))}
           </ul>
         )}
+
+        <p className="data-source-credit">{t("areasPage.dataSourceCredit")}</p>
       </main>
     </div>
   );

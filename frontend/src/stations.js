@@ -2,7 +2,11 @@
 // slugは backend/data/lockers.json の station_slug と一致させる規約
 // kana: 都道府県内であいうえお順に並べ替えるための読み仮名（ひらがな）
 // prefecture: 都道府県選択の絞り込みに使う（画面上の絞り込みのみで、URL構造には影響しない）
-export const STATIONS = [
+import PRIVATE_LINE_STATIONS from "./data/privateLineStations.json" with { type: "json" };
+
+// 首都圏私鉄・地下鉄駅（マルチエキューブ非対応）。ロッカー情報はユーザー投稿頼みで
+// 初期状態は0件のため、駅データ自体は国土数値情報（国土交通省、CC BY 4.0）から機械生成。
+const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "ikebukuro",
     name: { ja: "池袋駅", en: "Ikebukuro Station" },
@@ -2447,6 +2451,8 @@ export const STATIONS = [
     center: [35.5814987, 139.3707137],
   },
 ];
+
+export const STATIONS = [...JR_AND_MULTIECUBE_STATIONS, ...PRIVATE_LINE_STATIONS];
 
 // 都道府県選択の絞り込み用（現時点の対応駅がある都道府県のみ）。
 // 表示順は対応駅数が多い順（2026-07-16のマルチエキューブ全国展開により全23都道府県に拡大）。

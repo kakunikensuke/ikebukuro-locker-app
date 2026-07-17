@@ -28,6 +28,7 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 const DATA_PATH = path.join(__dirname, "data", "lockers.json");
 const USER_SUBMITTED_PATH = path.join(__dirname, "data", "user-submitted-lockers.json");
+const PRIVATE_STATIONS_PATH = path.join(__dirname, "data", "private-line-stations.json");
 const PHOTOS_DIR = path.join(__dirname, "data", "photos");
 const PHOTOS_INDEX_PATH = path.join(__dirname, "data", "photos.json");
 const ALLOWED_MIME_TYPES = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" };
@@ -60,6 +61,13 @@ function loadUserSubmittedLockers() {
 
 function saveUserSubmittedLockers(lockers) {
   fs.writeFileSync(USER_SUBMITTED_PATH, JSON.stringify(lockers, null, 2) + "\n");
+}
+
+// 首都圏私鉄・地下鉄駅（マルチエキューブ非対応、ロッカーはユーザー投稿頼み）のslug一覧。
+// frontend/src/data/privateLineStations.json と同じ元データから生成した軽量版。
+function loadPrivateStationSlugs() {
+  if (!fs.existsSync(PRIVATE_STATIONS_PATH)) return [];
+  return JSON.parse(fs.readFileSync(PRIVATE_STATIONS_PATH, "utf-8"));
 }
 
 // 自動取得データ（マルチエキューブ由来）と利用者投稿データを合わせて返す
@@ -219,7 +227,10 @@ app.post("/api/lockers/submit", (req, res) => {
 
   // 実在する駅（自動取得データに含まれる駅）のみ受け付ける。フロントの選択肢は常にこの集合の
   // 範囲内だが、APIを直接叩かれた場合に備え、形式チェックだけでなく実在性もここで担保する。
-  const knownStationSlugs = new Set(loadAutoLockers().map((l) => l.station_slug));
+  const knownStationSlugs = new Set([
+    ...loadAutoLockers().map((l) => l.station_slug),
+    ...loadPrivateStationSlugs(),
+  ]);
   if (!stationSlug || typeof stationSlug !== "string" || !knownStationSlugs.has(stationSlug)) {
     errors.push("駅を選択してください");
   }
