@@ -17641,5 +17641,588 @@
         "dimensions": ""
       }
     ]
+  },
+  {
+    "facility_id": "seibu-seibu-higashimurayama-loc1",
+    "name": "東村山駅 コインロッカー",
+    "address": "東村山駅 西口エレベーター付近付近",
+    "latitude": 35.75903,
+    "longitude": 139.46581,
+    "nearest_station": "東村山駅",
+    "station_slug": "seibu-higashimurayama",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "セントラルオペレーション（西武線ロッカー設置委託先）",
+      "site_url": "https://central-op.com/case.html"
+    },
+    "last_updated_at": "2026-07-19T00:11:34+09:00",
+    "sizes": [
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 2,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 400,
+        "quantity": 1,
+        "dimensions": ""
+      },
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 14,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "seibu-seibu-nishitokorozawa-loc1",
+    "name": "西所沢駅 コインロッカー",
+    "address": "西所沢駅 改札付近付近",
+    "latitude": 35.78839,
+    "longitude": 139.45673,
+    "nearest_station": "西所沢駅",
+    "station_slug": "seibu-nishitokorozawa",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "セントラルオペレーション（西武線ロッカー設置委託先）",
+      "site_url": "https://central-op.com/case.html"
+    },
+    "last_updated_at": "2026-07-19T00:11:34+09:00",
+    "sizes": [
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 1,
+        "dimensions": ""
+      },
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 7,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "seibu-seibu-seibukyujomae-loc1",
+    "name": "西武球場前駅 コインロッカー",
+    "address": "西武球場前駅 トイレ付近①付近",
+    "latitude": 35.77126,
+    "longitude": 139.420395,
+    "nearest_station": "西武球場前駅",
+    "station_slug": "seibu-seibukyujomae",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "セントラルオペレーション（西武線ロッカー設置委託先）",
+      "site_url": "https://central-op.com/case.html"
+    },
+    "last_updated_at": "2026-07-19T00:11:34+09:00",
+    "sizes": [
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 8,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 400,
+        "quantity": 2,
+        "dimensions": ""
+      },
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 18,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "seibu-seibu-seibukyujomae-loc2",
+    "name": "西武球場前駅 コインロッカー",
+    "address": "西武球場前駅 トイレ付近②付近",
+    "latitude": 35.77108035173266,
+    "longitude": 139.42039776111625,
+    "nearest_station": "西武球場前駅",
+    "station_slug": "seibu-seibukyujomae",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "セントラルオペレーション（西武線ロッカー設置委託先）",
+      "site_url": "https://central-op.com/case.html"
+    },
+    "last_updated_at": "2026-07-19T00:11:34+09:00",
+    "sizes": [
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 8,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 400,
+        "quantity": 1,
+        "dimensions": ""
+      },
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 20,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "seibu-seibu-seibukyujomae-loc3",
+    "name": "西武球場前駅 コインロッカー",
+    "address": "西武球場前駅 トイレ付近③付近",
+    "latitude": 35.771257159254475,
+    "longitude": 139.4206164065388,
+    "nearest_station": "西武球場前駅",
+    "station_slug": "seibu-seibukyujomae",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "セントラルオペレーション（西武線ロッカー設置委託先）",
+      "site_url": "https://central-op.com/case.html"
+    },
+    "last_updated_at": "2026-07-19T00:11:34+09:00",
+    "sizes": [
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 6,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 400,
+        "quantity": 5,
+        "dimensions": ""
+      },
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 6,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "seibu-seibu-seibukyujomae-loc4",
+    "name": "西武球場前駅 コインロッカー",
+    "address": "西武球場前駅 改札付近①付近",
+    "latitude": 35.771435527230196,
+    "longitude": 139.42034776586277,
+    "nearest_station": "西武球場前駅",
+    "station_slug": "seibu-seibukyujomae",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "セントラルオペレーション（西武線ロッカー設置委託先）",
+      "site_url": "https://central-op.com/case.html"
+    },
+    "last_updated_at": "2026-07-19T00:11:34+09:00",
+    "sizes": [
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 6,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 400,
+        "quantity": 5,
+        "dimensions": ""
+      },
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 6,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "seibu-seibu-seibukyujomae-loc5",
+    "name": "西武球場前駅 コインロッカー",
+    "address": "西武球場前駅 改札付近②付近",
+    "latitude": 35.77120927516912,
+    "longitude": 139.42060742540153,
+    "nearest_station": "西武球場前駅",
+    "station_slug": "seibu-seibukyujomae",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "セントラルオペレーション（西武線ロッカー設置委託先）",
+      "site_url": "https://central-op.com/case.html"
+    },
+    "last_updated_at": "2026-07-19T00:11:34+09:00",
+    "sizes": [
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 4,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 400,
+        "quantity": 3,
+        "dimensions": ""
+      },
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 4,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "seibu-seibu-ogawa-loc1",
+    "name": "小川駅 コインロッカー",
+    "address": "小川駅 改札付近付近",
+    "latitude": 35.73699,
+    "longitude": 139.4634,
+    "nearest_station": "小川駅",
+    "station_slug": "seibu-ogawa",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "セントラルオペレーション（西武線ロッカー設置委託先）",
+      "site_url": "https://central-op.com/case.html"
+    },
+    "last_updated_at": "2026-07-19T00:11:34+09:00",
+    "sizes": [
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 2,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 400,
+        "quantity": 1,
+        "dimensions": ""
+      },
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 8,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "seibu-seibu-tamako-loc1",
+    "name": "多摩湖駅 コインロッカー",
+    "address": "多摩湖駅 改札付近付近",
+    "latitude": 35.76511,
+    "longitude": 139.44288,
+    "nearest_station": "多摩湖駅",
+    "station_slug": "seibu-tamako",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "セントラルオペレーション（西武線ロッカー設置委託先）",
+      "site_url": "https://central-op.com/case.html"
+    },
+    "last_updated_at": "2026-07-19T00:11:34+09:00",
+    "sizes": [
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 1,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 400,
+        "quantity": 1,
+        "dimensions": ""
+      },
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 1,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "seibu-seibu-kodaira-loc1",
+    "name": "小平駅 コインロッカー",
+    "address": "小平駅 改札付近付近",
+    "latitude": 35.73648,
+    "longitude": 139.48944,
+    "nearest_station": "小平駅",
+    "station_slug": "seibu-kodaira",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "セントラルオペレーション（西武線ロッカー設置委託先）",
+      "site_url": "https://central-op.com/case.html"
+    },
+    "last_updated_at": "2026-07-19T00:11:34+09:00",
+    "sizes": [
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 2,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 400,
+        "quantity": 1,
+        "dimensions": ""
+      },
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 14,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "seibu-seibu-tokorozawa-loc1",
+    "name": "所沢駅 コインロッカー",
+    "address": "所沢駅 1番線ホーム付近",
+    "latitude": 35.78682,
+    "longitude": 139.473375,
+    "nearest_station": "所沢駅",
+    "station_slug": "seibu-tokorozawa",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "セントラルオペレーション（西武線ロッカー設置委託先）",
+      "site_url": "https://central-op.com/case.html"
+    },
+    "last_updated_at": "2026-07-19T00:11:34+09:00",
+    "sizes": [
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 3,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 400,
+        "quantity": 2,
+        "dimensions": ""
+      },
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 15,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "seibu-seibu-tokorozawa-loc2",
+    "name": "所沢駅 コインロッカー",
+    "address": "所沢駅 南口改札付近付近",
+    "latitude": 35.786987171444736,
+    "longitude": 139.47329386121,
+    "nearest_station": "所沢駅",
+    "station_slug": "seibu-tokorozawa",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "セントラルオペレーション（西武線ロッカー設置委託先）",
+      "site_url": "https://central-op.com/case.html"
+    },
+    "last_updated_at": "2026-07-19T00:11:34+09:00",
+    "sizes": [
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 2,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 400,
+        "quantity": 1,
+        "dimensions": ""
+      },
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 2,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "seibu-seibu-agano-loc1",
+    "name": "吾野駅 コインロッカー",
+    "address": "吾野駅 改札付近付近",
+    "latitude": 35.90831,
+    "longitude": 139.22645,
+    "nearest_station": "吾野駅",
+    "station_slug": "seibu-agano",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "セントラルオペレーション（西武線ロッカー設置委託先）",
+      "site_url": "https://central-op.com/case.html"
+    },
+    "last_updated_at": "2026-07-19T00:11:34+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 500,
+        "quantity": 10,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "seibu-seibu-hagiyama-loc1",
+    "name": "萩山駅 コインロッカー",
+    "address": "萩山駅 改札付近付近",
+    "latitude": 35.74031,
+    "longitude": 139.47745,
+    "nearest_station": "萩山駅",
+    "station_slug": "seibu-hagiyama",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "セントラルオペレーション（西武線ロッカー設置委託先）",
+      "site_url": "https://central-op.com/case.html"
+    },
+    "last_updated_at": "2026-07-19T00:11:34+09:00",
+    "sizes": [
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 2,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 400,
+        "quantity": 1,
+        "dimensions": ""
+      },
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 2,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "seibu-seibu-honkawagoe-loc1",
+    "name": "本川越駅 コインロッカー",
+    "address": "本川越駅 改札付近付近",
+    "latitude": 35.9153,
+    "longitude": 139.48189,
+    "nearest_station": "本川越駅",
+    "station_slug": "seibu-honkawagoe",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "セントラルオペレーション（西武線ロッカー設置委託先）",
+      "site_url": "https://central-op.com/case.html"
+    },
+    "last_updated_at": "2026-07-19T00:11:34+09:00",
+    "sizes": [
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 2,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 400,
+        "quantity": 1,
+        "dimensions": ""
+      },
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 14,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "seibu-seibu-seibuchichibu-loc1",
+    "name": "西武秩父駅 コインロッカー",
+    "address": "西武秩父駅 特急のりば付近付近",
+    "latitude": 35.98896,
+    "longitude": 139.08262,
+    "nearest_station": "西武秩父駅",
+    "station_slug": "seibu-seibuchichibu",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "セントラルオペレーション（西武線ロッカー設置委託先）",
+      "site_url": "https://central-op.com/case.html"
+    },
+    "last_updated_at": "2026-07-19T00:11:34+09:00",
+    "sizes": [
+      {
+        "size_type": "L",
+        "price": 1000,
+        "quantity": 1,
+        "dimensions": ""
+      },
+      {
+        "size_type": "L",
+        "price": 800,
+        "quantity": 3,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 600,
+        "quantity": 2,
+        "dimensions": ""
+      },
+      {
+        "size_type": "S",
+        "price": 500,
+        "quantity": 23,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "seibu-seibu-hanno-loc1",
+    "name": "飯能駅 コインロッカー",
+    "address": "飯能駅 特急改札付近付近",
+    "latitude": 35.85071,
+    "longitude": 139.32013,
+    "nearest_station": "飯能駅",
+    "station_slug": "seibu-hanno",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "セントラルオペレーション（西武線ロッカー設置委託先）",
+      "site_url": "https://central-op.com/case.html"
+    },
+    "last_updated_at": "2026-07-19T00:11:34+09:00",
+    "sizes": [
+      {
+        "size_type": "L",
+        "price": 600,
+        "quantity": 3,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 400,
+        "quantity": 2,
+        "dimensions": ""
+      },
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 15,
+        "dimensions": ""
+      }
+    ]
   }
 ]

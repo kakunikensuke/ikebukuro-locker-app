@@ -131,8 +131,8 @@ export default function LockerDetail({ facilityId, onClose }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {locker.sizes.map((s) => (
-                    <tr key={s.size_type}>
+                  {locker.sizes.map((s, i) => (
+                    <tr key={`${s.size_type}-${i}`}>
                       <td>{SIZE_LABEL[s.size_type]}</td>
                       <td>{t("lockerDetail.priceValue", { price: s.price })}</td>
                       <td>{t("lockerDetail.quantityValue", { count: s.quantity })}

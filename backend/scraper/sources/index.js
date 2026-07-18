@@ -5,4 +5,5 @@ module.exports = [
   require("./keio"),
   require("./yokohama-municipal"),
   require("./coinlocker-navi"),
+  require("./seibu"),
 ];
