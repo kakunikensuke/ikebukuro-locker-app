@@ -17536,5 +17536,75 @@
         "dimensions": ""
       }
     ]
+  },
+  {
+    "facility_id": "yokohama-municipal-yokohama-municipal-sentakita-main",
+    "name": "センター北駅 コインロッカー",
+    "address": "センター北駅 コインロッカー",
+    "latitude": 35.553065000000004,
+    "longitude": 139.57826,
+    "nearest_station": "センター北駅",
+    "station_slug": "yokohama-municipal-sentakita",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "横浜市交通局協力会",
+      "site_url": "https://www.kyouryokukai.or.jp/business/coinlocker/"
+    },
+    "last_updated_at": "2026-07-18T23:27:38+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 500,
+        "quantity": 19,
+        "dimensions": "342〜352×575〜678×320〜335mm"
+      },
+      {
+        "size_type": "M",
+        "price": 700,
+        "quantity": 3,
+        "dimensions": "342〜352×575〜678×492〜572mm"
+      },
+      {
+        "size_type": "L",
+        "price": 1000,
+        "quantity": 3,
+        "dimensions": "342〜352×575〜678×840〜872mm"
+      }
+    ]
+  },
+  {
+    "facility_id": "yokohama-municipal-yokohama-municipal-sentaminami-main",
+    "name": "センター南駅 コインロッカー",
+    "address": "センター南駅 コインロッカー",
+    "latitude": 35.545225,
+    "longitude": 139.574385,
+    "nearest_station": "センター南駅",
+    "station_slug": "yokohama-municipal-sentaminami",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "横浜市交通局協力会",
+      "site_url": "https://www.kyouryokukai.or.jp/business/coinlocker/"
+    },
+    "last_updated_at": "2026-07-18T23:27:38+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 500,
+        "quantity": 13,
+        "dimensions": "342〜352×575〜678×320〜335mm"
+      },
+      {
+        "size_type": "M",
+        "price": 700,
+        "quantity": 2,
+        "dimensions": "342〜352×575〜678×492〜572mm"
+      },
+      {
+        "size_type": "L",
+        "price": 1000,
+        "quantity": 2,
+        "dimensions": "342〜352×575〜678×840〜872mm"
+      }
+    ]
   }
 ]
