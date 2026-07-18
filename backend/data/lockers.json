@@ -17606,5 +17606,40 @@
         "dimensions": "342〜352×575〜678×840〜872mm"
       }
     ]
+  },
+  {
+    "facility_id": "coinlocker-navi-sotetsu-futamatagawa-3741",
+    "name": "二俣川駅 コインロッカー",
+    "address": "二俣川駅 改札外 階段付近",
+    "latitude": 35.46278,
+    "longitude": 139.53156,
+    "nearest_station": "二俣川駅",
+    "station_slug": "sotetsu-futamatagawa",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "コインロッカーなび",
+      "site_url": "https://www.coinlocker-navi.com/kanagawa/eki/29002/2900201/"
+    },
+    "last_updated_at": "2026-07-19T00:05:07+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 300,
+        "quantity": 41,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 400,
+        "quantity": 4,
+        "dimensions": ""
+      },
+      {
+        "size_type": "L",
+        "price": 500,
+        "quantity": 4,
+        "dimensions": ""
+      }
+    ]
   }
 ]

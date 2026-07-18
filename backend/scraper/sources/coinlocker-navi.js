@@ -32,6 +32,17 @@ const STATIONS = [
     name: "天王洲アイル駅",
     url: "https://www.coinlocker-navi.com/tokyo/eki/99337/9933705/",
   },
+  // Phase 4: 相模鉄道
+  {
+    slug: "sotetsu-futamatagawa",
+    name: "二俣川駅",
+    url: "https://www.coinlocker-navi.com/kanagawa/eki/29002/2900201/",
+  },
+  {
+    slug: "sotetsu-nishitani",
+    name: "西谷駅",
+    url: "https://www.coinlocker-navi.com/kanagawa/eki/29001/2900108/",
+  },
 ];
 
 function parseStationPage(html) {
