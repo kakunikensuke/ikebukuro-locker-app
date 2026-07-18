@@ -17116,5 +17116,425 @@
         "dimensions": "34×65×86cm"
       }
     ]
+  },
+  {
+    "facility_id": "keio-keio-meidaimae-loc1",
+    "name": "明大前駅 コインロッカー",
+    "address": "明大前駅 改札内　京王八王子方面階段下付近",
+    "latitude": 35.668575000000004,
+    "longitude": 139.6508,
+    "nearest_station": "明大前駅",
+    "station_slug": "keio-meidaimae",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "京王電鉄（けいおちか）",
+      "site_url": "https://www.keiochika.co.jp/locker/service/index.html"
+    },
+    "last_updated_at": "2026-07-18T23:19:10+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 500,
+        "quantity": 27,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 600,
+        "quantity": 1,
+        "dimensions": ""
+      },
+      {
+        "size_type": "L",
+        "price": 900,
+        "quantity": 1,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "keio-keio-meidaimae-loc2",
+    "name": "明大前駅 コインロッカー",
+    "address": "明大前駅 改札外付近",
+    "latitude": 35.66862042964028,
+    "longitude": 139.65101396224114,
+    "nearest_station": "明大前駅",
+    "station_slug": "keio-meidaimae",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "京王電鉄（けいおちか）",
+      "site_url": "https://www.keiochika.co.jp/locker/service/index.html"
+    },
+    "last_updated_at": "2026-07-18T23:19:10+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 15,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 3,
+        "dimensions": ""
+      },
+      {
+        "size_type": "L",
+        "price": 800,
+        "quantity": 2,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "keio-keio-takahatafudo-loc1",
+    "name": "高幡不動駅 コインロッカー",
+    "address": "高幡不動駅 改札内 トイレ横付近",
+    "latitude": 35.66188,
+    "longitude": 139.41397,
+    "nearest_station": "高幡不動駅",
+    "station_slug": "keio-takahatafudo",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "京王電鉄（けいおちか）",
+      "site_url": "https://www.keiochika.co.jp/locker/service/index.html"
+    },
+    "last_updated_at": "2026-07-18T23:19:10+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 12,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 3,
+        "dimensions": ""
+      },
+      {
+        "size_type": "L",
+        "price": 800,
+        "quantity": 2,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "keio-keio-takahatafudo-loc2",
+    "name": "高幡不動駅 コインロッカー",
+    "address": "高幡不動駅 京王高幡ショッピングセンター　紀伊國屋書店前付近",
+    "latitude": 35.66186923861887,
+    "longitude": 139.41419073344616,
+    "nearest_station": "高幡不動駅",
+    "station_slug": "keio-takahatafudo",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "京王電鉄（けいおちか）",
+      "site_url": "https://www.keiochika.co.jp/locker/service/index.html"
+    },
+    "last_updated_at": "2026-07-18T23:19:10+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 22,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 3,
+        "dimensions": ""
+      },
+      {
+        "size_type": "L",
+        "price": 800,
+        "quantity": 2,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "keio-keio-kitano-loc1",
+    "name": "北野駅 コインロッカー",
+    "address": "北野駅 きっぷ売り場　南口側付近",
+    "latitude": 35.64495,
+    "longitude": 139.35308,
+    "nearest_station": "北野駅",
+    "station_slug": "keio-kitano",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "京王電鉄（けいおちか）",
+      "site_url": "https://www.keiochika.co.jp/locker/service/index.html"
+    },
+    "last_updated_at": "2026-07-18T23:19:10+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 11,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 2,
+        "dimensions": ""
+      },
+      {
+        "size_type": "L",
+        "price": 800,
+        "quantity": 1,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "keio-keio-higashifuchu-loc1",
+    "name": "東府中駅 コインロッカー",
+    "address": "東府中駅 きっぷ売り場横付近",
+    "latitude": 35.66854,
+    "longitude": 139.49602,
+    "nearest_station": "東府中駅",
+    "station_slug": "keio-higashifuchu",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "京王電鉄（けいおちか）",
+      "site_url": "https://www.keiochika.co.jp/locker/service/index.html"
+    },
+    "last_updated_at": "2026-07-18T23:19:10+09:00",
+    "sizes": [
+      {
+        "size_type": "SS",
+        "price": 300,
+        "quantity": 5,
+        "dimensions": ""
+      },
+      {
+        "size_type": "S",
+        "price": 400,
+        "quantity": 8,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 500,
+        "quantity": 2,
+        "dimensions": ""
+      },
+      {
+        "size_type": "L",
+        "price": 800,
+        "quantity": 2,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "keio-keio-keiohachioji-loc1",
+    "name": "京王八王子駅 コインロッカー",
+    "address": "京王八王子駅 中央口改札外　出口４階段下付近",
+    "latitude": 35.65849,
+    "longitude": 139.34246,
+    "nearest_station": "京王八王子駅",
+    "station_slug": "keio-keiohachioji",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "京王電鉄（けいおちか）",
+      "site_url": "https://www.keiochika.co.jp/locker/service/index.html"
+    },
+    "last_updated_at": "2026-07-18T23:19:10+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 500,
+        "quantity": 12,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 600,
+        "quantity": 4,
+        "dimensions": ""
+      },
+      {
+        "size_type": "L",
+        "price": 900,
+        "quantity": 1,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "keio-keio-keiohachioji-loc2",
+    "name": "京王八王子駅 コインロッカー",
+    "address": "京王八王子駅 中央口改札外　出口４階段上付近",
+    "latitude": 35.658333928773224,
+    "longitude": 139.34256953273828,
+    "nearest_station": "京王八王子駅",
+    "station_slug": "keio-keiohachioji",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "京王電鉄（けいおちか）",
+      "site_url": "https://www.keiochika.co.jp/locker/service/index.html"
+    },
+    "last_updated_at": "2026-07-18T23:19:10+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 500,
+        "quantity": 12,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 600,
+        "quantity": 3,
+        "dimensions": ""
+      },
+      {
+        "size_type": "L",
+        "price": 900,
+        "quantity": 2,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "keio-keio-keiohachioji-loc3",
+    "name": "京王八王子駅 コインロッカー",
+    "address": "京王八王子駅 中央口改札外　生鮮市場入り口付近",
+    "latitude": 35.65836500387056,
+    "longitude": 139.34261883236434,
+    "nearest_station": "京王八王子駅",
+    "station_slug": "keio-keiohachioji",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "京王電鉄（けいおちか）",
+      "site_url": "https://www.keiochika.co.jp/locker/service/index.html"
+    },
+    "last_updated_at": "2026-07-18T23:19:10+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 500,
+        "quantity": 5,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 600,
+        "quantity": 3,
+        "dimensions": ""
+      },
+      {
+        "size_type": "L",
+        "price": 900,
+        "quantity": 2,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "keio-keio-keiotamasenta-loc1",
+    "name": "京王多摩センター駅 コインロッカー",
+    "address": "京王多摩センター駅 A東口改札内　改札前付近",
+    "latitude": 35.62558,
+    "longitude": 139.42516,
+    "nearest_station": "京王多摩センター駅",
+    "station_slug": "keio-keiotamasenta",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "京王電鉄（けいおちか）",
+      "site_url": "https://www.keiochika.co.jp/locker/service/center.html"
+    },
+    "last_updated_at": "2026-07-18T23:19:10+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 600,
+        "quantity": 18,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 700,
+        "quantity": 4,
+        "dimensions": ""
+      },
+      {
+        "size_type": "L",
+        "price": 1000,
+        "quantity": 3,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "keio-keio-keiotamasenta-loc2",
+    "name": "京王多摩センター駅 コインロッカー",
+    "address": "京王多摩センター駅 B改札外　1階　高架下小田急線側付近",
+    "latitude": 35.625729893394166,
+    "longitude": 139.42528185401426,
+    "nearest_station": "京王多摩センター駅",
+    "station_slug": "keio-keiotamasenta",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "京王電鉄（けいおちか）",
+      "site_url": "https://www.keiochika.co.jp/locker/service/center.html"
+    },
+    "last_updated_at": "2026-07-18T23:19:10+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 600,
+        "quantity": 17,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 700,
+        "quantity": 7,
+        "dimensions": ""
+      },
+      {
+        "size_type": "L",
+        "price": 1000,
+        "quantity": 1,
+        "dimensions": ""
+      }
+    ]
+  },
+  {
+    "facility_id": "keio-keio-keiotamasenta-loc3",
+    "name": "京王多摩センター駅 コインロッカー",
+    "address": "京王多摩センター駅 C改札外　正面階段横付近",
+    "latitude": 35.62568825393829,
+    "longitude": 139.42533640133985,
+    "nearest_station": "京王多摩センター駅",
+    "station_slug": "keio-keiotamasenta",
+    "business_hours": "不明",
+    "source": {
+      "site_name": "京王電鉄（けいおちか）",
+      "site_url": "https://www.keiochika.co.jp/locker/service/center.html"
+    },
+    "last_updated_at": "2026-07-18T23:19:10+09:00",
+    "sizes": [
+      {
+        "size_type": "S",
+        "price": 600,
+        "quantity": 13,
+        "dimensions": ""
+      },
+      {
+        "size_type": "M",
+        "price": 700,
+        "quantity": 6,
+        "dimensions": ""
+      }
+    ]
   }
 ]
