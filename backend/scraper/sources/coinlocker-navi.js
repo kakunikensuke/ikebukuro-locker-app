@@ -43,6 +43,47 @@ const STATIONS = [
     name: "西谷駅",
     url: "https://www.coinlocker-navi.com/kanagawa/eki/29001/2900108/",
   },
+  // Phase 6: 小田急電鉄
+  {
+    slug: "odakyu-shonandai",
+    name: "湘南台駅",
+    url: "https://www.coinlocker-navi.com/kanagawa/eki/25002/2500210/",
+  },
+  {
+    slug: "odakyu-shimokitazawa",
+    name: "下北沢駅",
+    url: "https://www.coinlocker-navi.com/tokyo/eki/25001/2500107/",
+  },
+  {
+    slug: "odakyu-sagamiono",
+    name: "相模大野駅",
+    url: "https://www.coinlocker-navi.com/kanagawa/eki/25002/2500201/",
+  },
+  {
+    slug: "odakyu-yamato",
+    name: "大和駅",
+    url: "https://www.coinlocker-navi.com/kanagawa/eki/25002/2500206/",
+  },
+  {
+    slug: "odakyu-shinhyakugokeoka",
+    name: "新百合ヶ丘駅",
+    url: "https://www.coinlocker-navi.com/kanagawa/eki/25001/2500123/",
+  },
+  {
+    slug: "odakyu-ebina",
+    name: "海老名駅",
+    url: "https://www.coinlocker-navi.com/kanagawa/eki/25001/2500132/",
+  },
+  {
+    slug: "odakyu-kataseenoshima",
+    name: "片瀬江ノ島駅",
+    url: "https://www.coinlocker-navi.com/kanagawa/eki/25002/2500217/",
+  },
+  {
+    slug: "odakyu-karakida",
+    name: "唐木田駅",
+    url: "https://www.coinlocker-navi.com/tokyo/eki/25003/2500308/",
+  },
 ];
 
 function parseStationPage(html) {
