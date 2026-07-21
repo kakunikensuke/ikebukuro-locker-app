@@ -72,6 +72,7 @@
     "sizeLabelM": "Size M",
     "sizeLabelL": "Size L",
     "sizeLabelLW": "Size LW (fits suitcases)",
+    "sizeLabelSLIM": "Size Slim",
     "priceValue": "¥{{price}}",
     "quantityValue": "{{count}}",
     "photoSectionTitle": "Nearby Photos",

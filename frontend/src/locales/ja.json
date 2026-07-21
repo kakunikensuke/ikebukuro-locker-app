@@ -72,6 +72,7 @@
     "sizeLabelM": "Mサイズ",
     "sizeLabelL": "Lサイズ",
     "sizeLabelLW": "LWサイズ（スーツケース対応）",
+    "sizeLabelSLIM": "細型サイズ",
     "priceValue": "{{price}}円",
     "quantityValue": "{{count}}個",
     "photoSectionTitle": "周辺写真",

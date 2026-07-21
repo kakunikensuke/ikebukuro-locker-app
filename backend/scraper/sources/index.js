@@ -6,4 +6,5 @@ module.exports = [
   require("./yokohama-municipal"),
   require("./coinlocker-navi"),
   require("./seibu"),
+  require("./tokyu"),
 ];

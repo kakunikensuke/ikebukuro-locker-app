@@ -24,6 +24,7 @@ export default function LockerDetail({ facilityId, onClose }) {
     M: t("lockerDetail.sizeLabelM"),
     L: t("lockerDetail.sizeLabelL"),
     LW: t("lockerDetail.sizeLabelLW"),
+    SLIM: t("lockerDetail.sizeLabelSLIM"),
   };
   const [locker, setLocker] = useState(null);
   const [error, setError] = useState(null);
