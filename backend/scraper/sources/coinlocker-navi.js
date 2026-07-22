@@ -84,6 +84,52 @@ const STATIONS = [
     name: "唐木田駅",
     url: "https://www.coinlocker-navi.com/tokyo/eki/25003/2500308/",
   },
+  // Phase 9: 京急電鉄（2026-07-22確認）。10駅中、実サイズ・料金データがあるのは
+  // 京急蒲田・京急川崎・羽田空港第3ターミナルの3駅のみ。残り7駅は「サイズ・料金：
+  // 情報なし」または掲載自体なしで、既存パーサーの仕様通り0件を返す（小田急と同じ
+  // 「掲載自体はあるがデータ粒度が粗い」パターンで、実装上の対応は不要）。
+  // 京急蒲田・金沢八景・堀ノ内・京急川崎は乗換駅で複数路線ページに同一内容が重複
+  // 掲載されていたため、いずれか一方のURLのみ採用（中身が完全に同一であることを
+  // 確認済み）。
+  { slug: "keikyu-kamiooka", name: "上大岡駅", url: "https://www.coinlocker-navi.com/kanagawa/eki/27001/2700133/" },
+  { slug: "keikyu-horinouchi", name: "堀ノ内駅", url: "https://www.coinlocker-navi.com/kanagawa/eki/27001/2700147/" },
+  {
+    slug: "keikyu-kyokyukamata",
+    name: "京急蒲田駅",
+    url: "https://www.coinlocker-navi.com/tokyo/eki/27001/2700112/",
+  },
+  { slug: "keikyu-tenkukyo", name: "天空橋駅", url: "https://www.coinlocker-navi.com/tokyo/eki/27002/2700205/" },
+  {
+    slug: "keikyu-kanazawahakkei",
+    name: "金沢八景駅",
+    url: "https://www.coinlocker-navi.com/kanagawa/eki/27001/2700139/",
+  },
+  {
+    slug: "keikyu-keikyukawasaki",
+    name: "京急川崎駅",
+    url: "https://www.coinlocker-navi.com/kanagawa/eki/27001/2700115/",
+  },
+  // 対象駅名は「羽田空港第3ターミナル駅」（2020年3月改称）。サイト側は改称前の
+  // 「羽田空港国際線ターミナル駅」のまま掲載しているが、URL（2700207）が指す
+  // 物理駅は同一であることを確認済み（改称後の第3ターミナルは旧・国際線ターミナル）。
+  {
+    slug: "keikyu-hanedakukodai3taminaru",
+    name: "羽田空港第3ターミナル駅",
+    url: "https://www.coinlocker-navi.com/tokyo/eki/27002/2700207/",
+  },
+  { slug: "keikyu-misakiguchi", name: "三崎口駅", url: "https://www.coinlocker-navi.com/kanagawa/eki/27005/2700509/" },
+  {
+    slug: "keikyu-miurakaigan",
+    name: "三浦海岸駅",
+    url: "https://www.coinlocker-navi.com/kanagawa/eki/27005/2700508/",
+  },
+  // 対象駅名は「逗子・葉山駅」（2020年3月改称）。サイト側は改称前の「新逗子駅」の
+  // まま掲載しているが、URL（2700404）が指す物理駅は同一であることを確認済み。
+  {
+    slug: "keikyu-zushihayama",
+    name: "逗子・葉山駅",
+    url: "https://www.coinlocker-navi.com/kanagawa/eki/27004/2700404/",
+  },
 ];
 
 function parseStationPage(html) {
