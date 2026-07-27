@@ -25,6 +25,13 @@ export default function LockerDetail({ facilityId, onClose }) {
     L: t("lockerDetail.sizeLabelL"),
     LW: t("lockerDetail.sizeLabelLW"),
     SLIM: t("lockerDetail.sizeLabelSLIM"),
+    // 東京メトロ（Phase 12）は物理サイズ名がなく料金帯のみのデータのため、
+    // 料金帯そのものをsize_typeとして扱う（ユーザー確認済み、2026-07-27）
+    P300: t("lockerDetail.sizeLabelP300"),
+    P500: t("lockerDetail.sizeLabelP500"),
+    P600: t("lockerDetail.sizeLabelP600"),
+    P900: t("lockerDetail.sizeLabelP900"),
+    P1000: t("lockerDetail.sizeLabelP1000"),
   };
   const [locker, setLocker] = useState(null);
   const [error, setError] = useState(null);

@@ -7,4 +7,5 @@ module.exports = [
   require("./coinlocker-navi"),
   require("./seibu"),
   require("./tokyu"),
+  require("./tokyo-metro"),
 ];
