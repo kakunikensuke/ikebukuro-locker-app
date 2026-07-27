@@ -130,6 +130,46 @@ const STATIONS = [
     name: "逗子・葉山駅",
     url: "https://www.coinlocker-navi.com/kanagawa/eki/27004/2700404/",
   },
+  // Phase 10: 東武鉄道（2026-07-27確認）。14駅中、実サイズ・料金データがあるのは
+  // 西新井(2件)・春日部(1件)・曳舟(1件)・川越市(2件)の4駅のみ。残り10駅は
+  // 「サイズ・料金：情報なし」または掲載自体なしで0件（京急・小田急と同じ既存
+  // パターン、観光地の鬼怒川温泉・東武日光も同様に情報なしだった）。
+  // 春日部・東武動物公園・下今市は乗換駅（複数路線が交わる）のため2つの路線ページに
+  // 同一内容が重複掲載されていた。いずれも一方のURLのみ採用（中身が完全一致を確認済み）。
+  { slug: "tobu-tatebayashi", name: "館林駅", url: "https://www.coinlocker-navi.com/gunma/eki/21002/2100240/" },
+  { slug: "tobu-ota", name: "太田駅", url: "https://www.coinlocker-navi.com/gunma/eki/21002/2100248/" },
+  {
+    slug: "tobu-shinkamagaya",
+    name: "新鎌ヶ谷駅",
+    url: "https://www.coinlocker-navi.com/chiba/eki/21004/2100430/",
+  },
+  {
+    slug: "tobu-nagareyamaootakanomori",
+    name: "流山おおたかの森駅",
+    url: "https://www.coinlocker-navi.com/chiba/eki/21004/2100422/",
+  },
+  { slug: "tobu-nishiarai", name: "西新井駅", url: "https://www.coinlocker-navi.com/tokyo/eki/21002/2100213/" },
+  { slug: "tobu-kasukabe", name: "春日部駅", url: "https://www.coinlocker-navi.com/saitama/eki/21002/2100227/" },
+  { slug: "tobu-hikifune", name: "曳舟駅", url: "https://www.coinlocker-navi.com/tokyo/eki/21002/2100204/" },
+  {
+    slug: "tobu-tobudobutsukoen",
+    name: "東武動物公園駅",
+    url: "https://www.coinlocker-navi.com/saitama/eki/21002/2100230/",
+  },
+  { slug: "tobu-shintochigi", name: "新栃木駅", url: "https://www.coinlocker-navi.com/tochigi/eki/21003/2100313/" },
+  { slug: "tobu-sakado", name: "坂戸駅", url: "https://www.coinlocker-navi.com/saitama/eki/21001/2100126/" },
+  {
+    slug: "tobu-shimoimaichi",
+    name: "下今市駅",
+    url: "https://www.coinlocker-navi.com/tochigi/eki/21003/2100324/",
+  },
+  {
+    slug: "tobu-kinugawaonsen",
+    name: "鬼怒川温泉駅",
+    url: "https://www.coinlocker-navi.com/tochigi/eki/21009/2100906/",
+  },
+  { slug: "tobu-kawagoeshi", name: "川越市駅", url: "https://www.coinlocker-navi.com/saitama/eki/21001/2100122/" },
+  { slug: "tobu-tobunikko", name: "東武日光駅", url: "https://www.coinlocker-navi.com/tochigi/eki/21003/2100326/" },
 ];
 
 function parseStationPage(html) {
