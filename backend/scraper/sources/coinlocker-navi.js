@@ -170,6 +170,66 @@ const STATIONS = [
   },
   { slug: "tobu-kawagoeshi", name: "川越市駅", url: "https://www.coinlocker-navi.com/saitama/eki/21001/2100122/" },
   { slug: "tobu-tobunikko", name: "東武日光駅", url: "https://www.coinlocker-navi.com/tochigi/eki/21003/2100326/" },
+  // Phase 11: 京成電鉄＋北総鉄道（2026-07-27確認）。当初プランは京成公式サイトの
+  // 駅構内図PDFを目視転記する想定だったが、実際に確認したところPDFは店舗配置図
+  // （どこに何があるかの見取り図）のみで、サイズ・料金・個数のテキスト情報は
+  // 一切含まれていなかった（凡例にコインロッカーのアイコンはあるが内訳は不明）。
+  // 「根拠のない推測変換をしない」方針のため公式PDFからのサイズ捏造はせず、
+  // 東武・京急と同じcoinlocker-navi.com経由に切り替えた。
+  // また対象10駅のうち印旛日本医大・千葉ニュータウン中央の2駅は、私鉄129駅
+  // 追加時に「keisei-」プレフィックスを誤って付けていたが実際は北総鉄道の駅
+  // （京成の完全子会社・千葉ニュータウン鉄道が線路保有、北総鉄道が旅客運送を行う
+  // 上下分離方式）と判明。slug自体は既存データとの互換のため据え置くが、
+  // ソースコメント上は事実関係を記録しておく。
+  // 実データがあるのは千葉中央(2件)・京成津田沼(4件)の2駅のみ、残り8駅（成田空港・
+  // 空港第2ビルの主要空港駅を含む）は「情報なし」または未登録のため0件（既存パターン）。
+  {
+    slug: "keisei-keiseitakasago",
+    name: "京成高砂駅",
+    url: "https://www.coinlocker-navi.com/tokyo/eki/23001/2300110/",
+  },
+  { slug: "keisei-aoto", name: "青砥駅", url: "https://www.coinlocker-navi.com/tokyo/eki/23001/2300109/" },
+  {
+    slug: "keisei-chibachuo",
+    name: "千葉中央駅",
+    url: "https://www.coinlocker-navi.com/chiba/eki/23004/2300410/",
+  },
+  {
+    slug: "keisei-keiseitsudanuma",
+    name: "京成津田沼駅",
+    url: "https://www.coinlocker-navi.com/chiba/eki/23001/2300126/",
+  },
+  {
+    slug: "keisei-keiseinarita",
+    name: "京成成田駅",
+    url: "https://www.coinlocker-navi.com/chiba/eki/23001/2300140/",
+  },
+  {
+    slug: "keisei-naritakuko",
+    name: "成田空港駅",
+    url: "https://www.coinlocker-navi.com/chiba/eki/23001/2300143/",
+  },
+  {
+    slug: "keisei-kukodai2biru",
+    name: "空港第2ビル駅",
+    url: "https://www.coinlocker-navi.com/chiba/eki/23001/2300142/",
+  },
+  {
+    slug: "keisei-yukarigaoka",
+    name: "ユーカリが丘駅",
+    url: "https://www.coinlocker-navi.com/chiba/eki/23001/2300133/",
+  },
+  // 北総鉄道の駅（プレフィックスはkeisei-のまま据え置き、上記コメント参照）
+  {
+    slug: "keisei-imbanipponidai",
+    name: "印旛日本医大駅",
+    url: "https://www.coinlocker-navi.com/chiba/eki/99340/9934015/",
+  },
+  {
+    slug: "keisei-chibanyutaunchuo",
+    name: "千葉ニュータウン中央駅",
+    url: "https://www.coinlocker-navi.com/chiba/eki/99340/9934013/",
+  },
 ];
 
 function parseStationPage(html) {
