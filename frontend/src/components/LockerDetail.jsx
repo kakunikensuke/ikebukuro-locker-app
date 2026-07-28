@@ -195,16 +195,6 @@ export default function LockerDetail({ facilityId, onClose }) {
                 datetime: new Date(locker.last_updated_at).toLocaleString(lang === "en" ? "en-US" : "ja-JP"),
               })}
             </p>
-            <p className="detail-source">
-              {t("lockerDetail.sourceLabel")}{" "}
-              {locker.user_submitted ? (
-                t("lockerDetail.sourceUserSubmitted")
-              ) : (
-                <a href={locker.source.site_url} target="_blank" rel="noreferrer">
-                  {locker.source.site_name}
-                </a>
-              )}
-            </p>
             <p className="detail-disclaimer">{t("lockerDetail.disclaimer")}</p>
 
             <AdSlot />

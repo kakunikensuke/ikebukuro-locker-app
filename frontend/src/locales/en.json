@@ -90,9 +90,7 @@
     "errorFileSize": "File size must be 5MB or less",
     "photoUploadFailed": "Failed to upload photo",
     "updatedAt": "Last updated: {{datetime}}",
-    "sourceLabel": "Source:",
-    "sourceUserSubmitted": "User submitted",
-    "disclaimer": "Note: Prices and the number of lockers installed may change. For real-time availability, please check on-site or with the source.",
+    "disclaimer": "Note: Prices and the number of lockers installed may change. For real-time availability, please check on-site.",
     "metaTitle": "{{name}} | Coin Locker Search",
     "metaDescription": "{{address}}. From ¥{{price}}, Hours: {{hours}}",
     "metaDescriptionNoPrice": "{{address}}. Hours: {{hours}}"

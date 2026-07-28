@@ -807,15 +807,10 @@ body {
   letter-spacing: 0.05em;
 }
 
-.detail-updated,
-.detail-source {
+.detail-updated {
   font-size: 0.8rem;
   color: var(--color-text-muted);
   margin: 4px 0;
-}
-
-.detail-source a {
-  color: var(--color-primary);
 }
 
 .detail-disclaimer {
