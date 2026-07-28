@@ -9,6 +9,8 @@
  * フェーズ6: GET  /api/lockers/:id/photos -> 周辺写真一覧
  *            POST /api/lockers/:id/photos -> 利用者による周辺写真の投稿
  * フェーズ9: データ自動更新バッチ（仕組みのみ、詳細はscraper/updateLockers.js参照）
+ *            更新バッチのスケジューリングはGitHub Actionsの定期実行に委譲しており、
+ *            このプロセス内では行わない（無料ホスティングのスリープ中はプロセス内cronが発火しないため）。
  * フェーズ11: POST /api/lockers/submit -> 利用者による「昔ながらのロッカー」等の情報投稿
  *             自動取得データ（lockers.json）とは別ファイル（user-submitted-lockers.json）で管理し、
  *             loadLockers()でマージして返す。自動更新バッチが駅単位で全置換する仕組みのため、
@@ -21,8 +23,6 @@ const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 const multer = require("multer");
-const cron = require("node-cron");
-const { runUpdate } = require("./scraper/updateLockers");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -295,12 +295,6 @@ app.post("/api/lockers/submit", (req, res) => {
 
 app.get("/", (req, res) => {
   res.json({ message: "コインロッカー検索API稼働中" });
-});
-
-// フェーズ9: データ自動更新バッチのスケジュール実行（デフォルト6時間ごと）
-const UPDATE_CRON_SCHEDULE = process.env.LOCKER_UPDATE_CRON || "0 */6 * * *";
-cron.schedule(UPDATE_CRON_SCHEDULE, () => {
-  runUpdate().catch((err) => console.error("[update-lockers] 定期更新に失敗しました:", err.message));
 });
 
 app.listen(PORT, () => {

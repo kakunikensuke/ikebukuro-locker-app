@@ -82,7 +82,8 @@ npm run update:lockers
 ```
 
 `backend/data/lockers.json`のlast_updated_atが更新され、実行結果が`backend/data/update-log.json`に記録されます。
-サーバー起動中は`node-cron`によりデフォルト6時間ごとに自動実行されます（`LOCKER_UPDATE_CRON`環境変数で変更可）。
+本番環境ではGitHub Actions（`.github/workflows/update-lockers.yml`）が6時間ごとに自動実行し、更新結果をリポジトリにコミット・pushします
+（無料ホスティングのスリープ中はサーバー内cronが発火しないため、サーバープロセス内では実行しない方針。2026-07-28変更）。
 
 ## 自動更新バッチのソース対応状況（Phase 0〜12・完了）
 
