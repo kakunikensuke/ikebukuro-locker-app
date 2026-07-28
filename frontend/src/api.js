@@ -1,5 +1,5 @@
-// 開発時、スマホ等の別端末から確認する際もアクセス元と同じホスト名でAPIを呼べるようにする
-const API_BASE = `http://${window.location.hostname}:4000`;
+// 本番公開時はVITE_API_BASE環境変数でバックエンドの実URLに差し替える
+const API_BASE = import.meta.env.VITE_API_BASE || `http://${window.location.hostname}:4000`;
 
 /**
  * フェーズ5: 対応駅一覧
