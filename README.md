@@ -10,9 +10,12 @@
 | バックエンドAPI | https://ikebukuro-locker-app-backend.onrender.com （Renderの無料プラン、Blueprint名`ikebukuro-locker-app`） |
 | GitHubリポジトリ | https://github.com/kakunikensuke/ikebukuro-locker-app |
 | データ自動更新 | GitHub Actions（`.github/workflows/update-lockers.yml`、6時間ごと） |
+| フロントエンドデプロイ | GitHub Actions（`.github/workflows/deploy-frontend.yml`、mainへのpush時） |
 
 デプロイ構成の詳細・トラブルシューティングの型は、ルートの「デプロイ・インフラ運用ノウハウ.md」を参照。
-このアプリはCloudflareダッシュボードのUI変更により、従来の「Pages」ではなく**Workers（静的アセット配信、`frontend/wrangler.toml`使用）**でデプロイしている点に注意。
+このアプリはCloudflareダッシュボードのUI変更により、従来の「Pages」ではなく**Workers（静的アセット配信、`frontend/wrangler.toml`使用）**でデプロイしている。
+またCloudflare側のGit連携（Workers Builds）が「disconnected」状態になり、push/Retry buildをしても最新コミットが反映されない不具合があったため、
+**フロントエンドのデプロイはCloudflareのGit連携に頼らず、GitHub Actionsから`wrangler deploy`を実行する方式**に変更済み（`CLOUDFLARE_API_TOKEN`・`CLOUDFLARE_ACCOUNT_ID`をGitHub Secretsに登録し、mainへのpushで自動デプロイされる）。
 
 ## 対応フェーズ
 
