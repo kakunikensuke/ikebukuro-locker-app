@@ -2,6 +2,18 @@
 
 設計書のフェーズ1〜5に対応した実装です。対象エリアはマルチエキューブ対応駅全349駅（2026-07-16時点、JR東日本に加えOsaka Metro・京阪・東急・札幌市営地下鉄等の他社線・全国エリアを含む）です。
 
+## 本番環境（2026-07-28公開）
+
+| 役割 | URL / サービス |
+|---|---|
+| フロントエンド | https://locker.kakuni-lab.com （Cloudflare Workers、`ikebukuro-locker-app`） |
+| バックエンドAPI | https://ikebukuro-locker-app-backend.onrender.com （Renderの無料プラン、Blueprint名`ikebukuro-locker-app`） |
+| GitHubリポジトリ | https://github.com/kakunikensuke/ikebukuro-locker-app |
+| データ自動更新 | GitHub Actions（`.github/workflows/update-lockers.yml`、6時間ごと） |
+
+デプロイ構成の詳細・トラブルシューティングの型は、ルートの「デプロイ・インフラ運用ノウハウ.md」を参照。
+このアプリはCloudflareダッシュボードのUI変更により、従来の「Pages」ではなく**Workers（静的アセット配信、`frontend/wrangler.toml`使用）**でデプロイしている点に注意。
+
 ## 対応フェーズ
 
 | フェーズ | 内容 | 対応ファイル |
