@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import {
@@ -10,6 +10,7 @@ import {
   pathForStation,
   slugToName,
 } from "../stations";
+import { fetchStations } from "../api";
 import { SITE_URL } from "../config";
 import { useLang, useT } from "../i18n/LangContext.js";
 import LangSwitcher from "../components/LangSwitcher.jsx";
@@ -20,7 +21,18 @@ export default function PrefecturePage() {
   const lang = useLang();
   const t = useT();
   const [query, setQuery] = useState("");
+  const [lockerCounts, setLockerCounts] = useState({});
   const prefecture = prefectureForPrefectureSlug(prefectureSlug);
+
+  useEffect(() => {
+    fetchStations()
+      .then((data) => {
+        const counts = {};
+        for (const s of data.stations || []) counts[s.slug] = s.count;
+        setLockerCounts(counts);
+      })
+      .catch(() => setLockerCounts({}));
+  }, []);
 
   if (!prefecture) {
     // :prefectureSlugは何にでもマッチするため、未知の都道府県slugはここで明示的にNotFoundを表示する。
@@ -84,6 +96,11 @@ export default function PrefecturePage() {
               <li key={s.slug}>
                 <Link className="area-card" to={pathForStation(lang, s.slug)}>
                   <span className="area-card-name">{slugToName(s.slug, lang)}</span>
+                  <div className="locker-card-tags">
+                    <span className="tag">
+                      {t("prefecturePage.stationLockerCount", { count: lockerCounts[s.slug] || 0 })}
+                    </span>
+                  </div>
                 </Link>
               </li>
             ))}

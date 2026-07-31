@@ -34,7 +34,8 @@
     "heading": "{{prefecture}}の対応駅",
     "backToAreas": "都道府県一覧に戻る",
     "searchPlaceholder": "駅名で検索（例：池袋）",
-    "searchNoResults": "該当する駅が見つかりませんでした。"
+    "searchNoResults": "該当する駅が見つかりませんでした。",
+    "stationLockerCount": "{{count}}箇所"
   },
   "searchBar": {
     "keywordPlaceholder": "施設名・住所で検索（例：東口、サンシャイン）",

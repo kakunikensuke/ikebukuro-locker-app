@@ -34,7 +34,8 @@
     "heading": "Stations in {{prefecture}}",
     "backToAreas": "Back to prefecture list",
     "searchPlaceholder": "Search by station name (e.g. Shinjuku)",
-    "searchNoResults": "No matching stations found."
+    "searchNoResults": "No matching stations found.",
+    "stationLockerCount": "{{count}} locations"
   },
   "searchBar": {
     "keywordPlaceholder": "Search by name or address (e.g. East Exit, Sunshine)",

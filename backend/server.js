@@ -115,8 +115,9 @@ app.get("/api/stations", (req, res) => {
   const seen = new Map();
   for (const l of lockers) {
     if (!seen.has(l.station_slug)) {
-      seen.set(l.station_slug, { slug: l.station_slug, name: l.nearest_station });
+      seen.set(l.station_slug, { slug: l.station_slug, name: l.nearest_station, count: 0 });
     }
+    seen.get(l.station_slug).count += 1;
   }
   res.json({ stations: [...seen.values()] });
 });
