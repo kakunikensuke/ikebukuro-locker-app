@@ -54,7 +54,11 @@ export default function PrefecturePage() {
       </Helmet>
 
       <header className="app-header">
-        <h1>{t("app.title")}</h1>
+        <h1>
+          <Link to={pathForPrefectureList(lang)} className="app-title-link">
+            {t("app.title")}
+          </Link>
+        </h1>
         <div className="header-controls">
           <LangSwitcher />
         </div>

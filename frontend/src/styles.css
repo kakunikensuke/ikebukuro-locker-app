@@ -69,6 +69,11 @@ body {
   pointer-events: none;
 }
 
+.app-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
 .view-toggle {
   display: inline-flex;
   background: var(--color-surface);
