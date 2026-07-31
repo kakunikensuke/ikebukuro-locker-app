@@ -110,16 +110,6 @@ export default function LockerDetail({ facilityId, onClose }) {
               {t("lockerDetail.gmapsLink")}
             </a>
 
-            {/* アフィリエイト提携先はマルチエキューブ等のスマートロッカー想定のため、利用者投稿分には表示しない */}
-            {!locker.user_submitted && (
-              <div className="reserve-cta">
-                <span className="reserve-cta-badge">{t("lockerDetail.reserveBadge")}</span>
-                <button type="button" className="reserve-cta-btn" disabled>
-                  {t("lockerDetail.reserveButton")}
-                </button>
-              </div>
-            )}
-
             {locker.user_submitted && (
               <div className="submitted-info">
                 <span className="tag tag-user-submitted">{t("lockerList.userSubmittedTag")}</span>
