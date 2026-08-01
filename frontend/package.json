@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite",
     "sitemap": "node scripts/generate-sitemap.js",
+    "prerender": "node scripts/prerender.js",
     "prebuild": "npm run sitemap",
     "build": "vite build",
+    "postbuild": "npm run prerender",
     "preview": "vite preview"
   },
   "dependencies": {
