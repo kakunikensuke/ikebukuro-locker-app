@@ -1,7 +1,9 @@
 {
   "app": { "title": "Coin Locker Search" },
   "stationPage": {
-    "titleTag": "Coin Lockers near {{station}} | Coin Locker Search",
+    "titleTag_one": "1 Coin Locker at {{station}} | Prices, Sizes & Locations",
+    "titleTag_other": "{{count}} Coin Lockers at {{station}} | Prices, Sizes & Locations",
+    "titleTagNoData": "Coin Lockers near {{station}} | Coin Locker Search",
     "descriptionLoading": "Find coin lockers near {{station}} — locations, sizes, and prices at a glance.",
     "descriptionLoaded": "Find coin lockers near {{station}} — locations, sizes, and prices at a glance. {{count}} lockers listed.",
     "ogTitle": "Coin Lockers near {{station}}",

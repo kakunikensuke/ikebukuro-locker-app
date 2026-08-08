@@ -1,7 +1,8 @@
 {
   "app": { "title": "コインロッカー検索" },
   "stationPage": {
-    "titleTag": "{{station}}のコインロッカー検索｜コインロッカー検索",
+    "titleTag": "{{station}}のコインロッカー{{count}}箇所｜料金・サイズ・場所一覧",
+    "titleTagNoData": "{{station}}のコインロッカー｜コインロッカー検索",
     "descriptionLoading": "{{station}}周辺のコインロッカーの設置場所・サイズ・料金をまとめて検索。",
     "descriptionLoaded": "{{station}}周辺のコインロッカーの設置場所・サイズ・料金をまとめて検索。{{count}}件のロッカー情報を掲載。",
     "ogTitle": "{{station}}のコインロッカー検索",

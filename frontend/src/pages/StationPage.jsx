@@ -167,11 +167,16 @@ export default function StationPage() {
   const prefecture = prefectureForSlug(stationSlug);
   // 検索絞り込みの影響を受けない駅の全ロッカー件数で判定する（loading中は安全側でnoindex扱い）
   const showNoindex = loading || allStationLockers.length === 0;
+  // titleの件数はプリレンダ側と揃えるため、絞り込み後のlockersではなく駅の全件数を使う。
+  // 取得前は件数が確定しないので「0箇所」と出さずに件数なしの文言にフォールバックする
+  const title = showNoindex
+    ? t("stationPage.titleTagNoData", { station: stationName })
+    : t("stationPage.titleTag", { station: stationName, count: allStationLockers.length });
 
   return (
     <div className="app-container">
       <Helmet>
-        <title>{t("stationPage.titleTag", { station: stationName })}</title>
+        <title>{title}</title>
         <meta name="description" content={description} />
         <meta property="og:title" content={t("stationPage.ogTitle", { station: stationName })} />
         <meta property="og:description" content={description} />

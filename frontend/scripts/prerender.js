@@ -62,11 +62,19 @@ const TEMPLATE = fs.readFileSync(TEMPLATE_PATH, "utf-8");
 const LOCALES = { ja, en };
 
 function t(lang, key, vars = {}) {
-  const raw = key.split(".").reduce((obj, k) => (obj == null ? undefined : obj[k]), LOCALES[lang]);
-  if (typeof raw !== "string") {
-    throw new Error(`翻訳キーが見つかりません: ${lang}.${key}`);
+  // countを渡した場合はi18nextと同じく `_one` / `_other` 付きのキーを優先し、
+  // 無ければサフィックス無しのキーにフォールバックする。英語だけ単複を区別したいが、
+  // 日本語は区別が無くサフィックス無しのキーしか持たないため、この順序で両対応になる
+  const candidates =
+    typeof vars.count === "number" ? [`${key}_${vars.count === 1 ? "one" : "other"}`, key] : [key];
+
+  for (const candidate of candidates) {
+    const raw = candidate.split(".").reduce((obj, k) => (obj == null ? undefined : obj[k]), LOCALES[lang]);
+    if (typeof raw === "string") {
+      return raw.replace(/\{\{(\w+)\}\}/g, (_, name) => String(vars[name] ?? ""));
+    }
   }
-  return raw.replace(/\{\{(\w+)\}\}/g, (_, name) => String(vars[name] ?? ""));
+  throw new Error(`翻訳キーが見つかりません: ${lang}.${key}`);
 }
 
 // --- HTML組み立て -----------------------------------------------------------
@@ -227,7 +235,11 @@ function stationPage(lang, station) {
 
   return {
     lang,
-    title: t(lang, "stationPage.titleTag", { station: stationName }),
+    // ロッカー件数をtitleに入れる（2026-08-08）。「〇〇駅 コインロッカー 料金／サイズ」等の
+    // 実際の検索クエリに寄せる狙い。件数が無い駅は「0箇所」と出すと不自然なので別文言にする
+    title: hasLockers
+      ? t(lang, "stationPage.titleTag", { station: stationName, count: stationLockers.length })
+      : t(lang, "stationPage.titleTagNoData", { station: stationName }),
     description,
     canonicalPath: pathForStation(lang, station.slug),
     altJa: pathForStation("ja", station.slug),
