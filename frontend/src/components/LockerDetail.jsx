@@ -238,6 +238,8 @@ function LockerDetailMeta({ locker, lang, t }) {
       <link rel="alternate" hreflang="ja" href={`${SITE_URL}${pathForLocker("ja", locker.station_slug, locker.facility_id)}`} />
       <link rel="alternate" hreflang="en" href={`${SITE_URL}${pathForLocker("en", locker.station_slug, locker.facility_id)}`} />
       <link rel="alternate" hreflang="x-default" href={`${SITE_URL}${pathForLocker("ja", locker.station_slug, locker.facility_id)}`} />
+      {/* ロッカー名が駅をまたいで重複するため検索対象から外す（プリレンダ側・sitemapと揃えている、2026-08-08） */}
+      <meta name="robots" content="noindex" />
       <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
     </Helmet>
   );

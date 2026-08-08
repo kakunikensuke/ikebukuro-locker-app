@@ -240,7 +240,11 @@ function stationPage(lang, station) {
   };
 }
 
-// ロッカー詳細。LockerDetailMetaと同じくschema.org LocalBusinessの構造化データを出す
+// ロッカー詳細。LockerDetailMetaと同じくschema.org LocalBusinessの構造化データを出す。
+// 2026-08-08: 全ページnoindex化。ロッカー名（「改札外 コインロッカー」等）は駅をまたいで
+// 大量に重複しており（796件中ユニークは237件、最多の名前は204件が同名）、titleに駅名も入らないため
+// 検索クエリにマッチせず重複コンテンツ判定を招いていた。sitemapからも除外している
+// （generate-sitemap.js側）。中身は駅ページから辿れるのでユーザー体験には影響しない。
 function lockerPage(lang, locker, station) {
   const hours = translateBusinessHours(locker.business_hours, (key, vars) => t(lang, key, vars));
   const sizes = locker.sizes ?? [];
@@ -278,6 +282,7 @@ function lockerPage(lang, locker, station) {
     canonicalPath,
     altJa: pathForLocker("ja", station.slug, locker.facility_id),
     altEn: pathForLocker("en", station.slug, locker.facility_id),
+    noindex: true,
     ogType: "place",
     jsonLd: {
       "@context": "https://schema.org",

@@ -3,7 +3,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { STATIONS, PREFECTURES, pathForStation, pathForLocker, pathForPrefecture } from "../src/stations.js";
+import { STATIONS, PREFECTURES, pathForStation, pathForPrefecture } from "../src/stations.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SITE_URL = process.env.VITE_SITE_URL || "https://example.com";
@@ -46,17 +46,10 @@ for (const station of STATIONS) {
   urls.push(...urlPair(pathForStation("ja", station.slug), pathForStation("en", station.slug)));
 }
 
-for (const locker of lockers) {
-  const station = STATIONS.find((s) => s.slug === locker.station_slug);
-  if (!station) continue;
-  urls.push(
-    ...urlPair(
-      pathForLocker("ja", station.slug, locker.facility_id),
-      pathForLocker("en", station.slug, locker.facility_id),
-      locker.last_updated_at
-    )
-  );
-}
+// ロッカー詳細ページは2026-08-08にnoindex化したためsitemapから除外している。
+// 理由: ロッカー名が駅をまたいで大量に重複し（796件中ユニークは237件）、titleに駅名も入らないため
+// 検索需要が無く、1,592ページ（旧sitemapの64%）が重複コンテンツとしてクロール予算を浪費していた。
+// noindexページをsitemapに載せない方針は、ロッカー0件の駅ページ（上記）と同じ。
 
 const body = urls
   .map(({ loc, lastmod, alternates }) => {
