@@ -28,6 +28,31 @@
     "stationResultsHeading": "駅名の検索結果",
     "dataSourceCredit": "私鉄・地下鉄の駅データの一部は、国土数値情報（鉄道データ、国土交通省 https://nlftp.mlit.go.jp/ksj/）を加工して作成しています。"
   },
+  "sizesPage": {
+    "titleTag": "コインロッカーをサイズから探す｜内寸・料金の一覧",
+    "description": "コインロッカーをサイズ別に探せます。SS・S・M・L・LWそれぞれの内寸・料金の目安と、設置されている駅数を掲載。",
+    "ogTitle": "コインロッカーをサイズから探す",
+    "heading": "サイズから探す",
+    "lead": "預けたい荷物が入る内寸から選べます。そのサイズのロッカーがある駅を一覧で確認できます。",
+    "sizeCardSummary": "{{stationCount}}駅・{{lockerCount}}箇所",
+    "sizeCardDimensions": "内寸 {{dimensions}}",
+    "linkFromTop": "サイズから探す（内寸・料金で比較）"
+  },
+  "sizePage": {
+    "titleTag": "{{size}}のコインロッカーがある駅一覧｜全国{{count}}駅",
+    "description": "内寸{{dimensions}}の{{size}}コインロッカーがある駅を全国{{stationCount}}駅・{{lockerCount}}箇所掲載。料金は{{minPrice}}〜{{maxPrice}}円。都道府県別に探せます。",
+    "ogTitle": "{{size}}のコインロッカーがある駅一覧",
+    "heading": "{{size}}のコインロッカーがある駅",
+    "summary": "内寸 {{dimensions}} ／ 全国{{stationCount}}駅・{{lockerCount}}箇所 ／ 料金 {{minPrice}}〜{{maxPrice}}円",
+    "stationLockerCount": "{{count}}箇所",
+    "backToSizes": "サイズ一覧に戻る",
+    "notFound": "指定されたサイズは見つかりませんでした。",
+    "sizeNameSS": "SSサイズ（小型）",
+    "sizeNameS": "Sサイズ（標準）",
+    "sizeNameM": "Mサイズ（中型）",
+    "sizeNameL": "Lサイズ（大型）",
+    "sizeNameLW": "LWサイズ（特大・スーツケース対応）"
+  },
   "prefecturePage": {
     "titleTag": "{{prefecture}}のコインロッカー設置駅一覧｜コインロッカー検索",
     "description": "{{prefecture}}のコインロッカー設置駅{{count}}件をまとめて掲載。",

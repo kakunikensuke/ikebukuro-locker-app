@@ -29,6 +29,32 @@
     "stationResultsHeading": "Matching Stations",
     "dataSourceCredit": "Some private railway and subway station data is created by processing National Land Numerical Information (Railway Data, MLIT Japan, https://nlftp.mlit.go.jp/ksj/)."
   },
+  "sizesPage": {
+    "titleTag": "Find Coin Lockers by Size | Dimensions & Prices",
+    "description": "Browse coin lockers by size. Internal dimensions, price ranges, and the number of stations for each size (SS, S, M, L, LW).",
+    "ogTitle": "Find Coin Lockers by Size",
+    "heading": "Browse by Size",
+    "lead": "Choose a size by its internal dimensions to find stations with lockers your luggage will fit.",
+    "sizeCardSummary": "{{stationCount}} stations / {{lockerCount}} locations",
+    "sizeCardDimensions": "Internal size {{dimensions}}",
+    "linkFromTop": "Browse by size (compare dimensions and prices)"
+  },
+  "sizePage": {
+    "titleTag": "Stations with {{size}} Coin Lockers | {{count}} Stations in Japan",
+    "description": "{{stationCount}} stations and {{lockerCount}} locations across Japan have {{size}} coin lockers ({{dimensions}}). Prices range from {{minPrice}} to {{maxPrice}} yen. Browse by prefecture.",
+    "ogTitle": "Stations with {{size}} Coin Lockers",
+    "heading": "Stations with {{size}} Coin Lockers",
+    "summary": "Internal size {{dimensions}} / {{stationCount}} stations, {{lockerCount}} locations / {{minPrice}}-{{maxPrice}} yen",
+    "stationLockerCount_one": "1 location",
+    "stationLockerCount_other": "{{count}} locations",
+    "backToSizes": "Back to size list",
+    "notFound": "That size was not found.",
+    "sizeNameSS": "SS (Extra Small)",
+    "sizeNameS": "S (Standard)",
+    "sizeNameM": "M (Medium)",
+    "sizeNameL": "L (Large)",
+    "sizeNameLW": "LW (Extra Large, fits suitcases)"
+  },
   "prefecturePage": {
     "titleTag": "Coin Locker Stations in {{prefecture}} | Coin Locker Search",
     "description": "{{count}} coin locker stations in {{prefecture}}, all in one place.",

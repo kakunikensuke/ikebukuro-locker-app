@@ -375,6 +375,20 @@ body {
   color: var(--color-text);
 }
 
+/* サイズ一覧のカードに出す内寸表記 */
+.area-card-note {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* サイズ別ページの概要文（内寸・駅数・料金帯） */
+.page-lead {
+  margin: 0 0 16px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
 .data-source-credit {
   margin-top: 24px;
   font-size: 0.75rem;

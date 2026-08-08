@@ -27,6 +27,7 @@ import {
   pathForPrefecture,
   pathForPrefectureList,
 } from "../src/stations.js";
+import { LOCKER_SIZES, sizeSummary, pathForSize, pathForSizeList } from "../src/lockerSizes.js";
 import { translateBusinessHours } from "../src/i18n/businessHours.js";
 import ja from "../src/locales/ja.json" with { type: "json" };
 import en from "../src/locales/en.json" with { type: "json" };
@@ -252,6 +253,88 @@ function stationPage(lang, station) {
   };
 }
 
+// サイズ別一覧のハブ（/sizes）。SizesIndexPageと同じ翻訳キー・同じ集計を使う
+function sizesIndexPage(lang) {
+  const cards = LOCKER_SIZES.map((size) => {
+    const summary = sizeSummary(allLockers, size.sizeType);
+    const note = summary.dimensions
+      ? ` ${esc(t(lang, "sizesPage.sizeCardDimensions", { dimensions: summary.dimensions }))}`
+      : "";
+    return `<li>${link(pathForSize(lang, size.slug), t(lang, `sizePage.sizeName${size.sizeType}`))} ${esc(
+      t(lang, "sizesPage.sizeCardSummary", {
+        stationCount: summary.stationCount,
+        lockerCount: summary.lockerCount,
+      })
+    )}${note}</li>`;
+  }).join("");
+
+  return {
+    lang,
+    title: t(lang, "sizesPage.titleTag"),
+    description: t(lang, "sizesPage.description"),
+    canonicalPath: pathForSizeList(lang),
+    altJa: pathForSizeList("ja"),
+    altEn: pathForSizeList("en"),
+    ogType: "website",
+    body: `<main><h1>${esc(t(lang, "sizesPage.heading"))}</h1><p>${esc(
+      t(lang, "sizesPage.lead")
+    )}</p><ul>${cards}</ul><p>${link(
+      pathForPrefectureList(lang),
+      t(lang, "prefecturePage.backToAreas")
+    )}</p></main>`,
+  };
+}
+
+// サイズ別の駅一覧（/sizes/:sizeSlug）。SizePageと同じく都道府県ごとにまとめる。
+// 駅ページへの内部リンクを大量に張るため、クロールを駅ページへ流す導線にもなっている
+function sizePage(lang, size) {
+  const summary = sizeSummary(allLockers, size.sizeType);
+  const sizeName = t(lang, `sizePage.sizeName${size.sizeType}`);
+  const vars = {
+    size: sizeName,
+    dimensions: summary.dimensions,
+    stationCount: summary.stationCount,
+    lockerCount: summary.lockerCount,
+    minPrice: summary.minPrice,
+    maxPrice: summary.maxPrice,
+  };
+
+  const groups = PREFECTURES.map((prefecture) => {
+    const stations = [...summary.byStation.values()]
+      .filter((entry) => prefectureForSlug(entry.slug) === prefecture)
+      .sort((a, b) => b.lockerCount - a.lockerCount);
+    return { prefecture, stations };
+  }).filter((group) => group.stations.length > 0);
+
+  const sections = groups
+    .map(({ prefecture, stations }) => {
+      const items = stations
+        .map((entry) => {
+          const station = stationBySlug.get(entry.slug);
+          const name = station ? station.name[lang] || station.name.ja : entry.slug;
+          return `<li>${link(pathForStation(lang, entry.slug), name)} ${esc(
+            t(lang, "sizePage.stationLockerCount", { count: entry.lockerCount })
+          )}</li>`;
+        })
+        .join("");
+      return `<h2>${esc(prefectureName(prefecture, lang))}</h2><ul>${items}</ul>`;
+    })
+    .join("");
+
+  return {
+    lang,
+    title: t(lang, "sizePage.titleTag", { size: sizeName, count: summary.stationCount }),
+    description: t(lang, "sizePage.description", vars),
+    canonicalPath: pathForSize(lang, size.slug),
+    altJa: pathForSize("ja", size.slug),
+    altEn: pathForSize("en", size.slug),
+    ogType: "website",
+    body: `<main><h1>${esc(t(lang, "sizePage.heading", { size: sizeName }))}</h1><p>${esc(
+      t(lang, "sizePage.summary", vars)
+    )}</p>${sections}<p>${link(pathForSizeList(lang), t(lang, "sizePage.backToSizes"))}</p></main>`,
+  };
+}
+
 // ロッカー詳細。LockerDetailMetaと同じくschema.org LocalBusinessの構造化データを出す。
 // 2026-08-08: 全ページnoindex化。ロッカー名（「改札外 コインロッカー」等）は駅をまたいで
 // 大量に重複しており（796件中ユニークは237件、最多の名前は204件が同名）、titleに駅名も入らないため
@@ -331,6 +414,14 @@ for (const lang of LANGS) {
 
   for (const prefecture of PREFECTURES) {
     writePage(prefecturePage(lang, prefecture));
+    count++;
+  }
+
+  writePage(sizesIndexPage(lang));
+  count++;
+
+  for (const size of LOCKER_SIZES) {
+    writePage(sizePage(lang, size));
     count++;
   }
 

@@ -11,6 +11,7 @@ import {
   pathForStation,
   slugToName,
 } from "../stations";
+import { pathForSizeList } from "../lockerSizes";
 import { SITE_URL } from "../config";
 import { useLang, useT } from "../i18n/LangContext.js";
 import LangSwitcher from "../components/LangSwitcher.jsx";
@@ -67,6 +68,10 @@ export default function AreasIndexPage() {
       </header>
 
       <main className="app-main">
+        {/* サイズ別の横断一覧への導線。トップから1クリックで辿れるようにしてクロールの入口にもする */}
+        <Link className="back-to-areas" to={pathForSizeList(lang)}>
+          {t("sizesPage.linkFromTop")}
+        </Link>
         <h2>{t("areasPage.heading")}</h2>
         <input
           type="text"

@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { STATIONS, PREFECTURES, pathForStation, pathForPrefecture } from "../src/stations.js";
+import { LOCKER_SIZES, pathForSize, pathForSizeList } from "../src/lockerSizes.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SITE_URL = process.env.VITE_SITE_URL || "https://example.com";
@@ -39,6 +40,13 @@ const urls = [...urlPair("/", "/en")];
 
 for (const prefecture of PREFECTURES) {
   urls.push(...urlPair(pathForPrefecture("ja", prefecture), pathForPrefecture("en", prefecture)));
+}
+
+// サイズ別の横断一覧（/sizes・/sizes/:sizeSlug）。駅名単体のクエリと違って
+// Googleマップと競合しない切り口なので、インデックス対象として載せる
+urls.push(...urlPair(pathForSizeList("ja"), pathForSizeList("en")));
+for (const size of LOCKER_SIZES) {
+  urls.push(...urlPair(pathForSize("ja", size.slug), pathForSize("en", size.slug)));
 }
 
 for (const station of STATIONS) {

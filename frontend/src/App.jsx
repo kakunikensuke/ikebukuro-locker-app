@@ -3,6 +3,8 @@ import { Routes, Route } from "react-router-dom";
 import LangLayout from "./LangLayout.jsx";
 import AreasIndexPage from "./pages/AreasIndexPage.jsx";
 import PrefecturePage from "./pages/PrefecturePage.jsx";
+import SizesIndexPage from "./pages/SizesIndexPage.jsx";
+import SizePage from "./pages/SizePage.jsx";
 import StationPage from "./pages/StationPage.jsx";
 import LockerDetailRoute from "./pages/LockerDetailRoute.jsx";
 import NotFound from "./pages/NotFound.jsx";
@@ -13,6 +15,17 @@ function areaRoutes() {
     <Route path="areas">
       <Route index element={<AreasIndexPage />} />
       <Route path=":prefectureSlug" element={<PrefecturePage />} />
+    </Route>
+  );
+}
+
+// サイズ別の横断一覧。"sizes"は静的セグメントなので:stationSlugより優先してマッチする
+// （同名の駅slugが無いことは確認済み）
+function sizeRoutes() {
+  return (
+    <Route path="sizes">
+      <Route index element={<SizesIndexPage />} />
+      <Route path=":sizeSlug" element={<SizePage />} />
     </Route>
   );
 }
@@ -40,12 +53,14 @@ export default function App() {
       <Route element={<LangLayout lang="ja" />}>
         <Route index element={<AreasIndexPage />} />
         {areaRoutes()}
+        {sizeRoutes()}
         {stationRoutes()}
       </Route>
 
       <Route path="en" element={<LangLayout lang="en" />}>
         <Route index element={<AreasIndexPage />} />
         {areaRoutes()}
+        {sizeRoutes()}
         {stationRoutes()}
       </Route>
     </Routes>
