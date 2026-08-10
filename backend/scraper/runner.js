@@ -73,9 +73,16 @@ async function runUpdate() {
   };
   appendLog(entry);
 
-  if (status !== "success") {
+  // 部分的な失敗では例外を投げない。100駅以上を10社以上の外部サイトから取得している以上、
+  // 通信エラーや一時的なレート制限で一部が落ちるのは日常的に起きる。
+  // ここで例外にすると呼び出し側（GitHub Actions）でコミット手順ごとスキップされ、
+  // 取得できた大半のデータまで捨てられてしまう。
+  // 実際、2026-07-31〜08-10の全実行がこれで失敗し、データが7/27から更新されていなかった。
+  // 失敗した駅・ソースはupdate-log.jsonに残るので、そちらで追跡する。
+  // 1駅も取得できなかった場合だけ、保存する価値のある結果が無いので異常として扱う。
+  if (Object.keys(stationCounts).length === 0) {
     throw new Error(
-      `一部の更新に失敗しました: ${JSON.stringify({ stations: stationErrors, sources: sourceErrors })}`
+      `全ての更新に失敗しました: ${JSON.stringify({ stations: stationErrors, sources: sourceErrors })}`
     );
   }
   return entry;
