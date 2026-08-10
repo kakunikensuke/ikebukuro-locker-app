@@ -35,6 +35,10 @@ const SOURCE_SITE_NAME = "マルチエキューブ（JR東日本スマートロ�
 // 大きくしすぎると予約受付期間の外に出るリスクがあるため2週間に留める
 const QUERY_DAYS_AHEAD = 14;
 
+// 5xx・通信エラー時に待つ時間。全376駅が3回ずつ失敗しても最大で+約13分に収まる範囲に留める
+// （バッチのtimeout-minutesは45分、通常の実行時間は約16分）
+const RETRY_DELAYS_MS = [2000, 5000];
+
 // 対象駅とマルチエキューブ側のbase_id（2026-07-12にAPIから特定）
 const STATIONS = [
   { slug: "ikebukuro", name: "池袋駅", baseId: 35 },
@@ -435,6 +439,39 @@ function normalizeLocation(loc, station, now) {
   };
 }
 
+/**
+ * 5xxと通信エラーだけを対象にリトライする。マルチエキューブAPIは特定の駅に対して
+ * 504を断続的に返すことがあり、東京駅(base_id=32)は2026-08-10に数時間504が続いて
+ * データが古いまま取り残された。同じ駅でも時間を空ければ成功するため、
+ * 数秒待って数回叩き直す。4xxはリトライしても結果が変わらないので即座に諦める。
+ */
+async function fetchWithRetry(url, baseId) {
+  let lastError;
+
+  for (let attempt = 0; attempt < RETRY_DELAYS_MS.length + 1; attempt++) {
+    if (attempt > 0) {
+      await new Promise((resolve) => setTimeout(resolve, RETRY_DELAYS_MS[attempt - 1]));
+    }
+
+    let res;
+    try {
+      res = await fetch(url, {
+        headers: { Origin: "https://multiecube.com", Referer: "https://multiecube.com/" },
+      });
+    } catch (err) {
+      lastError = new Error(`multiecube API 通信エラー: ${err.message} (base_id=${baseId})`);
+      continue;
+    }
+
+    if (res.ok) return res;
+
+    lastError = new Error(`multiecube API ${res.status} ${res.statusText} (base_id=${baseId})`);
+    if (res.status < 500) throw lastError;
+  }
+
+  throw lastError;
+}
+
 async function fetchStationLocations(baseId) {
   const dateStr = jstDateAfter(QUERY_DAYS_AHEAD);
   const results = [];
@@ -457,12 +494,7 @@ async function fetchStationLocations(baseId) {
       lang: "ja",
     });
 
-    const res = await fetch(`${API_BASE}?${params.toString()}`, {
-      headers: { Origin: "https://multiecube.com", Referer: "https://multiecube.com/" },
-    });
-    if (!res.ok) {
-      throw new Error(`multiecube API ${res.status} ${res.statusText} (base_id=${baseId})`);
-    }
+    const res = await fetchWithRetry(`${API_BASE}?${params.toString()}`, baseId);
     const data = await res.json();
     results.push(...(data.locations || []));
 
@@ -476,6 +508,8 @@ async function fetchStationLocations(baseId) {
 module.exports = {
   id: "multiecube",
   siteName: SOURCE_SITE_NAME,
+  // リトライ挙動を単体で検証するために公開している。ランナーはid/siteName/collectしか見ない
+  __testing__: { fetchWithRetry, RETRY_DELAYS_MS },
   async collect({ now }) {
     const results = [];
     for (const station of STATIONS) {
