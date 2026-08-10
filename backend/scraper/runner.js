@@ -50,6 +50,19 @@ async function runUpdate() {
         stationErrors[r.slug] = r.error;
         continue;
       }
+      // 0件の応答では既存データを消さない。外部APIは200を返しながら中身が空という
+      // 応答を稀に返す（2026-08-10にマルチエキューブで実測）。これを素直に受けると
+      // 「この駅にはロッカーが無い」と解釈して既存の設置情報を丸ごと失う。
+      // ロッカーが本当に撤去された場合は反映が遅れるが、実在する駅のページが
+      // 一時的な通信の揺れで空になる方が損害が大きいため、こちらを優先する。
+      // なお元々データを持たない駅（そもそもロッカーが無い駅）は0件が正しい応答なので、
+      // 異常として記録しない。ここを区別しないとpartial_errorが常態化して意味を失う
+      if (r.locations.length === 0) {
+        if (lockers.some((l) => l.station_slug === r.slug)) {
+          stationErrors[r.slug] = "0件の応答のため既存データを保持しました";
+        }
+        continue;
+      }
       lockers = lockers.filter((l) => l.station_slug !== r.slug);
       lockers.push(...r.locations);
       stationCounts[r.slug] = r.locations.length;

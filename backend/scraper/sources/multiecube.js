@@ -5,9 +5,16 @@
  * 同じロッカー設置情報のみを対象とし、予約・決済等の機能には一切関与しない。
  *
  * リアルタイムの空き数（unreserve.num_empty等）は取得・保存しない。各サイズの
- * 設置個数（num_total、日々変動しない静的な値）のみを記録する方針とした
- * （2026-07-12、ユーザー判断）。刻一刻と変わる商用の空き状況ではなく、
- * 変化の少ない設置数のみを扱うことで、規約上のリスクをさらに下げる狙い。
+ * 個数（num_total）のみを記録する方針とした（2026-07-12、ユーザー判断）。
+ * 刻一刻と変わる商用の空き状況ではなく、変化の少ない設置数のみを扱うことで、
+ * 規約上のリスクをさらに下げる狙い。
+ *
+ * ただしnum_totalは「完全に静的な設置個数」ではなく、照会日に確保できる個数だった
+ * （2026-08-10に判明。当初のコメントは誤り）。照会日が近いほど予約で削られて小さくなり、
+ * 当日を照会すると実態の1/5〜1/7まで落ちる。実測（2026-08-10）:
+ *   東京駅 当日2,505 → +5日11,590 ／ 池袋駅 当日325 → +1日2,165 ／ 新宿駅 当日575 → +1日4,105
+ * さらに当日分が満杯の駅は0件で返り、駅ごとデータから消えていた（博多・新大阪等16駅）。
+ * そのためQUERY_DAYS_AHEAD日後を照会し、予約に食われていない状態の個数を取る。
  *
  * 利用規約・robots.txtにはスクレイピング/自動アクセスを明示的に禁止する記載がない
  * ことをPlaywrightでレンダリングして確認済み（2026-07-12）。ただし規約の沈黙は
@@ -18,10 +25,15 @@
  *   facility_idとして継続利用できる。
  */
 
-const { todayJstDate } = require("../lib/time");
+const { jstDateAfter } = require("../lib/time");
 
 const API_BASE = "https://api.multiecube.com/v1/location/ph2";
 const SOURCE_SITE_NAME = "マルチエキューブ（JR東日本スマートロジスティクス）";
+
+// 何日後を照会するか。+1日の時点で当日照会の過少申告はほぼ解消し、+14日前後で値が安定する
+// （鎌倉駅は+14日で1,270に張り付き、これは2026-07-27に取れていた値と一致した）。
+// 大きくしすぎると予約受付期間の外に出るリスクがあるため2週間に留める
+const QUERY_DAYS_AHEAD = 14;
 
 // 対象駅とマルチエキューブ側のbase_id（2026-07-12にAPIから特定）
 const STATIONS = [
@@ -424,7 +436,7 @@ function normalizeLocation(loc, station, now) {
 }
 
 async function fetchStationLocations(baseId) {
-  const dateStr = todayJstDate();
+  const dateStr = jstDateAfter(QUERY_DAYS_AHEAD);
   const results = [];
   let pageNo = 1;
 
@@ -434,6 +446,10 @@ async function fetchStationLocations(baseId) {
       limit: "100",
       page_no: String(pageNo),
       service_type: "3,1",
+      // 空きゼロのロッカーは除外する。trueにすると満杯のロッカーも返るが、
+      // それらはnum_totalが0なのでサイズ情報が空のレコードになるだけで意味がない
+      // （2026-08-10に両方を実測して確認）。照会日を先にしてある以上、
+      // ここで落ちるのは本当に空きが無いものだけになる
       includes_no_empty: "false",
       base_id: String(baseId),
       end_at: dateStr,
