@@ -97,8 +97,19 @@ npm run update:lockers
 ```
 
 `backend/data/lockers.json`のlast_updated_atが更新され、実行結果が`backend/data/update-log.json`に記録されます。
-本番環境ではGitHub Actions（`.github/workflows/update-lockers.yml`）が6時間ごとに自動実行し、更新結果をリポジトリにコミット・pushします
+本番環境ではGitHub Actions（`.github/workflows/update-lockers.yml`）が6時間ごとに自動実行し、`lockers.json`をリポジトリにコミット・pushします
 （無料ホスティングのスリープ中はサーバー内cronが発火しないため、サーバープロセス内では実行しない方針。2026-07-28変更）。
+`update-log.json`は`.gitignore`対象の実行時生成物なのでコミットしません。CI上での失敗内容はActionsのログで確認してください。
+
+### 自動更新バッチの失敗の扱い（2026-08-10修正）
+
+100駅超を10社以上の外部サイトから取得しているため、一部の駅・ソースの取得失敗は日常的に起きます。
+そのため**部分的な失敗（`partial_error`）では異常終了させず、取得できた分をコミットします**。
+1駅も取得できなかった場合のみ異常終了します（`backend/scraper/runner.js`）。
+
+この方針にする前は、1駅でも失敗すると例外を投げていたため、
+GitHub Actions側でコミット手順ごとスキップされ、取得できた大半のデータが毎回捨てられていました
+（2026-07-31〜08-10の全実行が失敗し、データが7/27から更新されない状態になっていました）。
 
 ## 自動更新バッチのソース対応状況（Phase 0〜12・完了）
 
