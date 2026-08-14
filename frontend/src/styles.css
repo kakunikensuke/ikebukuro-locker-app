@@ -861,3 +861,50 @@ body {
   border-radius: 8px !important;
   color: var(--color-text) !important;
 }
+
+/* 全ページ共通のフッター。AdSenseの審査で運営者情報への到達性を見られるため
+   一部のページではなく全ページに出す（LangLayoutでマウントしている） */
+.site-footer {
+  max-width: 960px;
+  margin: 32px auto 0;
+  padding: 18px 20px 28px;
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.site-footer a {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+/* プライバシーポリシー等の文章主体のページ */
+.legal-page h3 {
+  margin: 28px 0 8px;
+  font-size: 0.95rem;
+}
+
+.legal-page p,
+.legal-page li {
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: var(--color-text);
+}
+
+.legal-page ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+.legal-page li + li {
+  margin-top: 8px;
+}
+
+.legal-updated {
+  color: var(--color-text-muted);
+  font-size: 0.75rem !important;
+}

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { LangContext } from "./i18n/LangContext.js";
+import SiteFooter from "./components/SiteFooter.jsx";
 
 // URLの言語セグメント（ja=プレフィックスなし/en=/en）ごとにマウントされ、
 // 配下のページ全体にlangをContextで配布するレイアウトRoute
@@ -12,6 +13,7 @@ export default function LangLayout({ lang }) {
   return (
     <LangContext.Provider value={lang}>
       <Outlet />
+      <SiteFooter />
     </LangContext.Provider>
   );
 }

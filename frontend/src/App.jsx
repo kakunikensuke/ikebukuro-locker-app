@@ -7,6 +7,7 @@ import SizesIndexPage from "./pages/SizesIndexPage.jsx";
 import SizePage from "./pages/SizePage.jsx";
 import StationPage from "./pages/StationPage.jsx";
 import LockerDetailRoute from "./pages/LockerDetailRoute.jsx";
+import PrivacyPage from "./pages/PrivacyPage.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
 // ja/en共通のルート木。LangLayout配下のindex Routeと組み合わせて使う
@@ -54,6 +55,7 @@ export default function App() {
         <Route index element={<AreasIndexPage />} />
         {areaRoutes()}
         {sizeRoutes()}
+        <Route path="privacy" element={<PrivacyPage />} />
         {stationRoutes()}
       </Route>
 
@@ -61,6 +63,7 @@ export default function App() {
         <Route index element={<AreasIndexPage />} />
         {areaRoutes()}
         {sizeRoutes()}
+        <Route path="privacy" element={<PrivacyPage />} />
         {stationRoutes()}
       </Route>
     </Routes>

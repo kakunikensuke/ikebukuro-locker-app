@@ -28,6 +28,7 @@ import {
   pathForPrefectureList,
 } from "../src/stations.js";
 import { LOCKER_SIZES, sizeSummary, pathForSize, pathForSizeList } from "../src/lockerSizes.js";
+import { CONTACT_FORM_URL, OPERATOR_NAME, hasContactForm, pathForPrivacy } from "../src/staticPages.js";
 import { translateBusinessHours } from "../src/i18n/businessHours.js";
 import ja from "../src/locales/ja.json" with { type: "json" };
 import en from "../src/locales/en.json" with { type: "json" };
@@ -109,6 +110,13 @@ function link(href, text) {
   return `<a href="${esc(href)}">${esc(text)}</a>`;
 }
 
+// 全ページ共通のフッター（クライアント側のSiteFooter.jsxと同じ内容）。
+// これが無いと、JSを実行しないクロールでは/privacyへの内部リンクがどこにも存在せず、
+// sitemap経由でしか到達できなくなる
+function footerHtml(lang) {
+  return `<footer>${link(pathForPrivacy(lang), t(lang, "privacyPage.footerLink"))}</footer>`;
+}
+
 function renderPage(page) {
   let html = TEMPLATE;
   // テンプレート（index.html）が持つ既定のtitle/descriptionは、ページ固有のものに差し替える
@@ -116,7 +124,7 @@ function renderPage(page) {
   html = html.replace(/\s*<title>[\s\S]*?<\/title>/, "");
   html = html.replace(/\s*<meta\s+name="description"[\s\S]*?\/>/, "");
   html = html.replace("</head>", `${metaTags(page)}\n  </head>`);
-  html = html.replace('<div id="root"></div>', `<div id="root">${page.body}</div>`);
+  html = html.replace('<div id="root"></div>', `<div id="root">${page.body}${footerHtml(page.lang)}</div>`);
   return html;
 }
 
@@ -285,6 +293,55 @@ function sizesIndexPage(lang) {
   };
 }
 
+// プライバシーポリシー・免責事項（/privacy）。データに依存しない固定ページ。
+// PrivacyPage.jsxと同じ翻訳キーから引いているので、文言の変更はlocales側だけで済む
+function privacyPage(lang) {
+  const section = (headingKey, bodies) =>
+    `<h2>${esc(t(lang, headingKey))}</h2>` +
+    (bodies.length === 1
+      ? `<p>${esc(bodies[0])}</p>`
+      : `<ul>${bodies.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>`);
+
+  const contact = hasContactForm()
+    ? `<p>${esc(t(lang, "privacyPage.contactBody"))} ${link(
+        CONTACT_FORM_URL,
+        t(lang, "privacyPage.contactLink")
+      )}</p>`
+    : `<p>${esc(t(lang, "privacyPage.contactPending"))}</p>`;
+
+  return {
+    lang,
+    title: t(lang, "privacyPage.titleTag"),
+    description: t(lang, "privacyPage.description"),
+    canonicalPath: pathForPrivacy(lang),
+    altJa: pathForPrivacy("ja"),
+    altEn: pathForPrivacy("en"),
+    ogType: "article",
+    body:
+      `<main><h1>${esc(t(lang, "privacyPage.ogTitle"))}</h1>` +
+      `<p>${esc(t(lang, "privacyPage.updated"))}</p>` +
+      section("privacyPage.operatorHeading", [t(lang, "privacyPage.operatorBody", { operator: OPERATOR_NAME })]) +
+      section("privacyPage.analyticsHeading", [t(lang, "privacyPage.analyticsBody")]) +
+      section("privacyPage.adsHeading", [t(lang, "privacyPage.adsBody")]) +
+      section("privacyPage.collectHeading", [
+        t(lang, "privacyPage.collectNoPersonal"),
+        t(lang, "privacyPage.collectSubmit"),
+      ]) +
+      section("privacyPage.accuracyHeading", [
+        t(lang, "privacyPage.accuracySource"),
+        t(lang, "privacyPage.accuracyQuantity"),
+        t(lang, "privacyPage.accuracyLiability"),
+      ]) +
+      section("privacyPage.sourcesHeading", [
+        t(lang, "privacyPage.sourcesLocker"),
+        t(lang, "privacyPage.sourcesStation"),
+        t(lang, "privacyPage.sourcesMap"),
+      ]) +
+      `<h2>${esc(t(lang, "privacyPage.contactHeading"))}</h2>${contact}` +
+      `<p>${link(pathForPrefectureList(lang), t(lang, "prefecturePage.backToAreas"))}</p></main>`,
+  };
+}
+
 // サイズ別の駅一覧（/sizes/:sizeSlug）。SizePageと同じく都道府県ごとにまとめる。
 // 駅ページへの内部リンクを大量に張るため、クロールを駅ページへ流す導線にもなっている
 function sizePage(lang, size) {
@@ -418,6 +475,9 @@ for (const lang of LANGS) {
   }
 
   writePage(sizesIndexPage(lang));
+  count++;
+
+  writePage(privacyPage(lang));
   count++;
 
   for (const size of LOCKER_SIZES) {
