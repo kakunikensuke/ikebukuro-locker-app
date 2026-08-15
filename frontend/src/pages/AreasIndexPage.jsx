@@ -12,6 +12,7 @@ import {
   slugToName,
 } from "../stations";
 import { pathForSizeList } from "../lockerSizes";
+import { pathForGuideList } from "../staticPages";
 import { SITE_URL } from "../config";
 import { useLang, useT } from "../i18n/LangContext.js";
 import LangSwitcher from "../components/LangSwitcher.jsx";
@@ -71,6 +72,10 @@ export default function AreasIndexPage() {
         {/* サイズ別の横断一覧への導線。トップから1クリックで辿れるようにしてクロールの入口にもする */}
         <Link className="back-to-areas" to={pathForSizeList(lang)}>
           {t("sizesPage.linkFromTop")}
+        </Link>
+        {/* 解説記事への導線。トップから1クリックで辿れるようにしてクロールの入口にする */}
+        <Link className="back-to-areas" to={pathForGuideList(lang)}>
+          {t("guidesPage.linkFromTop")}
         </Link>
         <h2>{t("areasPage.heading")}</h2>
         <input

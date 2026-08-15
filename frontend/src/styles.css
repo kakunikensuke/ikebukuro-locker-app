@@ -970,3 +970,68 @@ body {
   font-size: 0.75rem !important;
   color: var(--color-text-muted);
 }
+
+/* 解説記事（/guides）。文章主体のページなので行間を広めに取る */
+.guide-page h3 {
+  margin: 28px 0 8px;
+  font-size: 0.95rem;
+}
+
+.guide-page p,
+.guide-page li {
+  font-size: 0.85rem;
+  line-height: 1.85;
+}
+
+.guide-page ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+.guide-page li + li {
+  margin-top: 8px;
+}
+
+.guide-index li {
+  margin-bottom: 10px;
+}
+
+/* サイズ表。狭い画面でも本文を横スクロールさせないよう、表だけを独立してスクロールさせる */
+.guide-table-wrap {
+  overflow-x: auto;
+  margin: 14px 0;
+}
+
+.guide-table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 420px;
+  font-size: 0.8rem;
+}
+
+.guide-table th,
+.guide-table td {
+  border: 1px solid var(--color-border);
+  padding: 8px 10px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.guide-table thead th {
+  background: var(--color-primary-light);
+}
+
+.guide-table tbody th {
+  font-weight: 600;
+}
+
+/* 記事から駅ページへのリンク一覧 */
+.guide-station-list {
+  list-style: none;
+  padding-left: 0 !important;
+}
+
+.guide-station-qty {
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+}

@@ -201,6 +201,8 @@
     "formEmail": "Your email address (optional)",
     "formEmailNote": "You can send without it. We then cannot reply, but the message is still read.",
     "formSubmit": "Send",
+    "formSending": "Sending…",
+    "formError": "The message could not be sent. Please wait a moment and try again.",
     "formRequired": "required"
   },
   "contactReceivedPage": {
@@ -215,5 +217,25 @@
     "nextRemoval": "Removal requests are checked against the source the entry is based on. Anything that shows you are the rights holder makes this faster.",
     "backHome": "Back to home",
     "backPrivacy": "Privacy Policy & Disclaimer"
+  },
+  "guidesPage": {
+    "titleTag": "Coin locker guides | Sizes, prices, and what to do when they are full",
+    "heading": "Coin locker guides",
+    "description": "Choosing a size, what it costs, inside versus outside the ticket gates, and the fallbacks when every locker is taken — written from the data on this site.",
+    "lead": "These guides are written from the locker data on this site. Every figure is computed from the current dataset, which refreshes every six hours, so the numbers here never go stale.",
+    "linkFromTop": "Read the coin locker guides",
+    "backToList": "Back to all guides",
+    "otherGuides": "Other guides",
+    "loading": "Loading data…",
+    "tableSize": "Size",
+    "tableDimensions": "Internal size",
+    "tablePrice": "Price",
+    "tableStations": "Stations",
+    "tablePriceOne": "¥{{price}}",
+    "tablePriceRange": "¥{{min}}–{{max}}",
+    "tableStationCount_one": "{{count}} station",
+    "tableStationCount_other": "{{count}} stations",
+    "stationQuantity_one": "{{count}} locker",
+    "stationQuantity_other": "{{count}} lockers"
   }
 }

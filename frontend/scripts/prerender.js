@@ -26,17 +26,28 @@ import {
   pathForLocker,
   pathForPrefecture,
   pathForPrefectureList,
+  slugToName,
 } from "../src/stations.js";
 import { LOCKER_SIZES, sizeSummary, pathForSize, pathForSizeList } from "../src/lockerSizes.js";
 import {
   CONTACT_FORM_ENDPOINT,
-  CONTACT_SUBJECT,
-  CONTACT_TOPICS,
+  CONTACT_FORM_FIELDS,
   OPERATOR_NAME,
+  contactFormHidden,
   hasContactForm,
   pathForContactReceived,
+  pathForGuide,
+  pathForGuideList,
   pathForPrivacy,
 } from "../src/staticPages.js";
+import { GUIDES } from "../src/content/guides.js";
+import {
+  GUIDE_DATA_ELEMENT_ID,
+  fill,
+  guideData,
+  sizeTableRows,
+  stationListRows,
+} from "../src/guideRender.js";
 import { translateBusinessHours } from "../src/i18n/businessHours.js";
 import ja from "../src/locales/ja.json" with { type: "json" };
 import en from "../src/locales/en.json" with { type: "json" };
@@ -132,7 +143,17 @@ function renderPage(page) {
   html = html.replace(/\s*<title>[\s\S]*?<\/title>/, "");
   html = html.replace(/\s*<meta\s+name="description"[\s\S]*?\/>/, "");
   html = html.replace("</head>", `${metaTags(page)}\n  </head>`);
-  html = html.replace('<div id="root"></div>', `<div id="root">${page.body}${footerHtml(page.lang)}</div>`);
+  // 集計値は #root の外に置く。Reactはマウント時に#rootの中身を丸ごと捨てるため、
+  // 中に入れるとクライアント側から読めなくなる（guideRender.js の readEmbeddedGuideData）
+  const embedded = page.embeddedData
+    ? `\n    <script type="application/json" id="${GUIDE_DATA_ELEMENT_ID}">${JSON.stringify(
+        page.embeddedData
+      ).replace(/</g, "\\u003c")}</script>`
+    : "";
+  html = html.replace(
+    '<div id="root"></div>',
+    `<div id="root">${page.body}${footerHtml(page.lang)}</div>${embedded}`
+  );
   return html;
 }
 
@@ -174,9 +195,13 @@ function topPage(lang) {
     altJa: pathForPrefectureList("ja"),
     altEn: pathForPrefectureList("en"),
     ogType: "website",
-    body: `<main><h1>${esc(t(lang, "areasPage.ogTitle"))}</h1><p>${esc(description)}</p><h2>${esc(
-      t(lang, "areasPage.heading")
-    )}</h2><ul>${items}</ul></main>`,
+    // サイズ別一覧と解説記事への導線をトップに置く。クローラがここから
+    // 「駅名クエリ以外」のページ群に入れるようにするため
+    body:
+      `<main><h1>${esc(t(lang, "areasPage.ogTitle"))}</h1><p>${esc(description)}</p>` +
+      `<p>${link(pathForSizeList(lang), t(lang, "sizesPage.linkFromTop"))} ／ ` +
+      `${link(pathForGuideList(lang), t(lang, "guidesPage.linkFromTop"))}</p>` +
+      `<h2>${esc(t(lang, "areasPage.heading"))}</h2><ul>${items}</ul></main>`,
   };
 }
 
@@ -301,34 +326,144 @@ function sizesIndexPage(lang) {
   };
 }
 
+// 解説記事のブロック。components/GuideBlocks.jsx と同じ内容を静的HTMLでも出す。
+// 本文がここに出ていないと、JSを実行しないクローラからは読み物の無いサイトに見える
+function guideBlocksHtml(lang, blocks, vars) {
+  return blocks
+    .map((block) => {
+      switch (block.type) {
+        case "h2":
+          return `<h2>${esc(fill(block.text[lang], vars))}</h2>`;
+        case "p":
+          return `<p>${esc(fill(block.text[lang], vars))}</p>`;
+        case "ul":
+          return `<ul>${block.items.map((item) => `<li>${esc(fill(item[lang], vars))}</li>`).join("")}</ul>`;
+        case "qa":
+          return `<p><strong>${esc(fill(block.q[lang], vars))}</strong><br />${esc(
+            fill(block.a[lang], vars)
+          )}</p>`;
+        case "sizeTable": {
+          const head =
+            `<tr><th>${esc(t(lang, "guidesPage.tableSize"))}</th>` +
+            `<th>${esc(t(lang, "guidesPage.tableDimensions"))}</th>` +
+            `<th>${esc(t(lang, "guidesPage.tablePrice"))}</th>` +
+            `<th>${esc(t(lang, "guidesPage.tableStations"))}</th></tr>`;
+          const rows = sizeTableRows(allLockers, lang, t)
+            .map((row) => {
+              const price =
+                row.minPrice === row.maxPrice
+                  ? t(lang, "guidesPage.tablePriceOne", { price: row.minPrice })
+                  : t(lang, "guidesPage.tablePriceRange", { min: row.minPrice, max: row.maxPrice });
+              return (
+                `<tr><th scope="row">${esc(row.name)}</th><td>${esc(row.dimensions || "—")}</td>` +
+                `<td>${esc(price)}</td>` +
+                `<td>${esc(t(lang, "guidesPage.tableStationCount", { count: row.stationCount }))}</td></tr>`
+              );
+            })
+            .join("");
+          return `<div class="guide-table-wrap"><table class="guide-table"><thead>${head}</thead><tbody>${rows}</tbody></table></div>`;
+        }
+        case "stationList":
+          return `<ul class="guide-station-list">${stationListRows(allLockers, block.size)
+            .map(
+              (row) =>
+                `<li>${link(pathForStation(lang, row.slug), slugToName(row.slug, lang))} ` +
+                `<span class="guide-station-qty">${esc(
+                  t(lang, "guidesPage.stationQuantity", { count: row.quantity })
+                )}</span></li>`
+            )
+            .join("")}</ul>`;
+        default:
+          return "";
+      }
+    })
+    .join("");
+}
+
+// 解説記事の一覧（/guides）
+function guidesIndexPage(lang) {
+  const items = GUIDES.map((g) => `<li>${link(pathForGuide(lang, g.slug), g.heading[lang])}</li>`).join("");
+
+  return {
+    lang,
+    title: t(lang, "guidesPage.titleTag"),
+    description: t(lang, "guidesPage.description"),
+    canonicalPath: pathForGuideList(lang),
+    altJa: pathForGuideList("ja"),
+    altEn: pathForGuideList("en"),
+    ogType: "website",
+    body:
+      `<main><h1>${esc(t(lang, "guidesPage.heading"))}</h1>` +
+      `<p>${esc(t(lang, "guidesPage.lead"))}</p><ul>${items}</ul>` +
+      `<p>${link(pathForPrefectureList(lang), t(lang, "prefecturePage.backToAreas"))}</p></main>`,
+  };
+}
+
+// 解説記事の本体（/guides/:slug）
+function guidePage(lang, guide) {
+  const data = guideData(allLockers, lang, t, guide.blocks);
+  const vars = data.vars;
+  const others = GUIDES.filter((g) => g.slug !== guide.slug)
+    .map((g) => `<li>${link(pathForGuide(lang, g.slug), g.heading[lang])}</li>`)
+    .join("");
+
+  return {
+    lang,
+    title: guide.title[lang],
+    description: fill(guide.description[lang], vars),
+    canonicalPath: pathForGuide(lang, guide.slug),
+    altJa: pathForGuide("ja", guide.slug),
+    altEn: pathForGuide("en", guide.slug),
+    ogType: "article",
+    // クライアント側が同じ数値で描けるようHTMLに埋め込む（renderPage参照）。
+    // バックエンドAPIが落ちていても記事の数字が「0円」にならないための保険
+    embeddedData: data,
+    body:
+      `<main><p>${link(pathForGuideList(lang), t(lang, "guidesPage.backToList"))}</p>` +
+      `<h1>${esc(guide.heading[lang])}</h1>` +
+      guideBlocksHtml(lang, guide.blocks, vars) +
+      `<h2>${esc(t(lang, "guidesPage.otherGuides"))}</h2><ul>${others}</ul></main>`,
+  };
+}
+
 // お問い合わせフォーム。pages/PrivacyPage.jsx のJSXと同じ内容を静的HTMLでも出す。
 // createRootは#rootの中身を丸ごと捨てて描き直すので、片方だけに足すと
 // 「クローラには見えるが人間には見えない」（またはその逆）状態になる。必ず両方を直すこと
 function contactFormHtml(lang) {
-  const required = ` <em>（${esc(t(lang, "privacyPage.formRequired"))}）</em>`;
-  const options = CONTACT_TOPICS.map(
-    (topic) => `<option value="${esc(topic)}">${esc(t(lang, `privacyPage.formTopic_${topic}`))}</option>`
-  ).join("");
+  const hidden = contactFormHidden(lang, SITE_URL)
+    .map((h) => `<input type="hidden" name="${esc(h.name)}" value="${esc(h.value)}" />`)
+    .join("");
+
+  const fields = CONTACT_FORM_FIELDS.map((field) => {
+    const required = field.required
+      ? ` <em>（${esc(t(lang, "privacyPage.formRequired"))}）</em>`
+      : "";
+    const label = `<span>${esc(t(lang, field.labelKey))}${required}</span>`;
+    const attrs = `name="${esc(field.name)}"${field.required ? " required" : ""}`;
+
+    let control;
+    if (field.kind === "select") {
+      const options = field.options
+        .map((o) => `<option value="${esc(o)}">${esc(t(lang, `privacyPage.formTopic_${o}`))}</option>`)
+        .join("");
+      control = `<select ${attrs}>${options}</select>`;
+    } else if (field.kind === "textarea") {
+      control = `<textarea ${attrs} rows="${field.rows}"></textarea>`;
+    } else {
+      control = `<input type="${esc(field.kind)}" ${attrs} />`;
+    }
+
+    const note = field.noteKey
+      ? `<p class="contact-form-note">${esc(t(lang, field.noteKey))}</p>`
+      : "";
+    return `<label>${label}${control}</label>${note}`;
+  }).join("");
 
   return (
     `<form class="contact-form" action="${esc(CONTACT_FORM_ENDPOINT)}" method="POST">` +
-    `<input type="hidden" name="_subject" value="${esc(CONTACT_SUBJECT)}" />` +
-    `<input type="hidden" name="_captcha" value="false" />` +
-    `<input type="hidden" name="_template" value="table" />` +
-    `<input type="hidden" name="_next" value="${esc(SITE_URL + pathForContactReceived(lang))}" />` +
+    hidden +
     `<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />` +
-    `<label><span>${esc(t(lang, "privacyPage.formTopic"))}${required}</span>` +
-    `<select name="種類" required>${options}</select></label>` +
-    `<label><span>${esc(t(lang, "privacyPage.formPage"))}</span>` +
-    `<input type="url" name="該当ページ" placeholder="${esc(SITE_URL + pathForPrefectureList(lang))}" /></label>` +
-    `<label><span>${esc(t(lang, "privacyPage.formDetails"))}${required}</span>` +
-    `<textarea name="内容" rows="6" required></textarea></label>` +
-    `<label><span>${esc(t(lang, "privacyPage.formSource"))}</span>` +
-    `<input type="url" name="参照元" /></label>` +
-    `<p class="contact-form-note">${esc(t(lang, "privacyPage.formSourceNote"))}</p>` +
-    `<label><span>${esc(t(lang, "privacyPage.formEmail"))}</span>` +
-    `<input type="email" name="email" /></label>` +
-    `<p class="contact-form-note">${esc(t(lang, "privacyPage.formEmailNote"))}</p>` +
+    fields +
     `<button type="submit">${esc(t(lang, "privacyPage.formSubmit"))}</button>` +
     `</form>`
   );
@@ -538,6 +673,14 @@ for (const lang of LANGS) {
 
   writePage(sizesIndexPage(lang));
   count++;
+
+  writePage(guidesIndexPage(lang));
+  count++;
+
+  for (const guide of GUIDES) {
+    writePage(guidePage(lang, guide));
+    count++;
+  }
 
   writePage(privacyPage(lang));
   count++;

@@ -7,6 +7,8 @@ import SizesIndexPage from "./pages/SizesIndexPage.jsx";
 import SizePage from "./pages/SizePage.jsx";
 import StationPage from "./pages/StationPage.jsx";
 import LockerDetailRoute from "./pages/LockerDetailRoute.jsx";
+import GuidesIndexPage from "./pages/GuidesIndexPage.jsx";
+import GuideArticlePage from "./pages/GuideArticlePage.jsx";
 import PrivacyPage from "./pages/PrivacyPage.jsx";
 import ContactReceivedPage from "./pages/ContactReceivedPage.jsx";
 import NotFound from "./pages/NotFound.jsx";
@@ -28,6 +30,16 @@ function sizeRoutes() {
     <Route path="sizes">
       <Route index element={<SizesIndexPage />} />
       <Route path=":sizeSlug" element={<SizePage />} />
+    </Route>
+  );
+}
+
+// 解説記事。"guides"も静的セグメントなので:stationSlugより優先してマッチする
+function guideRoutes() {
+  return (
+    <Route path="guides">
+      <Route index element={<GuidesIndexPage />} />
+      <Route path=":guideSlug" element={<GuideArticlePage />} />
     </Route>
   );
 }
@@ -56,6 +68,7 @@ export default function App() {
         <Route index element={<AreasIndexPage />} />
         {areaRoutes()}
         {sizeRoutes()}
+        {guideRoutes()}
         <Route path="privacy" element={<PrivacyPage />} />
         <Route path="contact-received" element={<ContactReceivedPage />} />
         {stationRoutes()}
@@ -65,6 +78,7 @@ export default function App() {
         <Route index element={<AreasIndexPage />} />
         {areaRoutes()}
         {sizeRoutes()}
+        {guideRoutes()}
         <Route path="privacy" element={<PrivacyPage />} />
         <Route path="contact-received" element={<ContactReceivedPage />} />
         {stationRoutes()}

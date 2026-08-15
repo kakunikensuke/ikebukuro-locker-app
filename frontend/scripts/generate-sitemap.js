@@ -5,7 +5,13 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { STATIONS, PREFECTURES, pathForStation, pathForPrefecture } from "../src/stations.js";
 import { LOCKER_SIZES, pathForSize, pathForSizeList } from "../src/lockerSizes.js";
-import { pathForContactReceived, pathForPrivacy } from "../src/staticPages.js";
+import {
+  pathForContactReceived,
+  pathForGuide,
+  pathForGuideList,
+  pathForPrivacy,
+} from "../src/staticPages.js";
+import { GUIDES } from "../src/content/guides.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SITE_URL = process.env.VITE_SITE_URL || "https://example.com";
@@ -52,6 +58,13 @@ for (const size of LOCKER_SIZES) {
 
 // プライバシーポリシー・免責事項。検索需要のあるページではないが、
 // 運営者情報に到達できることを示す必要があるためインデックス対象にする
+// 解説記事。駅名単体のクエリと違ってGoogleマップと競合しない切り口で、
+// このサイトで唯一「読み物」として成立するページ群なので必ずインデックス対象にする
+urls.push(...urlPair(pathForGuideList("ja"), pathForGuideList("en")));
+for (const guide of GUIDES) {
+  urls.push(...urlPair(pathForGuide("ja", guide.slug), pathForGuide("en", guide.slug)));
+}
+
 urls.push(...urlPair(pathForPrivacy("ja"), pathForPrivacy("en")));
 urls.push(...urlPair(pathForContactReceived("ja"), pathForContactReceived("en")));
 

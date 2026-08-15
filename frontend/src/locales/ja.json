@@ -199,6 +199,8 @@
     "formEmail": "返信用メールアドレス（任意）",
     "formEmailNote": "未記入でも送信できます。その場合は返信できませんが、内容は必ず確認します。",
     "formSubmit": "送信する",
+    "formSending": "送信中…",
+    "formError": "送信できませんでした。時間をおいて試すか、解決しない場合はお手数ですが時間を空けて再度お試しください。",
     "formRequired": "必須"
   },
   "contactReceivedPage": {
@@ -213,5 +215,23 @@
     "nextRemoval": "削除のご依頼は、掲載の根拠と照らして確認します。権利者からのご連絡であることが分かる情報を添えていただけると早く進みます。",
     "backHome": "トップに戻る",
     "backPrivacy": "プライバシーポリシー・免責事項"
+  },
+  "guidesPage": {
+    "titleTag": "コインロッカーの使い方ガイド｜サイズ・料金・満杯時の対処",
+    "heading": "コインロッカーの使い方ガイド",
+    "description": "サイズの選び方、料金の相場、改札内外の違い、満杯だったときの代替手段。掲載データの集計をもとにまとめた解説です。",
+    "lead": "掲載中のロッカーデータを集計して書いた解説です。数値は6時間ごとの自動更新に合わせて計算しているので、表示は常に最新のデータと一致します。",
+    "linkFromTop": "コインロッカーの使い方ガイドを読む",
+    "backToList": "ガイド一覧に戻る",
+    "otherGuides": "ほかのガイド",
+    "loading": "データを読み込んでいます…",
+    "tableSize": "サイズ",
+    "tableDimensions": "内寸",
+    "tablePrice": "料金",
+    "tableStations": "設置駅",
+    "tablePriceOne": "{{price}}円",
+    "tablePriceRange": "{{min}}〜{{max}}円",
+    "tableStationCount": "{{count}}駅",
+    "stationQuantity": "{{count}}個"
   }
 }

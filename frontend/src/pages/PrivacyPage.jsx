@@ -2,18 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { pathForPrefectureList } from "../stations";
-import {
-  CONTACT_FORM_ENDPOINT,
-  CONTACT_SUBJECT,
-  CONTACT_TOPICS,
-  OPERATOR_NAME,
-  hasContactForm,
-  pathForContactReceived,
-  pathForPrivacy,
-} from "../staticPages";
+import { OPERATOR_NAME, hasContactForm, pathForPrivacy } from "../staticPages";
 import { SITE_URL } from "../config";
 import { useLang, useT } from "../i18n/LangContext.js";
 import LangSwitcher from "../components/LangSwitcher.jsx";
+import ContactForm from "../components/ContactForm.jsx";
 
 const GOOGLE_AD_SETTINGS_URL = "https://adssettings.google.com/";
 
@@ -92,53 +85,7 @@ export default function PrivacyPage() {
         {hasContactForm() ? (
           <>
             <p>{t("privacyPage.contactBody")}</p>
-            <form className="contact-form" action={CONTACT_FORM_ENDPOINT} method="POST">
-              <input type="hidden" name="_subject" value={CONTACT_SUBJECT} />
-              <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_template" value="table" />
-              <input type="hidden" name="_next" value={`${SITE_URL}${pathForContactReceived(lang)}`} />
-              {/* ボット除け。人間には見えない欄で、埋まっていたら送信を捨てる */}
-              <input type="text" name="_honey" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
-
-              <label>
-                <span>
-                  {t("privacyPage.formTopic")} <em>（{t("privacyPage.formRequired")}）</em>
-                </span>
-                <select name="種類" required defaultValue={CONTACT_TOPICS[0]}>
-                  {CONTACT_TOPICS.map((topic) => (
-                    <option key={topic} value={topic}>
-                      {t(`privacyPage.formTopic_${topic}`)}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label>
-                <span>{t("privacyPage.formPage")}</span>
-                <input type="url" name="該当ページ" placeholder={`${SITE_URL}${pathForPrefectureList(lang)}`} />
-              </label>
-
-              <label>
-                <span>
-                  {t("privacyPage.formDetails")} <em>（{t("privacyPage.formRequired")}）</em>
-                </span>
-                <textarea name="内容" rows="6" required />
-              </label>
-
-              <label>
-                <span>{t("privacyPage.formSource")}</span>
-                <input type="url" name="参照元" />
-              </label>
-              <p className="contact-form-note">{t("privacyPage.formSourceNote")}</p>
-
-              <label>
-                <span>{t("privacyPage.formEmail")}</span>
-                <input type="email" name="email" />
-              </label>
-              <p className="contact-form-note">{t("privacyPage.formEmailNote")}</p>
-
-              <button type="submit">{t("privacyPage.formSubmit")}</button>
-            </form>
+            <ContactForm />
           </>
         ) : (
           <p>{t("privacyPage.contactPending")}</p>
