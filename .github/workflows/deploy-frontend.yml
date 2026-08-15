@@ -5,16 +5,42 @@ on:
     branches: [main]
     paths:
       - "frontend/**"
+      # APIは frontend/scripts/generateApiData.js がこのファイルから生成する。
+      # 手動でデータを直した場合もデプロイが要る
+      - "backend/data/lockers.json"
       - ".github/workflows/deploy-frontend.yml"
+
+  # 🔴 6時間ごとのデータ更新バッチからデプロイを繋ぐための入口。
+  # 上の paths に lockers.json を足すだけでは動かない。GitHub Actionsは
+  # GITHUB_TOKEN によるpushでは他のワークフローを起動しない（無限ループ防止）ため、
+  # update-lockers.yml のコミットは push イベントを発生させない。
+  # workflow_run はこの制限の対象外なので、こちらで受ける。
+  # これが無いと「バッチは動いているのにサイトのデータが永久に古いまま」になる。
+  workflow_run:
+    workflows: ["Update lockers"]
+    types: [completed]
+    branches: [main]
+
   workflow_dispatch: {}
+
+# データ更新起点とpush起点が重なったときに、古いビルドが後から上書きするのを防ぐ
+concurrency:
+  group: deploy-frontend
+  cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # バッチが失敗した回はデプロイしない（push/手動起動のときは常に実行する）
+    if: >-
+      github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success'
     defaults:
       run:
         working-directory: frontend
     steps:
+      # workflow_run の既定のcheckout先は「起動元イベントのSHA」ではなくデフォルトブランチの
+      # 最新なので、バッチがコミットした lockers.json はこれで取れる
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
@@ -24,10 +50,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # prebuild が backend/data/lockers.json から public/api/ を生成するため、
+      # backend/ もチェックアウトされている必要がある（checkout@v4はリポジトリ全体を取る）
       - name: Build
         run: npm run build
         env:
-          VITE_API_BASE: https://ikebukuro-locker-app-backend.onrender.com
           VITE_SITE_URL: https://locker.kakuni-lab.com
 
       - name: Deploy to Cloudflare Workers

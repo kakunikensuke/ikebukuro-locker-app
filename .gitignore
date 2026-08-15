@@ -4,12 +4,11 @@ __pycache__/
 .env
 dist/
 
-# フェーズ6: 利用者投稿の周辺写真（実行時に生成される。サンプルデータではない）
-backend/data/photos/
-backend/data/photos.json
-
 # SEO対応: sitemap.xmlはビルド時（prebuild）にlockers.jsonから自動生成される
 frontend/public/sitemap.xml
+
+# ビルド時（prebuild）にlockers.jsonから生成する静的API。生成物なので追跡しない
+frontend/public/api/
 
 # wrangler dev（ローカルでCloudflare Workersの挙動を確認する用）の作業ディレクトリ
 frontend/.wrangler/

@@ -9,12 +9,29 @@ Reactの`ContactForm.jsx`とビルド時の`scripts/prerender.js`が同じ定義
 そのためステータスではなく応答本文の`success`を見て成功判定している。経緯は
 [お問い合わせフォーム移行_引き継ぎ.md](./お問い合わせフォーム移行_引き継ぎ.md)参照。
 
+## APIは静的JSON（2026-08-15移行済み）
+
+**本番にAPIサーバーは無い。** `frontend/scripts/generateApiData.js` がビルド時に
+`backend/data/lockers.json` から `frontend/public/api/` へJSONを書き出し、フロントと同じWorkerが配信する。
+Renderの無料枠（アカウント単位で月750時間）を使い切る状態だったための移行。
+
+守ること:
+
+- **絞り込みロジックの実装は `frontend/src/lockerFilter.js` だけ。** `backend/server.js`・
+  `generateApiData.js`・ブラウザの3か所がこれを共有する。コピーを作ると挙動がずれる
+- **`backend/server.js` は本番では動いていない。** 切り戻し用に残してあるだけ
+- **存在しないパスにも200+HTMLが返る**（`not_found_handling = "single-page-application"`）。
+  取得側はContent-Typeまで検証すること（`src/api.js`の`fetchJson`）
+- **`deploy-frontend.yml` の `workflow_run` トリガーを外さない。** データ更新バッチの
+  コミットはGITHUB_TOKENによるpushなので、pathsだけではデプロイが起動しない
+- 利用者投稿（写真・ロッカー情報）は廃止済み。復活させる場合は保存先の確保から必要
+
 ## 技術スタック
 
 - フロントエンド: React + Vite
 - 地図表示: Leaflet + OpenStreetMap（APIキー不要・無料）
-- バックエンド: Node.js + Express
-- データ保存: JSONファイル（本番はPostgreSQL等への移行を想定、`backend/db/schema.sql`参照）
+- バックエンド: 本番では不使用（ローカル確認用にNode.js + Expressを残置）
+- データ保存: JSONファイル（`backend/data/lockers.json`をスクレイパが更新する）
 
 ## プラットフォーム方針（2026-07-10更新）
 

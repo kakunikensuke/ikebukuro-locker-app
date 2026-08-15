@@ -1,19 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { fetchLockerDetail, uploadLockerPhoto, photoUrl } from "../api";
+import { fetchLockerDetail } from "../api";
 import { pathForLocker, slugToName } from "../stations";
 import { SITE_URL } from "../config";
 import { useLang, useT } from "../i18n/LangContext.js";
 import { translateBusinessHours } from "../i18n/businessHours.js";
 import AdSlot from "./AdSlot";
 
-const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
-const MAX_PHOTO_SIZE = 5 * 1024 * 1024;
-
 /**
  * フェーズ4: ロッカー詳細画面
  * 機能2（料金表示）・機能3（サイズ別個数表示）を実装
- * フェーズ6: 利用者投稿による周辺写真の閲覧・投稿を追加（ストリートビューの代替）
+ *
+ * 2026-08-15: 周辺写真の閲覧・投稿を廃止（保存先が無く、投稿が再デプロイのたびに消えていたため）
  */
 export default function LockerDetail({ facilityId, onClose }) {
   const lang = useLang();
@@ -35,47 +33,16 @@ export default function LockerDetail({ facilityId, onClose }) {
   };
   const [locker, setLocker] = useState(null);
   const [error, setError] = useState(null);
-  const [uploading, setUploading] = useState(false);
-  const [uploadError, setUploadError] = useState(null);
-  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (!facilityId) return;
     setLocker(null);
     setError(null);
-    setUploadError(null);
     fetchLockerDetail(facilityId)
       .then(setLocker)
       .catch(() => setError(t("errors.detailFetchFailed")));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [facilityId]);
-
-  const handlePhotoSelect = async (e) => {
-    const file = e.target.files[0];
-    e.target.value = "";
-    if (!file) return;
-
-    if (!ALLOWED_TYPES.includes(file.type)) {
-      setUploadError(t("lockerDetail.errorUnsupportedFile"));
-      return;
-    }
-    if (file.size > MAX_PHOTO_SIZE) {
-      setUploadError(t("lockerDetail.errorFileSize"));
-      return;
-    }
-
-    setUploading(true);
-    setUploadError(null);
-    try {
-      const { photos } = await uploadLockerPhoto(facilityId, file);
-      setLocker((prev) => (prev ? { ...prev, photos } : prev));
-    } catch {
-      // バックエンドは日本語の生エラーメッセージを返すため、英語ページではそのまま出さず固定文言にフォールバックする
-      setUploadError(t("lockerDetail.photoUploadFailed"));
-    } finally {
-      setUploading(false);
-    }
-  };
 
   if (!facilityId) return null;
 
@@ -110,14 +77,6 @@ export default function LockerDetail({ facilityId, onClose }) {
               {t("lockerDetail.gmapsLink")}
             </a>
 
-            {locker.user_submitted && (
-              <div className="submitted-info">
-                <span className="tag tag-user-submitted">{t("lockerList.userSubmittedTag")}</span>
-                <p className="submitted-comment">{locker.comment}</p>
-                {locker.details && <p className="submitted-details">{locker.details}</p>}
-              </div>
-            )}
-
             {locker.sizes.length > 0 ? (
               <table className="size-table">
                 <thead>
@@ -143,42 +102,6 @@ export default function LockerDetail({ facilityId, onClose }) {
             ) : (
               <p className="size-table-empty">{t("lockerDetail.sizeInfoUnknown")}</p>
             )}
-
-            <div className="photo-section">
-              <h3 className="photo-section-title">{t("lockerDetail.photoSectionTitle")}</h3>
-
-              {locker.photos.length > 0 ? (
-                <div className="photo-gallery">
-                  {locker.photos.map((photo) => (
-                    <a
-                      key={photo.id}
-                      href={photoUrl(photo)}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="photo-thumb"
-                    >
-                      <img src={photoUrl(photo)} alt={t("lockerDetail.photoAlt", { name: locker.name })} />
-                    </a>
-                  ))}
-                </div>
-              ) : (
-                <p className="photo-empty">{t("lockerDetail.photoEmpty")}</p>
-              )}
-
-              <label className="photo-upload-btn">
-                {uploading ? t("lockerDetail.photoUploading") : t("lockerDetail.photoUpload")}
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp"
-                  onChange={handlePhotoSelect}
-                  disabled={uploading}
-                  hidden
-                />
-              </label>
-              {uploadError && <p className="error-message photo-upload-error">{uploadError}</p>}
-              <p className="photo-disclaimer">{t("lockerDetail.photoDisclaimer")}</p>
-            </div>
 
             <p className="detail-updated">
               {t("lockerDetail.updatedAt", {
@@ -208,7 +131,6 @@ function LockerDetailMeta({ locker, lang, t }) {
         })
       : t("lockerDetail.metaDescriptionNoPrice", { address: locker.address, hours });
   const pageUrl = `${SITE_URL}${pathForLocker(lang, locker.station_slug, locker.facility_id)}`;
-  const ogImage = locker.photos?.[0] ? photoUrl(locker.photos[0]) : undefined;
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -233,7 +155,6 @@ function LockerDetailMeta({ locker, lang, t }) {
       <meta property="og:title" content={locker.name} />
       <meta property="og:description" content={description} />
       <meta property="og:type" content="place" />
-      {ogImage && <meta property="og:image" content={ogImage} />}
       <link rel="canonical" href={pageUrl} />
       <link rel="alternate" hreflang="ja" href={`${SITE_URL}${pathForLocker("ja", locker.station_slug, locker.facility_id)}`} />
       <link rel="alternate" hreflang="en" href={`${SITE_URL}${pathForLocker("en", locker.station_slug, locker.facility_id)}`} />

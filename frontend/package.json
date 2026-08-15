@@ -4,10 +4,11 @@
   "description": "コインロッカー検索アプリ フロントエンド",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run api && vite",
+    "api": "node scripts/generateApiData.js",
     "sitemap": "node scripts/generate-sitemap.js",
     "prerender": "node scripts/prerender.js",
-    "prebuild": "npm run sitemap",
+    "prebuild": "npm run api && npm run sitemap",
     "build": "vite build",
     "postbuild": "npm run prerender",
     "preview": "vite preview"

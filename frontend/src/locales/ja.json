@@ -1,5 +1,7 @@
 {
-  "app": { "title": "コインロッカー検索" },
+  "app": {
+    "title": "コインロッカー検索"
+  },
   "stationPage": {
     "titleTag": "{{station}}のコインロッカー{{count}}箇所｜料金・サイズ・場所一覧",
     "titleTagNoData": "{{station}}のコインロッカー｜コインロッカー検索",
@@ -15,7 +17,7 @@
     "sortPrice": "料金が安い順",
     "sortAvailability": "設置数が多い順",
     "otherStationsInPrefecture": "{{prefecture}}の他の駅を見る",
-    "noLockersYet": "この駅のロッカー情報はまだ登録されていません。ご存知の情報があれば、下のボタンから投稿にご協力ください。"
+    "noLockersYet": "この駅のロッカー情報はまだ登録されていません。ご存知の情報があれば、プライバシーポリシーのページにあるお問い合わせフォームからお知らせください。"
   },
   "areasPage": {
     "titleTag": "都道府県から探すコインロッカー｜コインロッカー検索",
@@ -80,8 +82,7 @@
     "empty": "該当するロッカーが見つかりませんでした。",
     "priceFrom": "{{price}}円〜",
     "priceUnknown": "料金情報なし",
-    "offeredSizes": "対応サイズ: {{sizes}}",
-    "userSubmittedTag": "利用者投稿"
+    "offeredSizes": "対応サイズ: {{sizes}}"
   },
   "lockerDetail": {
     "loading": "読み込み中...",
@@ -105,49 +106,20 @@
     "sizeLabelP1000": "1000円ロッカー",
     "priceValue": "{{price}}円",
     "quantityValue": "{{count}}個",
-    "photoSectionTitle": "周辺写真",
-    "photoEmpty": "まだ写真が投稿されていません。",
-    "photoUpload": "写真を投稿する",
-    "photoUploading": "アップロード中...",
-    "photoDisclaimer": "※投稿された写真は現地の様子と異なる場合があります。不適切な写真の削除は今後対応予定です。",
-    "photoAlt": "{{name}}の周辺写真",
-    "errorUnsupportedFile": "対応していないファイル形式です（JPEG・PNG・WebPのみ）",
-    "errorFileSize": "ファイルサイズは5MB以下にしてください",
-    "photoUploadFailed": "写真の投稿に失敗しました",
     "updatedAt": "最終更新: {{datetime}}",
     "disclaimer": "※料金・設置個数は変動する場合があります。空き状況など最新情報は現地でご確認ください。",
     "metaTitle": "{{name}}｜コインロッカー検索",
     "metaDescription": "{{address}}。{{price}}円〜、利用可能時間：{{hours}}",
     "metaDescriptionNoPrice": "{{address}}。利用可能時間：{{hours}}"
   },
-  "businessHours": { "allDay": "終日利用可" },
-  "mapView": { "detailButton": "詳細を見る" },
-  "adSlot": { "label": "広告" },
-  "lockerSubmit": {
-    "openButton": "ロッカー情報を投稿する",
-    "title": "ロッカー情報を投稿する",
-    "intro": "駅の鍵式・現金式など、掲載されていないコインロッカーの情報をお寄せください。投稿内容はすぐにサイトに公開されます。",
-    "stationLabel": "駅",
-    "mapHint": "地図をタップしてロッカーの位置にピンを立ててください",
-    "pinSet": "ピンを設置しました",
-    "pinNotSet": "ピン未設定",
-    "nameLabel": "名称",
-    "namePlaceholder": "例：西口 コインロッカー",
-    "commentLabel": "コメント",
-    "commentPlaceholder": "例：改札を出てすぐ左手にあります",
-    "addressLabel": "補足住所（任意）",
-    "hoursLabel": "営業時間（任意）",
-    "detailsLabel": "サイズ・料金など（任意）",
-    "detailsPlaceholder": "例：小200円・中300円、現金のみ",
-    "submit": "投稿する",
-    "submitting": "投稿中...",
-    "cancel": "キャンセル",
-    "close": "閉じる",
-    "errorPinRequired": "地図をタップしてピンを立ててください",
-    "errorRequired": "名称とコメントを入力してください",
-    "errorGeneric": "投稿に失敗しました",
-    "disclaimer": "※投稿内容はすぐに公開され、承認は行われません。実際の情報と異なる場合があります。不適切な投稿の削除は今後対応予定です。",
-    "successMessage": "投稿ありがとうございました！"
+  "businessHours": {
+    "allDay": "終日利用可"
+  },
+  "mapView": {
+    "detailButton": "詳細を見る"
+  },
+  "adSlot": {
+    "label": "広告"
   },
   "notFound": {
     "title": "ページが見つかりません｜コインロッカー検索",
@@ -173,8 +145,8 @@
     "adsBody": "本サイトは第三者配信の広告サービス「Google AdSense」を利用しています。広告配信事業者は、利用者の興味に応じた広告を表示するためにCookieを使用することがあります。パーソナライズ広告はGoogleの広告設定ページから無効にできます。",
     "adsSettingsLink": "Googleの広告設定",
     "collectHeading": "取得する情報",
-    "collectNoPersonal": "本サイトはロッカー情報の投稿機能を除き、利用者に情報の入力を求めません。氏名・メールアドレス等の個人情報を取得する仕組みはありません。",
-    "collectSubmit": "投稿機能から送信された内容（設置場所・サイズ・料金・営業時間・補足）は、サイト上に公開されます。個人情報は入力しないでください。",
+    "collectNoPersonal": "本サイトは、お問い合わせフォーム以外で利用者に情報の入力を求めません。会員登録もありません。",
+    "collectSubmit": "お問い合わせフォームから送信された内容（種類・該当ページ・内容・参照元・返信用メールアドレス）は、フォーム送信サービス FormSubmit を経由して運営者のメールアドレスに届きます。サイト上に公開されることはなく、返信用メールアドレスは返信以外の目的には使用しません。",
     "accuracyHeading": "掲載情報の正確性・免責事項",
     "accuracySource": "掲載しているロッカーの設置場所・サイズ・料金は、各鉄道事業者・運営会社が公開している情報をもとにしていますが、正確性・最新性を保証するものではありません。",
     "accuracyQuantity": "表示している個数は設置されているロッカーの数であり、空き状況ではありません。実際に空いているかどうかは現地でご確認ください。",

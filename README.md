@@ -7,10 +7,30 @@
 | 役割 | URL / サービス |
 |---|---|
 | フロントエンド | https://locker.kakuni-lab.com （Cloudflare Workers、`ikebukuro-locker-app`） |
-| バックエンドAPI | https://ikebukuro-locker-app-backend.onrender.com （Renderの無料プラン、Blueprint名`ikebukuro-locker-app`） |
+| API | **サーバーは無い。** `frontend/public/api/` にビルド時生成した静的JSONを同じWorkerから配信（2026-08-15移行） |
 | GitHubリポジトリ | https://github.com/kakunikensuke/ikebukuro-locker-app |
 | データ自動更新 | GitHub Actions（`.github/workflows/update-lockers.yml`、6時間ごと） |
-| フロントエンドデプロイ | GitHub Actions（`.github/workflows/deploy-frontend.yml`、mainへのpush時） |
+| フロントエンドデプロイ | GitHub Actions（`.github/workflows/deploy-frontend.yml`、mainへのpush時＋データ更新バッチの完了時） |
+
+### APIの静的化について（2026-08-15）
+
+以前はRender上のExpress（`ikebukuro-locker-app-backend.onrender.com`）がAPIを返していたが、
+**Renderの無料枠は月750インスタンス時間でアカウント単位**のため、常時起動1本で月744時間を消費し余裕が無かった。
+APIは `backend/data/lockers.json` を読んで絞り込むだけで動的な状態を持たないため、
+ビルド時に `frontend/scripts/generateApiData.js` がJSONを書き出す方式に変更した。
+
+同時に、書き込みAPI（周辺写真の投稿・ロッカー情報の投稿）を廃止した。
+Renderの無料プランは永続ディスクを持てず、投稿データが再デプロイのたびに消えていたため（実投稿は0件）。
+削除したファイルは `削除用フォルダ/2026-08-15_投稿機能廃止/` にある。
+
+⚠ **`backend/server.js` は本番では使っていない。** 静的化に問題が出たときの切り戻し先として残してある。
+絞り込みロジックの唯一の実装は `frontend/src/lockerFilter.js` で、server.js・generateApiData.js・
+ブラウザの3か所がこれを共有する。**どこかにコピーを作らないこと。**
+
+⚠ **データ更新バッチとデプロイの接続に注意。** `update-lockers.yml` がコミットするのは
+`backend/data/lockers.json` で、GitHub Actionsは GITHUB_TOKEN によるpushでは他のワークフローを起動しない。
+そのため `deploy-frontend.yml` は `workflow_run`（"Update lockers" の完了）でも起動するようにしてある。
+ここを外すと「バッチは動いているのにサイトのデータが永久に古いまま」になる。
 
 デプロイ構成の詳細・トラブルシューティングの型は、ルートの「デプロイ・インフラ運用ノウハウ.md」を参照。
 このアプリはCloudflareダッシュボードのUI変更により、従来の「Pages」ではなく**Workers（静的アセット配信、`frontend/wrangler.toml`使用）**でデプロイしている。
@@ -69,17 +89,7 @@ ikebukuro-locker-app/
 
 ## セットアップ・起動方法
 
-### 1. バックエンドAPIの起動
-
-```bash
-cd backend
-npm install
-npm start
-```
-
-`http://localhost:4000` でAPIサーバーが起動します。
-
-### 2. フロントエンドの起動（別ターミナルで）
+### 1. フロントエンドの起動（これだけでよい）
 
 ```bash
 cd frontend
@@ -88,6 +98,19 @@ npm run dev
 ```
 
 `http://localhost:5173` をブラウザで開くとアプリが表示されます。
+`npm run dev` の先頭で `generateApiData.js` が走り、`public/api/` にJSONが生成されるため、
+**バックエンドを起動する必要はありません**（2026-08-15の静的化以降）。
+
+### 2. バックエンドAPIの起動（任意・ローカル確認用）
+
+```bash
+cd backend
+npm install
+npm start
+```
+
+`http://localhost:4000` でAPIサーバーが起動します。
+**本番では使っていません。** フロントはこのサーバーを見ないので、起動しても表示は変わりません。
 
 ### 3. データ自動更新バッチの手動実行確認（任意）
 

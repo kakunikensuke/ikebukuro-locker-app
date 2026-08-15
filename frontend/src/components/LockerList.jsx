@@ -37,9 +37,6 @@ export default function LockerList({ lockers, onSelectLocker }) {
             <div className="locker-card-tags">
               <span className="tag">{slugToName(locker.station_slug, lang) ?? locker.nearest_station}</span>
               {hasSizes && <span className="tag">{t("lockerList.offeredSizes", { sizes: offeredSizes })}</span>}
-              {locker.user_submitted && (
-                <span className="tag tag-user-submitted">{t("lockerList.userSubmittedTag")}</span>
-              )}
             </div>
           </li>
         );

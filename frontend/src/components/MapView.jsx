@@ -27,7 +27,6 @@ function buildLockerIcon(variant) {
 
 const lockerIconMatched = buildLockerIcon("matched");
 const lockerIconMuted = buildLockerIcon("muted");
-const lockerIconUserSubmitted = buildLockerIcon("user-submitted");
 
 // 駅選択時はその駅を中心に、未選択時は表示中の全ロッカーが収まるように地図を調整する
 function MapUpdater({ lockers, stationSlug }) {
@@ -72,13 +71,7 @@ export default function MapView({ lockers, matchedIds, stationSlug, onSelectLock
         <Marker
           key={locker.facility_id}
           position={[locker.latitude, locker.longitude]}
-          icon={
-            locker.user_submitted
-              ? lockerIconUserSubmitted
-              : matchedIds.has(locker.facility_id)
-              ? lockerIconMatched
-              : lockerIconMuted
-          }
+          icon={matchedIds.has(locker.facility_id) ? lockerIconMatched : lockerIconMuted}
           eventHandlers={{
             click: () => onSelectLocker(locker.facility_id),
           }}

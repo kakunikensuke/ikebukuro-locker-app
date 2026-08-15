@@ -56,18 +56,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SITE_URL = process.env.VITE_SITE_URL || "https://example.com";
 const DIST = path.join(__dirname, "..", "dist");
 const LOCKERS_PATH = path.join(__dirname, "..", "..", "backend", "data", "lockers.json");
-const USER_SUBMITTED_PATH = path.join(__dirname, "..", "..", "backend", "data", "user-submitted-lockers.json");
 const LANGS = ["ja", "en"];
 
+// 2026-08-15に利用者投稿を廃止したため、ロッカーは自動取得データのみ
 const lockers = JSON.parse(fs.readFileSync(LOCKERS_PATH, "utf-8"));
-const userSubmittedLockers = fs.existsSync(USER_SUBMITTED_PATH)
-  ? JSON.parse(fs.readFileSync(USER_SUBMITTED_PATH, "utf-8"))
-  : [];
-// 駅ページの件数表示・noindex判定は投稿分も含めた全ロッカーで行う（StationPageの挙動と揃える）
-const allLockers = [...lockers, ...userSubmittedLockers];
 
 const lockersByStation = new Map();
-for (const locker of allLockers) {
+for (const locker of lockers) {
   if (!lockersByStation.has(locker.station_slug)) lockersByStation.set(locker.station_slug, []);
   lockersByStation.get(locker.station_slug).push(locker);
 }
@@ -297,7 +292,7 @@ function stationPage(lang, station) {
 // サイズ別一覧のハブ（/sizes）。SizesIndexPageと同じ翻訳キー・同じ集計を使う
 function sizesIndexPage(lang) {
   const cards = LOCKER_SIZES.map((size) => {
-    const summary = sizeSummary(allLockers, size.sizeType);
+    const summary = sizeSummary(lockers, size.sizeType);
     const note = summary.dimensions
       ? ` ${esc(t(lang, "sizesPage.sizeCardDimensions", { dimensions: summary.dimensions }))}`
       : "";
@@ -348,7 +343,7 @@ function guideBlocksHtml(lang, blocks, vars) {
             `<th>${esc(t(lang, "guidesPage.tableDimensions"))}</th>` +
             `<th>${esc(t(lang, "guidesPage.tablePrice"))}</th>` +
             `<th>${esc(t(lang, "guidesPage.tableStations"))}</th></tr>`;
-          const rows = sizeTableRows(allLockers, lang, t)
+          const rows = sizeTableRows(lockers, lang, t)
             .map((row) => {
               const price =
                 row.minPrice === row.maxPrice
@@ -364,7 +359,7 @@ function guideBlocksHtml(lang, blocks, vars) {
           return `<div class="guide-table-wrap"><table class="guide-table"><thead>${head}</thead><tbody>${rows}</tbody></table></div>`;
         }
         case "stationList":
-          return `<ul class="guide-station-list">${stationListRows(allLockers, block.size)
+          return `<ul class="guide-station-list">${stationListRows(lockers, block.size)
             .map(
               (row) =>
                 `<li>${link(pathForStation(lang, row.slug), slugToName(row.slug, lang))} ` +
@@ -401,7 +396,7 @@ function guidesIndexPage(lang) {
 
 // 解説記事の本体（/guides/:slug）
 function guidePage(lang, guide) {
-  const data = guideData(allLockers, lang, t, guide.blocks);
+  const data = guideData(lockers, lang, t, guide.blocks);
   const vars = data.vars;
   const others = GUIDES.filter((g) => g.slug !== guide.slug)
     .map((g) => `<li>${link(pathForGuide(lang, g.slug), g.heading[lang])}</li>`)
@@ -542,7 +537,7 @@ function privacyPage(lang) {
 // サイズ別の駅一覧（/sizes/:sizeSlug）。SizePageと同じく都道府県ごとにまとめる。
 // 駅ページへの内部リンクを大量に張るため、クロールを駅ページへ流す導線にもなっている
 function sizePage(lang, size) {
-  const summary = sizeSummary(allLockers, size.sizeType);
+  const summary = sizeSummary(lockers, size.sizeType);
   const sizeName = t(lang, `sizePage.sizeName${size.sizeType}`);
   const vars = {
     size: sizeName,
@@ -698,7 +693,7 @@ for (const lang of LANGS) {
     count++;
   }
 
-  for (const locker of allLockers) {
+  for (const locker of lockers) {
     const station = stationBySlug.get(locker.station_slug);
     if (!station) continue;
     writePage(lockerPage(lang, locker, station));
