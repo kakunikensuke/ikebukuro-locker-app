@@ -1,5 +1,14 @@
 # ikebukuro-locker-app（コインロッカー検索アプリ）
 
+## お問い合わせフォーム（2026-08-15移行済み）
+
+Googleフォームからサイト内フォーム（FormSubmit）へ移行した。定義は`src/staticPages.js`に集約してあり、
+Reactの`ContactForm.jsx`とビルド時の`scripts/prerender.js`が同じ定義から生成する。片方だけ直さないこと。
+
+**FormSubmitは送信元URLごとに有効化が必要**で、有効化前でもHTTP 200を返す。
+そのためステータスではなく応答本文の`success`を見て成功判定している。経緯は
+[お問い合わせフォーム移行_引き継ぎ.md](./お問い合わせフォーム移行_引き継ぎ.md)参照。
+
 ## 技術スタック
 
 - フロントエンド: React + Vite
