@@ -2,7 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { pathForPrefectureList } from "../stations";
-import { CONTACT_FORM_URL, OPERATOR_NAME, hasContactForm, pathForPrivacy } from "../staticPages";
+import {
+  CONTACT_FORM_ENDPOINT,
+  CONTACT_SUBJECT,
+  CONTACT_TOPICS,
+  OPERATOR_NAME,
+  hasContactForm,
+  pathForContactReceived,
+  pathForPrivacy,
+} from "../staticPages";
 import { SITE_URL } from "../config";
 import { useLang, useT } from "../i18n/LangContext.js";
 import LangSwitcher from "../components/LangSwitcher.jsx";
@@ -77,15 +85,61 @@ export default function PrivacyPage() {
         </ul>
 
         <h3>{t("privacyPage.contactHeading")}</h3>
-        {/* フォームURLが未設定のうちは「準備中」と正直に出す。
-            リンク切れや押せないボタンを置くより、状態を書いておく方が誠実で審査上も安全 */}
+        {/* 送信先が未設定のうちは「準備中」と正直に出す。
+            動かないフォームを置くより、状態を書いておく方が誠実で審査上も安全。
+            なおこのフォームは scripts/prerender.js の privacyPage() にも同じ内容がある。
+            片方だけ直すと静的HTMLと画面の中身がズレるので必ず両方を直すこと */}
         {hasContactForm() ? (
-          <p>
-            {t("privacyPage.contactBody")}{" "}
-            <a href={CONTACT_FORM_URL} target="_blank" rel="noopener noreferrer">
-              {t("privacyPage.contactLink")}
-            </a>
-          </p>
+          <>
+            <p>{t("privacyPage.contactBody")}</p>
+            <form className="contact-form" action={CONTACT_FORM_ENDPOINT} method="POST">
+              <input type="hidden" name="_subject" value={CONTACT_SUBJECT} />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_next" value={`${SITE_URL}${pathForContactReceived(lang)}`} />
+              {/* ボット除け。人間には見えない欄で、埋まっていたら送信を捨てる */}
+              <input type="text" name="_honey" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
+
+              <label>
+                <span>
+                  {t("privacyPage.formTopic")} <em>（{t("privacyPage.formRequired")}）</em>
+                </span>
+                <select name="種類" required defaultValue={CONTACT_TOPICS[0]}>
+                  {CONTACT_TOPICS.map((topic) => (
+                    <option key={topic} value={topic}>
+                      {t(`privacyPage.formTopic_${topic}`)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label>
+                <span>{t("privacyPage.formPage")}</span>
+                <input type="url" name="該当ページ" placeholder={`${SITE_URL}${pathForPrefectureList(lang)}`} />
+              </label>
+
+              <label>
+                <span>
+                  {t("privacyPage.formDetails")} <em>（{t("privacyPage.formRequired")}）</em>
+                </span>
+                <textarea name="内容" rows="6" required />
+              </label>
+
+              <label>
+                <span>{t("privacyPage.formSource")}</span>
+                <input type="url" name="参照元" />
+              </label>
+              <p className="contact-form-note">{t("privacyPage.formSourceNote")}</p>
+
+              <label>
+                <span>{t("privacyPage.formEmail")}</span>
+                <input type="email" name="email" />
+              </label>
+              <p className="contact-form-note">{t("privacyPage.formEmailNote")}</p>
+
+              <button type="submit">{t("privacyPage.formSubmit")}</button>
+            </form>
+          </>
         ) : (
           <p>{t("privacyPage.contactPending")}</p>
         )}

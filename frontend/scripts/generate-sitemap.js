@@ -5,7 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { STATIONS, PREFECTURES, pathForStation, pathForPrefecture } from "../src/stations.js";
 import { LOCKER_SIZES, pathForSize, pathForSizeList } from "../src/lockerSizes.js";
-import { pathForPrivacy } from "../src/staticPages.js";
+import { pathForContactReceived, pathForPrivacy } from "../src/staticPages.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SITE_URL = process.env.VITE_SITE_URL || "https://example.com";
@@ -53,6 +53,7 @@ for (const size of LOCKER_SIZES) {
 // プライバシーポリシー・免責事項。検索需要のあるページではないが、
 // 運営者情報に到達できることを示す必要があるためインデックス対象にする
 urls.push(...urlPair(pathForPrivacy("ja"), pathForPrivacy("en")));
+urls.push(...urlPair(pathForContactReceived("ja"), pathForContactReceived("en")));
 
 for (const station of STATIONS) {
   if (!stationsWithLockers.has(station.slug)) continue;

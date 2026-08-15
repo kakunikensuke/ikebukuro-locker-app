@@ -188,6 +188,32 @@
     "contactHeading": "Contact",
     "contactBody": "For corrections, removal requests, or anything else, please get in touch through the form below.",
     "contactLink": "Open the contact form",
-    "contactPending": "The contact form is being set up. This page will be updated once it is ready."
+    "contactPending": "The contact form is being set up. This page will be updated once it is ready.",
+    "formTopic": "What is this about?",
+    "formTopic_ロッカー情報の誤り": "Something in the locker data is wrong",
+    "formTopic_駅の追加リクエスト": "Request to add a station",
+    "formTopic_削除依頼": "Removal request",
+    "formTopic_その他": "Something else",
+    "formPage": "URL of the page (optional)",
+    "formDetails": "Your message",
+    "formSource": "Source URL (optional)",
+    "formSourceNote": "If you are reporting an error, a link to the railway operator's official page makes it much faster to verify.",
+    "formEmail": "Your email address (optional)",
+    "formEmailNote": "You can send without it. We then cannot reply, but the message is still read.",
+    "formSubmit": "Send",
+    "formRequired": "required"
+  },
+  "contactReceivedPage": {
+    "titleTag": "Message received | Coin Locker Search",
+    "ogTitle": "Message received",
+    "description": "Your message to Coin Locker Search has been received. Here is what happens next and how long a reply usually takes.",
+    "lead": "Thanks for writing in. Your message has reached the operator.",
+    "nextHeading": "What happens next",
+    "nextSource": "If you reported an error in the locker data, it is checked against a primary source — the railway operator's or locker company's own pages — before anything changes. So a report is not applied as-is.",
+    "nextBatch": "The locker data is refreshed automatically every six hours. Fixes that need manual work are applied together once they have been verified.",
+    "nextReply": "If you left an email address, you will get a reply once the report has been checked. This site is run by one person, so that can take a few days. Without an address there is no reply, but the message is still read.",
+    "nextRemoval": "Removal requests are checked against the source the entry is based on. Anything that shows you are the rights holder makes this faster.",
+    "backHome": "Back to home",
+    "backPrivacy": "Privacy Policy & Disclaimer"
   }
 }

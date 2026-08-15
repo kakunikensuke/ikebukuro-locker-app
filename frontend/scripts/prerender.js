@@ -28,7 +28,15 @@ import {
   pathForPrefectureList,
 } from "../src/stations.js";
 import { LOCKER_SIZES, sizeSummary, pathForSize, pathForSizeList } from "../src/lockerSizes.js";
-import { CONTACT_FORM_URL, OPERATOR_NAME, hasContactForm, pathForPrivacy } from "../src/staticPages.js";
+import {
+  CONTACT_FORM_ENDPOINT,
+  CONTACT_SUBJECT,
+  CONTACT_TOPICS,
+  OPERATOR_NAME,
+  hasContactForm,
+  pathForContactReceived,
+  pathForPrivacy,
+} from "../src/staticPages.js";
 import { translateBusinessHours } from "../src/i18n/businessHours.js";
 import ja from "../src/locales/ja.json" with { type: "json" };
 import en from "../src/locales/en.json" with { type: "json" };
@@ -293,6 +301,63 @@ function sizesIndexPage(lang) {
   };
 }
 
+// お問い合わせフォーム。pages/PrivacyPage.jsx のJSXと同じ内容を静的HTMLでも出す。
+// createRootは#rootの中身を丸ごと捨てて描き直すので、片方だけに足すと
+// 「クローラには見えるが人間には見えない」（またはその逆）状態になる。必ず両方を直すこと
+function contactFormHtml(lang) {
+  const required = ` <em>（${esc(t(lang, "privacyPage.formRequired"))}）</em>`;
+  const options = CONTACT_TOPICS.map(
+    (topic) => `<option value="${esc(topic)}">${esc(t(lang, `privacyPage.formTopic_${topic}`))}</option>`
+  ).join("");
+
+  return (
+    `<form class="contact-form" action="${esc(CONTACT_FORM_ENDPOINT)}" method="POST">` +
+    `<input type="hidden" name="_subject" value="${esc(CONTACT_SUBJECT)}" />` +
+    `<input type="hidden" name="_captcha" value="false" />` +
+    `<input type="hidden" name="_template" value="table" />` +
+    `<input type="hidden" name="_next" value="${esc(SITE_URL + pathForContactReceived(lang))}" />` +
+    `<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />` +
+    `<label><span>${esc(t(lang, "privacyPage.formTopic"))}${required}</span>` +
+    `<select name="種類" required>${options}</select></label>` +
+    `<label><span>${esc(t(lang, "privacyPage.formPage"))}</span>` +
+    `<input type="url" name="該当ページ" placeholder="${esc(SITE_URL + pathForPrefectureList(lang))}" /></label>` +
+    `<label><span>${esc(t(lang, "privacyPage.formDetails"))}${required}</span>` +
+    `<textarea name="内容" rows="6" required></textarea></label>` +
+    `<label><span>${esc(t(lang, "privacyPage.formSource"))}</span>` +
+    `<input type="url" name="参照元" /></label>` +
+    `<p class="contact-form-note">${esc(t(lang, "privacyPage.formSourceNote"))}</p>` +
+    `<label><span>${esc(t(lang, "privacyPage.formEmail"))}</span>` +
+    `<input type="email" name="email" /></label>` +
+    `<p class="contact-form-note">${esc(t(lang, "privacyPage.formEmailNote"))}</p>` +
+    `<button type="submit">${esc(t(lang, "privacyPage.formSubmit"))}</button>` +
+    `</form>`
+  );
+}
+
+// お問い合わせ送信後の到達ページ（/contact-received）。FormSubmitの_nextの飛び先で、
+// 無いと送信後に404になる。中身を1行にせず、受け取った後どう扱うかまで書いている
+function contactReceivedPage(lang) {
+  const items = ["nextSource", "nextBatch", "nextReply", "nextRemoval"]
+    .map((key) => `<li>${esc(t(lang, `contactReceivedPage.${key}`))}</li>`)
+    .join("");
+
+  return {
+    lang,
+    title: t(lang, "contactReceivedPage.titleTag"),
+    description: t(lang, "contactReceivedPage.description"),
+    canonicalPath: pathForContactReceived(lang),
+    altJa: pathForContactReceived("ja"),
+    altEn: pathForContactReceived("en"),
+    ogType: "article",
+    body:
+      `<main><h1>${esc(t(lang, "contactReceivedPage.ogTitle"))}</h1>` +
+      `<p>${esc(t(lang, "contactReceivedPage.lead"))}</p>` +
+      `<h2>${esc(t(lang, "contactReceivedPage.nextHeading"))}</h2><ul>${items}</ul>` +
+      `<p>${link(pathForPrefectureList(lang), t(lang, "contactReceivedPage.backHome"))} ／ ` +
+      `${link(pathForPrivacy(lang), t(lang, "contactReceivedPage.backPrivacy"))}</p></main>`,
+  };
+}
+
 // プライバシーポリシー・免責事項（/privacy）。データに依存しない固定ページ。
 // PrivacyPage.jsxと同じ翻訳キーから引いているので、文言の変更はlocales側だけで済む
 function privacyPage(lang) {
@@ -303,10 +368,7 @@ function privacyPage(lang) {
       : `<ul>${bodies.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>`);
 
   const contact = hasContactForm()
-    ? `<p>${esc(t(lang, "privacyPage.contactBody"))} ${link(
-        CONTACT_FORM_URL,
-        t(lang, "privacyPage.contactLink")
-      )}</p>`
+    ? `<p>${esc(t(lang, "privacyPage.contactBody"))}</p>${contactFormHtml(lang)}`
     : `<p>${esc(t(lang, "privacyPage.contactPending"))}</p>`;
 
   return {
@@ -478,6 +540,9 @@ for (const lang of LANGS) {
   count++;
 
   writePage(privacyPage(lang));
+  count++;
+
+  writePage(contactReceivedPage(lang));
   count++;
 
   for (const size of LOCKER_SIZES) {
