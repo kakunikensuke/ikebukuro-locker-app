@@ -3,4 +3,11 @@ compatibility_date = "2026-07-28"
 
 [assets]
 directory = "./dist"
-not_found_handling = "single-page-application"
+# 🔴 "single-page-application" にしないこと。存在しないURLにトップページのHTMLが200で返り、
+# Googleに「ソフト404」と判定される（2026-08-17にSearch Consoleから警告が来た）。
+# 全ルート（駅・ロッカー詳細・記事・固定ページ）をプリレンダしているので、
+# 正規のURLがここに落ちることはない。飛び先の dist/404.html は scripts/prerender.js が生成する。
+#
+# 以前はSPAフォールバックが必要だった。利用者投稿で増えるロッカー詳細URLが
+# 次のビルドまで404になるためだが、その投稿機能は2026-08-15に廃止した。
+not_found_handling = "404-page"

@@ -6,7 +6,6 @@ import { fileURLToPath } from "url";
 import { STATIONS, PREFECTURES, pathForStation, pathForPrefecture } from "../src/stations.js";
 import { LOCKER_SIZES, pathForSize, pathForSizeList } from "../src/lockerSizes.js";
 import {
-  pathForContactReceived,
   pathForGuide,
   pathForGuideList,
   pathForPrivacy,
@@ -60,7 +59,8 @@ for (const guide of GUIDES) {
 }
 
 urls.push(...urlPair(pathForPrivacy("ja"), pathForPrivacy("en")));
-urls.push(...urlPair(pathForContactReceived("ja"), pathForContactReceived("en")));
+// /contact-received はsitemapに載せない。フォーム送信者だけが来る薄いページで、
+// noindexにしてある（noindexページをsitemapに載せるのは矛盾。2026-08-17のソフト404警告への対応）
 
 for (const station of STATIONS) {
   if (!stationsWithLockers.has(station.slug)) continue;

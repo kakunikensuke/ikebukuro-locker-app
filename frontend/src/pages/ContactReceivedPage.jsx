@@ -30,6 +30,10 @@ export default function ContactReceivedPage() {
         <link rel="alternate" hreflang="ja" href={`${SITE_URL}${pathForContactReceived("ja")}`} />
         <link rel="alternate" hreflang="en" href={`${SITE_URL}${pathForContactReceived("en")}`} />
         <link rel="alternate" hreflang="x-default" href={`${SITE_URL}${pathForContactReceived("ja")}`} />
+        {/* フォームを送った人だけが来るページ。検索から直接来ても意味がないうえ、
+            内容が薄いためGoogleにソフト404と判定される（2026-08-17にSearch Consoleで警告）。
+            プリレンダ側（scripts/prerender.js の contactReceivedPage）と揃えている */}
+        <meta name="robots" content="noindex" />
       </Helmet>
 
       <header className="app-header">

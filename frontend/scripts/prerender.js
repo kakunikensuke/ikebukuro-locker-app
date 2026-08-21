@@ -479,6 +479,10 @@ function contactReceivedPage(lang) {
     altJa: pathForContactReceived("ja"),
     altEn: pathForContactReceived("en"),
     ogType: "article",
+    // 「送信ありがとうございます」だけの薄いページ。検索から直接来ても意味がなく、
+    // 逆にGoogleにソフト404と判定される（2026-08-17にSearch Consoleで警告）。
+    // sitemapからも外している
+    noindex: true,
     body:
       `<main><h1>${esc(t(lang, "contactReceivedPage.ogTitle"))}</h1>` +
       `<p>${esc(t(lang, "contactReceivedPage.lead"))}</p>` +
@@ -700,5 +704,38 @@ for (const lang of LANGS) {
     count++;
   }
 }
+
+// dist/404.html は wrangler.toml の not_found_handling = "404-page" の飛び先。
+//
+// これが無いと（＝SPAフォールバックのままだと）、存在しないURLにトップページのHTMLが
+// 200で返り、Googleに「ソフト404」と判定される。2026-08-17にSearch Consoleから
+// 実際に警告が来た。全ルートをプリレンダしているので、正規のURLがここに落ちることはない。
+//
+// 言語別に出し分けられない（Cloudflareは1ファイルしか見ない）ので日本語で出し、
+// 英語の文言も併記する。canonicalは持たせない。
+function notFoundPage() {
+  const body =
+    `<main><h1>${esc(t("ja", "notFound.title"))}</h1>` +
+    `<p>${esc(t("ja", "notFound.message"))}</p>` +
+    `<p>${esc(t("en", "notFound.message"))}</p>` +
+    `<p>${link("/", t("ja", "notFound.backHome"))}</p></main>`;
+
+  let html = TEMPLATE;
+  html = html.replace(/\s*<title>[\s\S]*?<\/title>/, "");
+  html = html.replace(/\s*<meta\s+name="description"[\s\S]*?\/>/, "");
+  html = html.replace(
+    "</head>",
+    `    <title>${esc(t("ja", "notFound.title"))}</title>\n` +
+      `    <meta name="robots" content="noindex" />\n  </head>`
+  );
+  html = html.replace(
+    '<div id="root"></div>',
+    `<div id="root">${body}${footerHtml("ja")}</div>`
+  );
+  fs.writeFileSync(path.join(DIST, "404.html"), html);
+}
+
+notFoundPage();
+count++;
 
 console.log(`静的HTMLを生成しました（${count}ページ、SITE_URL=${SITE_URL}）: ${DIST}`);
