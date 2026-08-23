@@ -16,7 +16,7 @@
     "slug": "keisei-keiseitakasago",
     "name": {
       "ja": "京成高砂駅",
-      "en": "Keiseitakasago Station"
+      "en": "Keisei-Takasago Station"
     },
     "kana": "けいせいたかさご",
     "prefecture": "東京都",
@@ -68,7 +68,7 @@
     "slug": "seibu-higashimurayama",
     "name": {
       "ja": "東村山駅",
-      "en": "Higashimurayama Station"
+      "en": "Higashi-murayama Station"
     },
     "kana": "ひがしむらやま",
     "prefecture": "東京都",
@@ -81,7 +81,7 @@
     "slug": "tokyo-metro-kotakemukaihara",
     "name": {
       "ja": "小竹向原駅",
-      "en": "Kotakemukaihara Station"
+      "en": "Kotake-mukaihara Station"
     },
     "kana": "こたけむかいはら",
     "prefecture": "東京都",
@@ -172,9 +172,9 @@
     "slug": "tokyo-metro-aoyamaichichome",
     "name": {
       "ja": "青山一丁目駅",
-      "en": "Aoyamaichichome Station"
+      "en": "Aoyama-itchome Station"
     },
-    "kana": "あおやまいちちょうめ",
+    "kana": "あおやまいっちょうめ",
     "prefecture": "東京都",
     "center": [
       35.672423333333334,
@@ -198,7 +198,7 @@
     "slug": "tokyo-metro-nakanosakaue",
     "name": {
       "ja": "中野坂上駅",
-      "en": "Nakanosakaue Station"
+      "en": "Nakano-sakaue Station"
     },
     "kana": "なかのさかうえ",
     "prefecture": "東京都",
@@ -211,7 +211,7 @@
     "slug": "tokyo-metro-shinjukusanchome",
     "name": {
       "ja": "新宿三丁目駅",
-      "en": "Shinjukusanchome Station"
+      "en": "Shinjuku-sanchome Station"
     },
     "kana": "しんじゅくさんちょうめ",
     "prefecture": "東京都",
@@ -263,9 +263,9 @@
     "slug": "tokyo-metro-jimbomachi",
     "name": {
       "ja": "神保町駅",
-      "en": "Jimbomachi Station"
+      "en": "Jimbocho Station"
     },
-    "kana": "じんぼうまち",
+    "kana": "じんぼうちょう",
     "prefecture": "東京都",
     "center": [
       35.69538963449634,
@@ -302,7 +302,7 @@
     "slug": "tobu-shinkamagaya",
     "name": {
       "ja": "新鎌ヶ谷駅",
-      "en": "Shinkamagaya Station"
+      "en": "Shin-Kamagaya Station"
     },
     "kana": "しんかまがや",
     "prefecture": "千葉県",
@@ -354,7 +354,7 @@
     "slug": "yokohama-municipal-sentakita",
     "name": {
       "ja": "センター北駅",
-      "en": "Sentakita Station"
+      "en": "Center-Kita Station"
     },
     "kana": "せんたーきた",
     "prefecture": "神奈川県",
@@ -367,7 +367,7 @@
     "slug": "yokohama-municipal-sentaminami",
     "name": {
       "ja": "センター南駅",
-      "en": "Sentaminami Station"
+      "en": "Center-Minami Station"
     },
     "kana": "せんたーみなみ",
     "prefecture": "神奈川県",
@@ -458,7 +458,7 @@
     "slug": "keio-higashifuchu",
     "name": {
       "ja": "東府中駅",
-      "en": "Higashifuchu Station"
+      "en": "Higashi-fuchu Station"
     },
     "kana": "ひがしふちゅう",
     "prefecture": "東京都",
@@ -484,7 +484,7 @@
     "slug": "keisei-chibachuo",
     "name": {
       "ja": "千葉中央駅",
-      "en": "Chibachuo Station"
+      "en": "Chiba-chuo Station"
     },
     "kana": "ちばちゅうおう",
     "prefecture": "千葉県",
@@ -497,7 +497,7 @@
     "slug": "keisei-keiseitsudanuma",
     "name": {
       "ja": "京成津田沼駅",
-      "en": "Keiseitsudanuma Station"
+      "en": "Keisei-Tsudanuma Station"
     },
     "kana": "けいせいつだぬま",
     "prefecture": "千葉県",
@@ -510,7 +510,7 @@
     "slug": "keisei-keiseinarita",
     "name": {
       "ja": "京成成田駅",
-      "en": "Keiseinarita Station"
+      "en": "Keisei-Narita Station"
     },
     "kana": "けいせいなりた",
     "prefecture": "千葉県",
@@ -523,7 +523,7 @@
     "slug": "keisei-naritakuko",
     "name": {
       "ja": "成田空港駅",
-      "en": "Naritakuko Station"
+      "en": "Narita Airport Terminal 1 Station"
     },
     "kana": "なりたくうこう",
     "prefecture": "千葉県",
@@ -536,9 +536,9 @@
     "slug": "keisei-kukodai2biru",
     "name": {
       "ja": "空港第2ビル駅",
-      "en": "Kukodai2biru Station"
+      "en": "Narita Airport Terminal 2-3 Station"
     },
-    "kana": "くうこうだい2びる",
+    "kana": "くうこうだいにびる",
     "prefecture": "千葉県",
     "center": [
       35.77178,
@@ -588,9 +588,9 @@
     "slug": "keikyu-kyokyukamata",
     "name": {
       "ja": "京急蒲田駅",
-      "en": "Kyokyukamata Station"
+      "en": "Keikyu Kamata Station"
     },
-    "kana": "きょうきゅうかまた",
+    "kana": "けいきゅうかまた",
     "prefecture": "東京都",
     "center": [
       35.56286733,
@@ -601,9 +601,9 @@
     "slug": "keikyu-tenkukyo",
     "name": {
       "ja": "天空橋駅",
-      "en": "Tenkukyo Station"
+      "en": "Tenkubashi Station"
     },
-    "kana": "てんくうきょう",
+    "kana": "てんくうばし",
     "prefecture": "東京都",
     "center": [
       35.54808,
@@ -614,7 +614,7 @@
     "slug": "keikyu-kanazawahakkei",
     "name": {
       "ja": "金沢八景駅",
-      "en": "Kanazawahakkei Station"
+      "en": "Kanazawa-hakkei Station"
     },
     "kana": "かなざわはっけい",
     "prefecture": "神奈川県",
@@ -627,7 +627,7 @@
     "slug": "keikyu-keikyukawasaki",
     "name": {
       "ja": "京急川崎駅",
-      "en": "Keikyukawasaki Station"
+      "en": "Keikyu Kawasaki Station"
     },
     "kana": "けいきゅうかわさき",
     "prefecture": "神奈川県",
@@ -653,7 +653,7 @@
     "slug": "tokyo-metro-akabaneiwabuchi",
     "name": {
       "ja": "赤羽岩淵駅",
-      "en": "Akabaneiwabuchi Station"
+      "en": "Akabane-iwabuchi Station"
     },
     "kana": "あかばねいわぶち",
     "prefecture": "東京都",
@@ -666,7 +666,7 @@
     "slug": "tobu-nagareyamaootakanomori",
     "name": {
       "ja": "流山おおたかの森駅",
-      "en": "Nagareyamaootakanomori Station"
+      "en": "Nagareyama-otakanomori Station"
     },
     "kana": "ながれやまおおたかのもり",
     "prefecture": "千葉県",
@@ -679,7 +679,7 @@
     "slug": "toei-shinokachimachi",
     "name": {
       "ja": "新御徒町駅",
-      "en": "Shinokachimachi Station"
+      "en": "Shin-okachimachi Station"
     },
     "kana": "しんおかちまち",
     "prefecture": "東京都",
@@ -692,7 +692,7 @@
     "slug": "odakyu-sagamiono",
     "name": {
       "ja": "相模大野駅",
-      "en": "Sagamiono Station"
+      "en": "Sagami-Ono Station"
     },
     "kana": "さがみおおの",
     "prefecture": "神奈川県",
@@ -705,7 +705,7 @@
     "slug": "tokyu-chuorinkan",
     "name": {
       "ja": "中央林間駅",
-      "en": "Chuorinkan Station"
+      "en": "Chuo-Rinkan Station"
     },
     "kana": "ちゅうおうりんかん",
     "prefecture": "神奈川県",
@@ -731,7 +731,7 @@
     "slug": "tokyo-metro-yoyogiuehara",
     "name": {
       "ja": "代々木上原駅",
-      "en": "Yoyogiuehara Station"
+      "en": "Yoyogi-uehara Station"
     },
     "kana": "よよぎうえはら",
     "prefecture": "東京都",
@@ -744,9 +744,9 @@
     "slug": "odakyu-shinhyakugokeoka",
     "name": {
       "ja": "新百合ヶ丘駅",
-      "en": "Shinhyakugokeoka Station"
+      "en": "Shin-Yurigaoka Station"
     },
-    "kana": "しんひゃくごうゖおか",
+    "kana": "しんゆりがおか",
     "prefecture": "神奈川県",
     "center": [
       35.60306,
@@ -770,7 +770,7 @@
     "slug": "seibu-nishitokorozawa",
     "name": {
       "ja": "西所沢駅",
-      "en": "Nishitokorozawa Station"
+      "en": "Nishi-tokorozawa Station"
     },
     "kana": "にしところざわ",
     "prefecture": "埼玉県",
@@ -783,7 +783,7 @@
     "slug": "seibu-seibukyujomae",
     "name": {
       "ja": "西武球場前駅",
-      "en": "Seibukyujomae Station"
+      "en": "Seibukyujo-mae Station"
     },
     "kana": "せいぶきゅうじょうまえ",
     "prefecture": "埼玉県",
@@ -913,9 +913,9 @@
     "slug": "sotetsu-nishitani",
     "name": {
       "ja": "西谷駅",
-      "en": "Nishitani Station"
+      "en": "Nishiya Station"
     },
-    "kana": "にしたに",
+    "kana": "にしや",
     "prefecture": "神奈川県",
     "center": [
       35.47811192826089,
@@ -926,9 +926,9 @@
     "slug": "rinkai-tennoshuairu",
     "name": {
       "ja": "天王洲アイル駅",
-      "en": "Tennoshuairu Station"
+      "en": "Tennozu Isle Station"
     },
-    "kana": "てんのうしゅうあいる",
+    "kana": "てんのうずあいる",
     "prefecture": "東京都",
     "center": [
       35.622495,
@@ -939,9 +939,9 @@
     "slug": "tokyu-futagotamagawa",
     "name": {
       "ja": "二子玉川駅",
-      "en": "Futagotamagawa Station"
+      "en": "Futako-tamagawa Station"
     },
-    "kana": "ふたごたまがわ",
+    "kana": "ふたこたまがわ",
     "prefecture": "東京都",
     "center": [
       35.61036,
@@ -1017,7 +1017,7 @@
     "slug": "tokyo-metro-higashiginza",
     "name": {
       "ja": "東銀座駅",
-      "en": "Higashiginza Station"
+      "en": "Higashi-ginza Station"
     },
     "kana": "ひがしぎんざ",
     "prefecture": "東京都",
@@ -1030,9 +1030,9 @@
     "slug": "tokyo-metro-ningyomachi",
     "name": {
       "ja": "人形町駅",
-      "en": "Ningyomachi Station"
+      "en": "Ningyocho Station"
     },
-    "kana": "にんぎょうまち",
+    "kana": "にんぎょうちょう",
     "prefecture": "東京都",
     "center": [
       35.68676,
@@ -1043,9 +1043,9 @@
     "slug": "tokyo-metro-kayabamachi",
     "name": {
       "ja": "茅場町駅",
-      "en": "Kayabamachi Station"
+      "en": "Kayabacho Station"
     },
-    "kana": "かやばまち",
+    "kana": "かやばちょう",
     "prefecture": "東京都",
     "center": [
       35.680185,
@@ -1069,7 +1069,7 @@
     "slug": "tokyo-metro-tameikesanno",
     "name": {
       "ja": "溜池山王駅",
-      "en": "Tameikesanno Station"
+      "en": "Tameike-sanno Station"
     },
     "kana": "ためいけさんのう",
     "prefecture": "東京都",
@@ -1082,7 +1082,7 @@
     "slug": "tokyo-metro-akasakamitsuke",
     "name": {
       "ja": "赤坂見附駅",
-      "en": "Akasakamitsuke Station"
+      "en": "Akasaka-mitsuke Station"
     },
     "kana": "あかさかみつけ",
     "prefecture": "東京都",
@@ -1121,7 +1121,7 @@
     "slug": "tokyo-metro-hongosanchome",
     "name": {
       "ja": "本郷三丁目駅",
-      "en": "Hongosanchome Station"
+      "en": "Hongo-sanchome Station"
     },
     "kana": "ほんごうさんちょうめ",
     "prefecture": "東京都",
@@ -1134,7 +1134,7 @@
     "slug": "tokyo-metro-kokkaigijidomae",
     "name": {
       "ja": "国会議事堂前駅",
-      "en": "Kokkaigijidomae Station"
+      "en": "Kokkai-gijidomae Station"
     },
     "kana": "こっかいぎじどうまえ",
     "prefecture": "東京都",
@@ -1147,9 +1147,9 @@
     "slug": "tokyo-metro-monzennakamachi",
     "name": {
       "ja": "門前仲町駅",
-      "en": "Monzennakamachi Station"
+      "en": "Monzen-nakacho Station"
     },
-    "kana": "もんぜんなかまち",
+    "kana": "もんぜんなかちょう",
     "prefecture": "東京都",
     "center": [
       35.67235,
@@ -1160,9 +1160,9 @@
     "slug": "tokyo-metro-mafujuban",
     "name": {
       "ja": "麻布十番駅",
-      "en": "Mafujuban Station"
+      "en": "Azabu-juban Station"
     },
-    "kana": "まふじゅうばん",
+    "kana": "あざぶじゅうばん",
     "prefecture": "東京都",
     "center": [
       35.656095,
@@ -1173,9 +1173,9 @@
     "slug": "tokyo-metro-shiroganetakanawa",
     "name": {
       "ja": "白金高輪駅",
-      "en": "Shiroganetakanawa Station"
+      "en": "Shirokane-takanawa Station"
     },
-    "kana": "しろがねたかなわ",
+    "kana": "しろかねたかなわ",
     "prefecture": "東京都",
     "center": [
       35.64385,
@@ -1251,7 +1251,7 @@
     "slug": "tokyo-metro-meijijingumae",
     "name": {
       "ja": "明治神宮前駅",
-      "en": "Meijijingumae Station"
+      "en": "Meiji-jingumae Station"
     },
     "kana": "めいじじんぐうまえ",
     "prefecture": "東京都",
@@ -1277,7 +1277,7 @@
     "slug": "tokyo-metro-kiyosumishirakawa",
     "name": {
       "ja": "清澄白河駅",
-      "en": "Kiyosumishirakawa Station"
+      "en": "Kiyosumi-shirakawa Station"
     },
     "kana": "きよすみしらかわ",
     "prefecture": "東京都",
@@ -1420,7 +1420,7 @@
     "slug": "tobu-tobudobutsukoen",
     "name": {
       "ja": "東武動物公園駅",
-      "en": "Tobudobutsukoen Station"
+      "en": "Tobu-dobutsu-koen Station"
     },
     "kana": "とうぶどうぶつこうえん",
     "prefecture": "埼玉県",
@@ -1433,7 +1433,7 @@
     "slug": "tobu-shintochigi",
     "name": {
       "ja": "新栃木駅",
-      "en": "Shintochigi Station"
+      "en": "Shin-tochigi Station"
     },
     "kana": "しんとちぎ",
     "prefecture": "栃木県",
@@ -1459,7 +1459,7 @@
     "slug": "tobu-shimoimaichi",
     "name": {
       "ja": "下今市駅",
-      "en": "Shimoimaichi Station"
+      "en": "Shimo-imaichi Station"
     },
     "kana": "しもいまいち",
     "prefecture": "栃木県",
@@ -1472,9 +1472,9 @@
     "slug": "keisei-imbanipponidai",
     "name": {
       "ja": "印旛日本医大駅",
-      "en": "Imbanipponidai Station"
+      "en": "Inba-Nihon-idai Station"
     },
-    "kana": "いんばにっぽんいだい",
+    "kana": "いんばにほんいだい",
     "prefecture": "千葉県",
     "center": [
       35.787721,
@@ -1485,7 +1485,7 @@
     "slug": "keisei-chibanyutaunchuo",
     "name": {
       "ja": "千葉ニュータウン中央駅",
-      "en": "Chibanyutaunchuo Station"
+      "en": "Chiba-Newtown-Chuo Station"
     },
     "kana": "ちばにゅーたうんちゅうおう",
     "prefecture": "千葉県",
@@ -1498,9 +1498,9 @@
     "slug": "keikyu-hanedakukodai3taminaru",
     "name": {
       "ja": "羽田空港第3ターミナル駅",
-      "en": "Hanedakukodai3taminaru Station"
+      "en": "Haneda Airport Terminal 3 Station"
     },
-    "kana": "はねだくうこうだい3たーみなる",
+    "kana": "はねだくうこうだいさんたーみなる",
     "prefecture": "東京都",
     "center": [
       35.544266,
@@ -1511,7 +1511,7 @@
     "slug": "keio-keiohachioji",
     "name": {
       "ja": "京王八王子駅",
-      "en": "Keiohachioji Station"
+      "en": "Keio-Hachioji Station"
     },
     "kana": "けいおうはちおうじ",
     "prefecture": "東京都",
@@ -1524,7 +1524,7 @@
     "slug": "keio-keiotamasenta",
     "name": {
       "ja": "京王多摩センター駅",
-      "en": "Keiotamasenta Station"
+      "en": "Keio-Tama-Center Station"
     },
     "kana": "けいおうたませんたー",
     "prefecture": "東京都",
@@ -1563,7 +1563,7 @@
     "slug": "keikyu-zushihayama",
     "name": {
       "ja": "逗子・葉山駅",
-      "en": "Zushi-hayama Station"
+      "en": "Zushi-Hayama Station"
     },
     "kana": "ずしはやま",
     "prefecture": "神奈川県",
@@ -1576,7 +1576,7 @@
     "slug": "odakyu-kataseenoshima",
     "name": {
       "ja": "片瀬江ノ島駅",
-      "en": "Kataseenoshima Station"
+      "en": "Katase-Enoshima Station"
     },
     "kana": "かたせえのしま",
     "prefecture": "神奈川県",
@@ -1602,7 +1602,7 @@
     "slug": "seibu-honkawagoe",
     "name": {
       "ja": "本川越駅",
-      "en": "Honkawagoe Station"
+      "en": "Hon-Kawagoe Station"
     },
     "kana": "ほんかわごえ",
     "prefecture": "埼玉県",
@@ -1615,7 +1615,7 @@
     "slug": "seibu-seibuchichibu",
     "name": {
       "ja": "西武秩父駅",
-      "en": "Seibuchichibu Station"
+      "en": "Seibu-Chichibu Station"
     },
     "kana": "せいぶちちぶ",
     "prefecture": "埼玉県",
@@ -1641,7 +1641,7 @@
     "slug": "tobu-kinugawaonsen",
     "name": {
       "ja": "鬼怒川温泉駅",
-      "en": "Kinugawaonsen Station"
+      "en": "Kinugawa-onsen Station"
     },
     "kana": "きぬがわおんせん",
     "prefecture": "栃木県",
@@ -1667,7 +1667,7 @@
     "slug": "tobu-tobunikko",
     "name": {
       "ja": "東武日光駅",
-      "en": "Tobunikko Station"
+      "en": "Tobu-nikko Station"
     },
     "kana": "とうぶにっこう",
     "prefecture": "栃木県",
