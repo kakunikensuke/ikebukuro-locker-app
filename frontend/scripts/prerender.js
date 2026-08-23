@@ -205,7 +205,10 @@ function prefecturePage(lang, prefecture) {
   const label = prefectureName(prefecture, lang);
   const stations = stationsInPrefecture(prefecture);
   const withLockers = stations.filter((s) => lockersByStation.has(s.slug));
-  const description = t(lang, "prefecturePage.description", { count: withLockers.length });
+  const description = t(lang, "prefecturePage.description", {
+    prefecture: label,
+    count: withLockers.length,
+  });
   const items = stations
     .map((station) => {
       const count = lockersByStation.get(station.slug)?.length ?? 0;
