@@ -39,10 +39,25 @@ export function priceModeBySize(lockers, sizeType) {
 }
 
 // 「初電～終電」のように終日使える設置場所がどれだけあるか。
-// 表記ゆれ（全角チルダ・多言語併記）があるので緩く判定する
+// 表記ゆれ（全角チルダ・多言語併記）があるので緩く判定する。
+//
+// **割合の分母は「営業時間が判明しているもの」にする。** 元データには「不明」が
+// 121件あり（2026-08-23時点）、これを全体に含めて計算すると、残りがあたかも
+// 「時間が限られている」かのように読めてしまう。改札内外の集計（gateCounts）が
+// 判明分だけを分母にしているのと揃える
 export function allDayShare(lockers) {
+  const isUnknown = (l) => !l.business_hours || l.business_hours.trim() === "不明";
+  const unknown = lockers.filter(isUnknown).length;
+  const known = lockers.length - unknown;
   const allDay = lockers.filter((l) => /初電|始発/.test(l.business_hours ?? "")).length;
-  return { allDay, total: lockers.length, percent: Math.round((allDay / Math.max(lockers.length, 1)) * 100) };
+  return {
+    allDay,
+    unknown,
+    known,
+    limited: known - allDay,
+    total: lockers.length,
+    percent: Math.round((allDay / Math.max(known, 1)) * 100),
+  };
 }
 
 // 設置箇所が多い駅の上位。記事から駅ページへの内部リンクにも使う
@@ -82,6 +97,9 @@ export function guideVars(lockers) {
     gateOutside: gate.outside,
     gateKnown: gate.inside + gate.outside,
     allDayPercent: allDay.percent,
+    hoursKnown: allDay.known,
+    hoursUnknown: allDay.unknown,
+    hoursLimited: allDay.limited,
   };
 
   for (const size of LOCKER_SIZES) {

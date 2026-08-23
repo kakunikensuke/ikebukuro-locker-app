@@ -322,8 +322,8 @@ export const GUIDES = [
       {
         type: "p",
         text: {
-          ja: "当サイト掲載の{{allDayPercent}}%は「初電～終電」で、駅が開いている間は出し入れできます。ただし残りは時間が限られており、特に改札内や駅ビル内の設置場所は施設の閉館時間に合わせて取り出せなくなります。夜に取りに戻る予定なら、預ける前に営業時間を確認してください。",
-          en: "{{allDayPercent}}% of the locations listed here run from first train to last, so they are usable whenever the station is open. The rest are not, and lockers inside the gates or in a station building follow that building's closing time. If you are coming back at night, check the hours before you leave anything.",
+          ja: "営業時間が判明している{{hoursKnown}}箇所のうち{{allDayPercent}}%は「初電～終電」で、駅が開いている間は出し入れできます。時間が限られているものは{{hoursLimited}}箇所で、特に改札内や駅ビル内の設置場所は施設の閉館時間に合わせて取り出せなくなります。残る{{hoursUnknown}}箇所は営業時間が公開されておらず、当サイトでも確認できていません。夜に取りに戻る予定なら、預ける前に現地で営業時間を確認してください。",
+          en: "Of the {{hoursKnown}} locations where the hours are known, {{allDayPercent}}% run from first train to last, so they are usable whenever the station is open. Another {{hoursLimited}} close earlier — lockers inside the gates or in a station building follow that building's closing time. For the remaining {{hoursUnknown}}, the operator does not publish hours and we have not been able to confirm them. If you are coming back at night, check the hours on site before you leave anything.",
         },
       },
       { type: "h2", text: { ja: "預けられない物", en: "What you cannot leave" } },
