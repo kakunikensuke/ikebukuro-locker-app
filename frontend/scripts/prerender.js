@@ -705,6 +705,78 @@ function lockerPage(lang, locker, station) {
   };
 }
 
+// --- 生成前の自己点検（駅データ） -------------------------------------------
+
+// 駅データ（stations.js と data/privateLineStations.json）は、外部から機械変換で
+// 流し込んだ経緯があり、2026-08-23に105件の破損が見つかった。壊れ方に癖があるので、
+// 同じ形の事故だけでもビルドで止める。
+//
+// 実際に見つかった例:
+//   kana:  「おさかめろ」(Osaka Metro→大阪メトロの変換失敗、23駅) /
+//          「あけとん」(Laketown) / 「ときょものらい」(Tokyo Monorail) /
+//          「しんひゃくごうゖおか」(新百合ヶ丘。通常使わない小書き文字まで混入)
+//   en:    「EchigoYuzawa」(語の区切り無し) /「Osakametroimafukutsurumieki」(eki付き) /
+//          「Osaka MetroTenjimbashisuji」(スペース欠落)
+//   ja:    「東急 たまプラーザ駅A」(末尾に余計な文字)
+//
+// ⚠ **このチェックが見るのは書式の崩れだけで、読みの正誤は判定できない。**
+//   「けいきゅう」を「きょうきゅう」と書いても、ひらがなとしては正しいので通ってしまう。
+//   実際に2026-08-23の破損105件のうち、ここで止められるのは書式が崩れた分だけだった。
+//   駅を追加するときは、公式サイトかWikipediaで英語表記と読みを確認してから入れること。
+function assertStationDataIsSane() {
+  // 実在する表記で、規則には引っかかるが正しいもの
+  const ALLOW_CAMEL = new Set(["AEON LakeTown mori Station"]);
+  const problems = [];
+  const add = (station, reason) =>
+    problems.push(`${station.slug}  ${station.name?.ja ?? "?"}  → ${reason}`);
+
+  const seen = new Set();
+  for (const s of STATIONS) {
+    if (seen.has(s.slug)) add(s, "slugが重複している");
+    seen.add(s.slug);
+
+    if (!s.name?.ja || !s.name?.en) {
+      add(s, "name.ja または name.en が無い");
+      continue;
+    }
+    if (!s.name.ja.endsWith("駅")) add(s, `日本語名が「駅」で終わっていない: ${s.name.ja}`);
+    if (!s.name.en.endsWith(" Station")) add(s, `英語名が「 Station」で終わっていない: ${s.name.en}`);
+
+    // ひらがなと長音記号だけを許す。カタカナ・漢字・数字が残っていたら変換の失敗
+    if (!s.kana) add(s, "kana が無い");
+    else if (!/^[ぁ-んー]+$/.test(s.kana)) add(s, `kana がひらがな・長音以外を含む: ${s.kana}`);
+
+    const en = s.name.en.replace(/ Station$/, "");
+    // 語の途中の大文字（EchigoYuzawa / MetroTenjimbashisuji）。区切りが無い証拠
+    if (!ALLOW_CAMEL.has(s.name.en) && en.split(/[\s-]/).some((w) => /^[A-Za-z][a-z]+[A-Z]/.test(w))) {
+      add(s, `英語名の語中に大文字がある（区切り漏れ）: ${en}`);
+    }
+    // 「駅」をローマ字のまま英語名に残している（Osakametroimafukutsurumieki）。
+    // ただし「関」を含む駅名（Ichinoseki・Kasumigaseki）は正しいので除く
+    const flat = en.replace(/[\s-]/g, "");
+    if (/eki$/i.test(flat) && !/[sz]eki$/i.test(flat)) add(s, `英語名に「eki」が残っている: ${en}`);
+    // 区切り（スペース・ハイフン）が一切無いまま長い＝複数の語が繋がってしまった疑い。
+    // 実在する区切り無しの最長は Shimokitazawa / Mitsukoshimae の13文字なので15で切る。
+    // **判定は区切りを残した en に対して行うこと。** flat を見ると区切りのある正常な
+    // 駅名（Musashi-Mizonokuchi 等）まで引っかかる
+    if (/^[A-Za-z]{15,}$/.test(en)) add(s, `英語名が区切り無しで長すぎる（語の連結漏れ）: ${en}`);
+  }
+
+  if (problems.length > 0) {
+    console.error(`\n❌ 駅データに不正があります（${problems.length}件）:\n`);
+    for (const p of problems.slice(0, 30)) console.error("   " + p);
+    if (problems.length > 30) console.error(`   ...他${problems.length - 30}件`);
+    console.error(
+      "\n   src/stations.js または src/data/privateLineStations.json を直してください。" +
+        "\n   読みと英語表記は公式サイト/Wikipediaで確認すること（推測で埋めないこと）。\n"
+    );
+    process.exit(1);
+  }
+  console.log(`駅データの点検: 問題なし（${STATIONS.length}駅）`);
+}
+
+assertStationDataIsSane();
+
 // --- 生成 -------------------------------------------------------------------
 
 const stationBySlug = new Map(STATIONS.map((s) => [s.slug, s]));
