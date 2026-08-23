@@ -8,8 +8,10 @@
 // 方針:
 // - ロッカー名は「改札内/改札外」＋「方角・出口・フロア」＋「コインロッカー」という
 //   定型構造をしているので、語句辞書の最長一致で置換する
-// - **辞書に無い語が残ったら、その部分を捨てて粗い表現に落とす**（例: 「Coin Lockers
-//   (Outside the Gates)」）。中途半端に日本語を残すより、英語として読める方を優先する
+// - **辞書に無い語だけを捨て、訳せた部分は残す**（stripUntranslated）。全部捨てると
+//   「東口 タクシー乗り場付近」のような混在で東口まで消え、英語の検索に当たらなくなる。
+//   何も残らなければ「Coin Lockers (Outside the Gates)」まで落ちる
+// - 「〜付近」は所在地のほぼ全件に付くので、辞書ではなく接尾辞ルールで "near 〜" にする
 // - 現地の看板は日本語なので、日本語原文は捨てずに別途「看板表記」として lang="ja" を
 //   付けて併記する（呼び出し側の責務）。titleやdescriptionには入れないこと
 //
@@ -67,8 +69,8 @@ const PLACE_TERMS = [
   ["在来東改札", "Local Line East Gate"],
 
   // 改札（複合語を先に）
-  ["中央改札券売機付近", "near the Central Gate Ticket Machines"],
-  ["世田谷線改札外降車ホーム付近", "near the Setagaya Line Arrival Platform"],
+  ["中央改札券売機", "the Central Gate ticket machines"],
+  ["世田谷線改札外降車ホーム", "the Setagaya Line arrival platform"],
   ["中央北改札", "Central North Gate"],
   ["中央西改札", "Central West Gate"],
   ["中央1改札", "Central Gate 1"],
@@ -102,8 +104,8 @@ const PLACE_TERMS = [
   ["北改札", "North Gate"],
   ["東改札", "East Gate"],
   ["西改札", "West Gate"],
-  ["改札正面付近", "near the front of the gates"],
-  ["改札外券売機付近", "near the ticket machines outside the gates"],
+  ["改札正面", "the front of the gates"],
+  ["改札外券売機", "the ticket machines outside the gates"],
 
   // 乗換え・連絡通路
   ["京成線のりかえ口", "Keisei Line Transfer"],
@@ -111,7 +113,7 @@ const PLACE_TERMS = [
   ["京葉線連絡通路", "Keiyo Line Connecting Passage"],
   ["京急連絡通路", "Keikyu Connecting Passage"],
   ["6番線乗換え通路", "Platform 6 Transfer Passage"],
-  ["5・6番線行きエスカレーター付近", "near the escalator to Platforms 5 and 6"],
+  ["5・6番線行きエスカレーター", "the escalator to Platforms 5 and 6"],
   ["4番線ホーム内", "on Platform 4"],
   ["南のりかえ口", "South Transfer"],
 
@@ -194,6 +196,57 @@ const PLACE_TERMS = [
   ["薬師寺", "Yakushiji Temple"],
   ["入口横", "next to the entrance"],
 
+  // 路線名（「〜線付近」の形で所在地に出る）
+  ["京浜東北線", "Keihin-Tohoku Line"],
+  ["半蔵門線", "Hanzomon Line"],
+  ["有楽町線", "Yurakucho Line"],
+  ["千代田線", "Chiyoda Line"],
+  ["日比谷線", "Hibiya Line"],
+  ["丸ノ内線", "Marunouchi Line"],
+  ["副都心線", "Fukutoshin Line"],
+  ["御堂筋線", "Midosuji Line"],
+  ["四つ橋線", "Yotsubashi Line"],
+  ["堺筋線", "Sakaisuji Line"],
+  ["谷町線", "Tanimachi Line"],
+  ["大江戸線", "Oedo Line"],
+  ["南北線", "Namboku Line"],
+  ["東西線", "Tozai Line"],
+  ["銀座線", "Ginza Line"],
+  ["浅草線", "Asakusa Line"],
+  ["三田線", "Mita Line"],
+  ["新宿線", "Shinjuku Line"],
+  ["埼京線", "Saikyo Line"],
+  ["山手線", "Yamanote Line"],
+  ["中央線", "Chuo Line"],
+  ["京葉線", "Keiyo Line"],
+  ["横須賀線", "Yokosuka Line"],
+  ["東海道線", "Tokaido Line"],
+
+  // 駅設備。「〜付近」の付近そのものは translatePlaceText が接尾辞として処理する
+  ["定期券うりば", "the commuter pass counter"],
+  ["みどりの窓口", "the JR ticket office"],
+  ["インフォメーション", "the information desk"],
+  ["エスカレーター", "the escalator"],
+  ["エレベーター", "the elevator"],
+  ["きっぷうりば", "the ticket counter"],
+  ["きっぷ売り場", "the ticket counter"],
+  ["精算所", "the fare adjustment office"],
+  ["待合室", "the waiting room"],
+  ["券売機", "the ticket machines"],
+  ["NewDays", "NewDays"],
+  ["トイレ", "the restrooms"],
+  ["階段", "the stairs"],
+  ["ホーム", "the platform"],
+  ["出口", "the exit"],
+  ["入口", "the entrance"],
+
+  // 方位・位置。短いので他の語より必ず後ろに置く
+  ["南側", "the south side"],
+  ["北側", "the north side"],
+  ["東側", "the east side"],
+  ["西側", "the west side"],
+  ["正面", "the front"],
+  ["構内", "the station premises"],
   // フロア表記
   ["改札外3F", "3F Outside the Gates"],
   ["3階改札外", "3F Outside the Gates"],
@@ -204,20 +257,85 @@ const PLACE_TERMS = [
   ["2階", "2F"],
   ["3階", "3F"],
   ["中央", "Central"],
+  // 「改札」「通路」単体は、それらを含む複合語をすべて処理し終えた最後に置く
+  ["改札", "the gates"],
+  ["通路", "the passage"],
 ];
 
 const COIN_LOCKER_JA = "コインロッカー";
+
+// 訳せなかった日本語を落とすための文字クラス。ひらがな・カタカナ・漢字に加えて、
+// 全角の括弧や中黒など「訳語の残骸」になる記号も含める
+const JA_RUN_RE = /[぀-ゟ゠-ヿㇰ-ㇿｦ-ﾟ一-鿿々〆〇【】〔〕（）［］｛｝・、。．，：；！？「」『』〜～]+/g;
+
+/**
+ * 辞書で訳せなかった日本語だけを落とし、英語として読める部分は残す。
+ *
+ * 全部捨てる方式にすると「東口 タクシー乗り場付近」のように既知語と未知語が混ざった時に
+ * 東口まで消えてしまい、英語の検索で "east exit" が当たらなくなる。
+ * 精度は落ちるが「near the East Exit」まで出す方が利用者にも検索にも役立つ。
+ */
+function stripUntranslated(text) {
+  const cleaned = String(text ?? "")
+    // 「1･2」のように中黒でつないだ番号の断片は、日本語を抜くと意味を成さないので先に落とす。
+    // **JA_RUN_REより前に実行すること。** 後だと中黒が消えてただの数字になり、
+    // "Platforms 5 and 6" の 5 や 6 まで巻き添えで消える
+    .replace(/(^|\s)\d+[･・/]\d+(?=\s|$)/g, " ")
+    .replace(JA_RUN_RE, " ")
+    // 日本語を抜いた跡に残る記号や重複スペースを整える
+    .replace(/\s*[-–—,/]\s*(?=[-–—,/]|$)/g, " ")
+    .replace(/\(\s*\)/g, " ")
+    .replace(/\(\s+/g, "(")
+    .replace(/\s+\)/g, ")")
+    .replace(/\s+/g, " ")
+    .replace(/^[\s,\-–—/]+|[\s,\-–—/]+$/g, "")
+    .trim();
+  return dedupePhrases(cleaned);
+}
+
+/**
+ * 直後に繰り返される同じ語句を1つにまとめる。
+ *
+ * 所在地は「改札外 東口 東口1F入口付近」のように同じ場所を2回書く例が多く、
+ * そのまま訳すと "near East Exit East Exit 1F the entrance" になる。
+ */
+function dedupePhrases(text) {
+  const words = text.split(" ").filter(Boolean);
+  // 「Platforms 5 and 6 the escalator」のように6語で繰り返す例があるので長めに見る
+  for (let n = 8; n >= 1; n--) {
+    for (let i = 0; i + 2 * n <= words.length; ) {
+      const a = words.slice(i, i + n).join(" ").toLowerCase();
+      const b = words.slice(i + n, i + 2 * n).join(" ").toLowerCase();
+      if (a === b) words.splice(i + n, n);
+      else i++;
+    }
+  }
+  return words.join(" ");
+}
 
 /**
  * ロッカー名の日本語部分を辞書で置換する。
  * 置換しきれなかった場合は日本語が残るので、呼び出し側で捨てる判断をする。
  */
 function translatePlaceText(text) {
-  let out = String(text ?? "").trim();
+  // 半角カナ（「ｴｽｶﾚｰﾀｰ」等）が混在するのでNFKCで全角に寄せてから辞書を引く。
+  // これをしないと同じ語を半角・全角の2通り登録する羽目になる
+  let out = String(text ?? "").normalize("NFKC").trim();
+  // 「〜付近」は所在地のほぼ全件に付く。組合せごとに辞書へ登録すると破綻するので、
+  // 先に外しておき、最後に "near 〜" として組み立て直す
+  const nearby = out.includes("付近");
+  if (nearby) out = out.split("付近").join(" ");
+
+  // ホーム番号。「5・6番線」「1・2番線行き」など組合せが多いので辞書ではなく規則で処理する
+  out = out.replace(/(\d+)\s*[・･]\s*(\d+)\s*番?線/g, " Platforms $1 and $2 ");
+  out = out.replace(/(\d+)\s*番線/g, " Platform $1 ");
+
   for (const [ja, en] of PLACE_TERMS) {
     if (out.includes(ja)) out = out.split(ja).join(` ${en} `);
   }
-  return out.replace(/\s+/g, " ").trim();
+  out = out.replace(/\s+/g, " ").trim();
+  if (!out) return "";
+  return nearby ? `near ${out}` : out;
 }
 
 /**
@@ -225,7 +343,7 @@ function translatePlaceText(text) {
  *
  * 日本語（lang="ja"）では原文をそのまま返す。英語では
  * 「Coin Lockers – West Exit (Outside the Gates)」のように組み立て、
- * 辞書に無い語が残る場合は場所の詳細を落として「Coin Lockers (Outside the Gates)」にする。
+ * 辞書に無い語はその部分だけ落とし、何も残らなければ「Coin Lockers (Outside the Gates)」にする。
  *
  * @param {string} rawName lockers.json の name
  * @param {string} lang "ja" | "en"
@@ -259,7 +377,7 @@ export function lockerDisplayName(rawName, lang, options = {}) {
 
   const detail = translatePlaceText(rest);
   // 辞書で訳しきれなかったら詳細ごと捨てる。日本語を混ぜたまま出さない
-  const safeDetail = detail && !hasJapanese(detail) ? detail : "";
+  const safeDetail = stripUntranslated(detail);
 
   const parts = ["Coin Lockers"];
   if (safeDetail) parts.push(`– ${safeDetail}`);
@@ -294,7 +412,7 @@ export function lockerDisplayAddress(rawAddress, lang, options = {}) {
   rest = rest.split(COIN_LOCKER_JA).join(" ").replace(/\s+/g, " ").trim();
 
   const detail = translatePlaceText(rest);
-  const safeDetail = detail && !hasJapanese(detail) ? detail : "";
+  const safeDetail = stripUntranslated(detail);
 
   const parts = [];
   if (stationNameEn) parts.push(stationNameEn);
@@ -370,4 +488,42 @@ export function lockerTexts(locker, lang, t) {
     // 現地の看板は日本語なので原文も返す。表示するときは lang="ja" を付けること
     signName: locker.name,
   };
+}
+
+// 検索用テキストのキャッシュ。lockers.json はビルド時に固定されるので、
+// 同じ施設・同じ言語なら結果は変わらない。キーワード入力のたびに
+// 800件×辞書200語の置換を走らせないためのもの
+const searchTextCache = new Map();
+
+/**
+ * キーワード検索の対象テキスト。
+ *
+ * 英語ページでは英訳した名称・所在地**と**日本語の原文の両方を対象にする。
+ * 英語話者は "west exit"、日本在住の利用者は「西口」で探すため、どちらでも当たる方がよい。
+ * これが無いと、英語の検索窓が「e.g. East Exit」と案内しているのに0件になる。
+ *
+ * @param {object} locker lockers.json の1件
+ * @param {string} lang "ja" | "en"
+ */
+export function lockerSearchText(locker, lang) {
+  const key = `${lang}:${locker.facility_id}`;
+  const cached = searchTextCache.get(key);
+  if (cached !== undefined) return cached;
+
+  const ja = [locker.name, locker.address, locker.nearest_station].filter(Boolean).join(" ");
+  let text = ja;
+  if (lang === "en") {
+    const stationNameJa = slugToName(locker.station_slug, "ja") ?? locker.nearest_station;
+    const stationNameEn = slugToName(locker.station_slug, "en") ?? "";
+    text = [
+      lockerDisplayName(locker.name, "en", { stationNameJa }),
+      lockerDisplayAddress(locker.address, "en", { stationNameJa, stationNameEn }),
+      ja,
+    ]
+      .filter(Boolean)
+      .join(" ");
+  }
+  const lower = text.toLowerCase();
+  searchTextCache.set(key, lower);
+  return lower;
 }

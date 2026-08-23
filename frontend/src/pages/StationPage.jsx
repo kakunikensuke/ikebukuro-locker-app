@@ -80,7 +80,7 @@ export default function StationPage() {
   useEffect(() => {
     if (!stationName) return;
     const filters = location.state?.filters || {};
-    loadLockers({ station_slug: stationSlug, ...filters });
+    loadLockers({ station_slug: stationSlug, ...filters, lang });
     // 地図用の全件（絞り込みなし）は駅が変わったときだけ取得すればよい
     fetchLockers({ station_slug: stationSlug })
       .then((data) => setAllStationLockers(data.results))
@@ -98,7 +98,8 @@ export default function StationPage() {
   };
 
   const handleSearch = (params) => {
-    loadLockers(params);
+    // 英語ページでは英訳した名称・所在地も検索対象にする（lockerFilter.js）
+    loadLockers({ ...params, lang });
   };
 
   // 投稿完了後は絞り込み条件をリセットし、投稿したロッカーが確実に見えるよう全件を再取得する

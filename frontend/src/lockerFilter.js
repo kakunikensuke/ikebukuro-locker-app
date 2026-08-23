@@ -9,6 +9,8 @@
 //
 // どれかにコピーを作らないこと。挙動がずれると「ローカルでは出るのに本番で出ない」になる。
 
+import { lockerSearchText } from "./i18n/lockerText.js";
+
 /** 駅一覧。slugごとにロッカー件数を数える */
 export function selectStations(lockers) {
   const seen = new Map();
@@ -21,8 +23,14 @@ export function selectStations(lockers) {
   return [...seen.values()];
 }
 
-/** 駅／キーワード／サイズ／最大料金での絞り込み */
-export function selectLockers(lockers, { keyword, size, maxPrice, stationSlug } = {}) {
+/**
+ * 駅／キーワード／サイズ／最大料金での絞り込み
+ *
+ * langは英語ページでのキーワード検索用。ロッカー名・所在地は日本語しか持たないため、
+ * lang="en" のときは英訳した表記も検索対象に含める（i18n/lockerText.js）。
+ * 省略時は日本語のみを対象にする従来の挙動。
+ */
+export function selectLockers(lockers, { keyword, size, maxPrice, stationSlug, lang } = {}) {
   let results = lockers;
 
   if (stationSlug) {
@@ -31,9 +39,7 @@ export function selectLockers(lockers, { keyword, size, maxPrice, stationSlug } 
 
   if (keyword) {
     const kw = String(keyword).toLowerCase();
-    results = results.filter(
-      (l) => l.name.toLowerCase().includes(kw) || l.address.toLowerCase().includes(kw)
-    );
+    results = results.filter((l) => lockerSearchText(l, lang).includes(kw));
   }
 
   if (size) {

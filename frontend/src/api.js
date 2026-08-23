@@ -39,18 +39,18 @@ export async function fetchStations() {
  * キーワード・サイズ・料金の絞り込みはブラウザ内で行う（815件なら十分速い）。
  */
 export async function fetchLockers(params = {}) {
-  const { station_slug: stationSlug, keyword, size, maxPrice } = params;
+  const { station_slug: stationSlug, keyword, size, maxPrice, lang } = params;
 
   if (stationSlug) {
     const data = await fetchJson(`${API_BASE}/lockers/by-station/${stationSlug}.json`);
     // 駅別JSONはロッカーがある駅のぶんしか生成しない。無い駅は「0件」であって異常ではない
-    const results = selectLockers(data?.results ?? [], { keyword, size, maxPrice });
+    const results = selectLockers(data?.results ?? [], { keyword, size, maxPrice, lang });
     return { count: results.length, results };
   }
 
   const data = await fetchJson(`${API_BASE}/lockers.json`);
   if (!data) throw new Error("ロッカー情報の取得に失敗しました");
-  const results = selectLockers(data.results, { keyword, size, maxPrice });
+  const results = selectLockers(data.results, { keyword, size, maxPrice, lang });
   return { count: results.length, results };
 }
 
