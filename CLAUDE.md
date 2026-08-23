@@ -26,6 +26,40 @@ Renderの無料枠（アカウント単位で月750時間）を使い切る状�
   コミットはGITHUB_TOKENによるpushなので、pathsだけではデプロイが起動しない
 - 利用者投稿（写真・ロッカー情報）は廃止済み。復活させる場合は保存先の確保から必要
 
+## 英語ページ（2026-08-23）
+
+**英語ページに日本語を出さないこと。** `npm run build` が生成物を検査してビルドを落とす
+（`scripts/prerender.js` 末尾の `assertEnglishPagesHaveNoJapanese`）。
+
+- ロッカー名・所在地・営業時間は multiecube 由来で日本語しか無い。英訳は
+  **`src/i18n/lockerText.js` の `lockerTexts()` が唯一の実装**で、prerender.js と
+  ブラウザの両方がこれを呼ぶ。片方だけ `locker.name` を直接使うと、静的HTMLと
+  ハイドレート後で表示がずれる
+- 辞書（`PLACE_TERMS`）は**長い語から順に並べる**（最長一致のため）。辞書に無い語が
+  残った場合は詳細を捨てて "Coin Lockers (Outside the Gates)" に落ちる仕様。
+  訳を足したいときはここに追加する
+- 現地の看板は日本語なので、原文は `<span lang="ja">` で併記する。
+  **title・description・og には絶対に入れない**（チェックが落とす）
+
+### なぜ英語を優先するか
+
+Search Consoleの3か月実測（2026-08-23）で、英語ページの方が掲載順位が良い。
+
+| | 英語 | 日本語 |
+|---|---|---|
+| areasページ 平均掲載順位 | 9.2 | 26.5 |
+| 駅ページ 平均掲載順位 | 12.7 | 16.4 |
+
+日本語の「駅名＋コインロッカー」はGoogleマップとmultiecube公式に押さえられている
+（新宿はインデックス済みだが40.5位・3か月で表示2回）。英語側がこのサイトの数少ない勝ち筋。
+
+## プリレンダの注意
+
+`scripts/prerender.js` のテンプレートは `dist/index.html` で、**これは同スクリプトが
+日本語トップページを書き出す先でもある**。`vite build` を挟まずに `npm run prerender` を
+2回流すと前回の出力をテンプレートとして読んでしまう。#rootが空でなければエラーで止まるので、
+`npm run build`（vite build → prerender）を使うこと。
+
 ## 技術スタック
 
 - フロントエンド: React + Vite
