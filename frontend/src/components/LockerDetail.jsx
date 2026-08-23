@@ -4,7 +4,7 @@ import { fetchLockerDetail } from "../api";
 import { pathForLocker, slugToName } from "../stations";
 import { SITE_URL } from "../config";
 import { useLang, useT } from "../i18n/LangContext.js";
-import { translateBusinessHours } from "../i18n/businessHours.js";
+import { lockerTexts } from "../i18n/lockerText.js";
 import AdSlot from "./AdSlot";
 
 /**
@@ -60,13 +60,7 @@ export default function LockerDetail({ facilityId, onClose }) {
           <>
             <LockerDetailMeta locker={locker} lang={lang} t={t} />
 
-            <h2>{locker.name}</h2>
-            <p className="detail-address">
-              {slugToName(locker.station_slug, lang) ?? locker.nearest_station} ／ {locker.address}
-            </p>
-            <p className="detail-hours">
-              {t("lockerDetail.hours", { hours: translateBusinessHours(locker.business_hours, t) })}
-            </p>
+            <LockerHeading locker={locker} lang={lang} t={t} />
 
             <a
               className="gmaps-link"
@@ -121,24 +115,26 @@ export default function LockerDetail({ facilityId, onClose }) {
 // SEO対応：ロッカー詳細のtitle/meta description/OGP/構造化データ（schema.org）を設定
 // フェーズ7: 多言語化対応。hreflang alternate（ja/en/x-default）も出力する
 function LockerDetailMeta({ locker, lang, t }) {
-  const hours = translateBusinessHours(locker.business_hours, t);
+  // 表示テキストはプリレンダ（scripts/prerender.js）と同じ関数で解決する。
+  // 片方だけ locker.name をそのまま使うと、静的HTMLとハイドレート後で表示がずれる
+  const { name, address, hours, stationName } = lockerTexts(locker, lang, t);
   const description =
     locker.sizes.length > 0
       ? t("lockerDetail.metaDescription", {
-          address: locker.address,
+          address,
           price: Math.min(...locker.sizes.map((s) => s.price)),
           hours,
         })
-      : t("lockerDetail.metaDescriptionNoPrice", { address: locker.address, hours });
+      : t("lockerDetail.metaDescriptionNoPrice", { address, hours });
   const pageUrl = `${SITE_URL}${pathForLocker(lang, locker.station_slug, locker.facility_id)}`;
 
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    name: locker.name,
+    name,
     address: {
       "@type": "PostalAddress",
-      streetAddress: locker.address,
+      streetAddress: address,
     },
     geo: {
       "@type": "GeoCoordinates",
@@ -150,9 +146,9 @@ function LockerDetailMeta({ locker, lang, t }) {
 
   return (
     <Helmet>
-      <title>{t("lockerDetail.metaTitle", { name: locker.name })}</title>
+      <title>{t("lockerDetail.metaTitle", { name, station: stationName })}</title>
       <meta name="description" content={description} />
-      <meta property="og:title" content={locker.name} />
+      <meta property="og:title" content={t("lockerDetail.metaTitle", { name, station: stationName })} />
       <meta property="og:description" content={description} />
       <meta property="og:type" content="place" />
       <link rel="canonical" href={pageUrl} />
@@ -163,5 +159,25 @@ function LockerDetailMeta({ locker, lang, t }) {
       <meta name="robots" content="noindex" />
       <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
     </Helmet>
+  );
+}
+
+// 見出し・所在地・営業時間。英語では lockerTexts が英訳した表記を出し、
+// 現地の看板と突き合わせられるよう日本語の原文を lang="ja" で併記する
+function LockerHeading({ locker, lang, t }) {
+  const { name, address, hours, stationName, signName } = lockerTexts(locker, lang, t);
+  return (
+    <>
+      <h2>{name}</h2>
+      <p className="detail-address">
+        {stationName} ／ {address}
+      </p>
+      {lang === "en" && (
+        <p className="detail-sign-name">
+          {t("lockerDetail.signName", { name: "" }).trim()} <span lang="ja">{signName}</span>
+        </p>
+      )}
+      <p className="detail-hours">{t("lockerDetail.hours", { hours })}</p>
+    </>
   );
 }

@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import { STATIONS, centerForSlug } from "../stations";
-import { useT } from "../i18n/LangContext.js";
+import { useLang, useT } from "../i18n/LangContext.js";
+import { lockerTexts } from "../i18n/lockerText.js";
 
 // フェーズ5: 対応駅ごとの中心座標（対象エリアの拡大）。一覧はstations.jsで一元管理
 const DEFAULT_CENTER = STATIONS[0].center;
@@ -53,6 +54,7 @@ function MapUpdater({ lockers, stationSlug }) {
  * 収集したロッカー施設をピンで地図上に表示する
  */
 export default function MapView({ lockers, matchedIds, stationSlug, onSelectLocker }) {
+  const lang = useLang();
   const t = useT();
   return (
     <MapContainer
@@ -77,9 +79,10 @@ export default function MapView({ lockers, matchedIds, stationSlug, onSelectLock
           }}
         >
           <Popup>
-            <strong>{locker.name}</strong>
+            {/* 英語では名称・所在地を英訳して出す（i18n/lockerText.js が唯一の実装） */}
+            <strong>{lockerTexts(locker, lang, t).name}</strong>
             <br />
-            {locker.address}
+            {lockerTexts(locker, lang, t).address}
             <br />
             <button onClick={() => onSelectLocker(locker.facility_id)}>
               {t("mapView.detailButton")}

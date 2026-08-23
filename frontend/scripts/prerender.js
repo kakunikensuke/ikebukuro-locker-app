@@ -48,7 +48,12 @@ import {
   sizeTableRows,
   stationListRows,
 } from "../src/guideRender.js";
-import { translateBusinessHours } from "../src/i18n/businessHours.js";
+import {
+  hasJapanese,
+  lockerDisplayAddress,
+  lockerDisplayName,
+  translateBusinessHours,
+} from "../src/i18n/lockerText.js";
 import ja from "../src/locales/ja.json" with { type: "json" };
 import en from "../src/locales/en.json" with { type: "json" };
 
@@ -72,6 +77,16 @@ if (!fs.existsSync(TEMPLATE_PATH)) {
   throw new Error(`dist/index.html がありません。先に vite build を実行してください: ${TEMPLATE_PATH}`);
 }
 const TEMPLATE = fs.readFileSync(TEMPLATE_PATH, "utf-8");
+// dist/index.html はテンプレートであると同時に、このスクリプトが日本語トップページを
+// 書き出す先でもある。vite build を挟まずに2回流すと、前回の本文が入ったHTMLを
+// テンプレートとして読んでしまい、全ページに日本語トップの内容が焼き付く。
+// （`npm run build` は毎回 vite build → prerender の順なので通常は起きない）
+if (!TEMPLATE.includes('<div id="root"></div>')) {
+  throw new Error(
+    "dist/index.html が既にプリレンダ済みです（#rootが空でない）。テンプレートとして使えません。\n" +
+      "  `npm run build`（vite build → prerender）を実行してください。"
+  );
+}
 
 // --- 翻訳 -------------------------------------------------------------------
 
@@ -137,6 +152,15 @@ function renderPage(page) {
   html = html.replace(/<html lang="[^"]*">/, `<html lang="${page.lang}">`);
   html = html.replace(/\s*<title>[\s\S]*?<\/title>/, "");
   html = html.replace(/\s*<meta\s+name="description"[\s\S]*?\/>/, "");
+  // テンプレートは dist/index.html＝プリレンダ自身の出力先でもある。vite build を挟まずに
+  // このスクリプトを2回流すと、前回書き込んだ日本語トップページのog/canonicalを引き継いだまま
+  // 全ページを生成してしまう（og:titleが2つ並び、先勝ちで日本語が採用される）。
+  // 生成物が実行回数に依存しないよう、ここで前回分を必ず取り除く
+  html = html.replace(/\s*<meta\s+property="og:[^"]*"[^>]*\/>/g, "");
+  html = html.replace(/\s*<meta\s+name="robots"[^>]*\/>/g, "");
+  html = html.replace(/\s*<link\s+rel="canonical"[^>]*\/>/g, "");
+  html = html.replace(/\s*<link\s+rel="alternate"\s+hreflang="[^"]*"[^>]*\/>/g, "");
+  html = html.replace(/\s*<script\s+type="application\/ld\+json">[\s\S]*?<\/script>/g, "");
   html = html.replace("</head>", `${metaTags(page)}\n  </head>`);
   // 集計値は #root の外に置く。Reactはマウント時に#rootの中身を丸ごと捨てるため、
   // 中に入れるとクライアント側から読めなくなる（guideRender.js の readEmbeddedGuideData）
@@ -249,14 +273,25 @@ function stationPage(lang, station) {
 
   const items = stationLockers
     .map((locker) => {
-      const hours = translateBusinessHours(locker.business_hours, (key, vars) => t(lang, key, vars));
+      const hours = translateBusinessHours(
+        locker.business_hours,
+        (key, vars) => t(lang, key, vars),
+        lang
+      );
       const sizes = (locker.sizes ?? [])
         .map((s) => (lang === "en" ? `${s.size_type} ¥${s.price}` : `${s.size_type} ${s.price}円`))
         .join(" / ");
-      const detail = [locker.address, hours, sizes].filter(Boolean).map(esc).join(" ／ ");
+      // 英語ページではロッカー名・所在説明を英訳する。スクレイプ元が日本語しか
+      // 提供しないため、そのまま出すと英語ページに日本語が混ざる（i18n/lockerText.js参照）
+      const name = lockerDisplayName(locker.name, lang, { stationNameJa: station.name.ja });
+      const address = lockerDisplayAddress(locker.address, lang, {
+        stationNameJa: station.name.ja,
+        stationNameEn: station.name.en,
+      });
+      const detail = [address, hours, sizes].filter(Boolean).map(esc).join(" ／ ");
       return `<li>${link(
         pathForLocker(lang, station.slug, locker.facility_id),
-        locker.name
+        name
       )}<br />${detail}</li>`;
     })
     .join("");
@@ -597,16 +632,26 @@ function sizePage(lang, size) {
 // 検索クエリにマッチせず重複コンテンツ判定を招いていた。sitemapからも除外している
 // （generate-sitemap.js側）。中身は駅ページから辿れるのでユーザー体験には影響しない。
 function lockerPage(lang, locker, station) {
-  const hours = translateBusinessHours(locker.business_hours, (key, vars) => t(lang, key, vars));
+  const hours = translateBusinessHours(
+    locker.business_hours,
+    (key, vars) => t(lang, key, vars),
+    lang
+  );
+  const stationName = station.name[lang] || station.name.ja;
+  const name = lockerDisplayName(locker.name, lang, { stationNameJa: station.name.ja });
+  const address = lockerDisplayAddress(locker.address, lang, {
+    stationNameJa: station.name.ja,
+    stationNameEn: station.name.en,
+  });
   const sizes = locker.sizes ?? [];
   const description =
     sizes.length > 0
       ? t(lang, "lockerDetail.metaDescription", {
-          address: locker.address,
+          address,
           price: Math.min(...sizes.map((s) => s.price)),
           hours,
         })
-      : t(lang, "lockerDetail.metaDescriptionNoPrice", { address: locker.address, hours });
+      : t(lang, "lockerDetail.metaDescriptionNoPrice", { address, hours });
 
   const canonicalPath = pathForLocker(lang, station.slug, locker.facility_id);
   const sizeRows = sizes
@@ -628,7 +673,9 @@ function lockerPage(lang, locker, station) {
 
   return {
     lang,
-    title: t(lang, "lockerDetail.metaTitle", { name: locker.name }),
+    // 2026-08-23: titleに駅名を入れた。従来は「改札外 コインロッカー｜コインロッカー検索」で、
+    // 同じtitleが205ページ並び、どの駅のロッカーなのか検索結果から判別できなかった
+    title: t(lang, "lockerDetail.metaTitle", { name, station: stationName }),
     description,
     canonicalPath,
     altJa: pathForLocker("ja", station.slug, locker.facility_id),
@@ -638,14 +685,20 @@ function lockerPage(lang, locker, station) {
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      name: locker.name,
-      address: { "@type": "PostalAddress", streetAddress: locker.address },
+      name,
+      address: { "@type": "PostalAddress", streetAddress: address },
       geo: { "@type": "GeoCoordinates", latitude: locker.latitude, longitude: locker.longitude },
       url: `${SITE_URL}${canonicalPath}`,
     },
-    body: `<main><h1>${esc(locker.name)}</h1><p>${esc(locker.address)}</p><p>${esc(
-      t(lang, "lockerDetail.hours", { hours })
-    )}</p>${sizeTable}<p>${link(
+    // 英語ページでは現地の看板が読めないと困るので、日本語の原文を lang="ja" 付きで併記する。
+    // title・descriptionには入れない（英語の検索結果で意味を成さなくなるため）
+    body: `<main><h1>${esc(name)}</h1><p>${esc(address)}</p>${
+      lang === "en"
+        ? `<p>${esc(t(lang, "lockerDetail.signName", { name: "" })).trim()} <span lang="ja">${esc(
+            locker.name
+          )}</span></p>`
+        : ""
+    }<p>${esc(t(lang, "lockerDetail.hours", { hours }))}</p>${sizeTable}<p>${link(
       pathForStation(lang, station.slug),
       t(lang, "stationPage.ogTitle", { station: station.name[lang] || station.name.ja })
     )}</p></main>`,
@@ -740,5 +793,72 @@ function notFoundPage() {
 
 notFoundPage();
 count++;
+
+// 生成物の自己点検：英語ページに日本語が残っていないか。
+//
+// なぜビルドを落とすか: 2026-08-23時点で英語1,333ページ中1,243ページ（93%）に
+// 日本語が混入していた。ロッカー名・住所・営業時間がスクレイプ元の日本語のまま
+// titleやdescriptionに入り、英語圏の検索結果で意味を成さない状態だった。
+// GSCの実測では英語ページの方が日本語ページより平均掲載順位が良い（areasで9.2位 対 26.5位）
+// ため、英語側の品質はこのサイトの数少ない勝ち筋であり、事故を再発させない。
+//
+// 例外: 現地の看板表記は日本語でないと役に立たないので、<span lang="ja"> の中だけは許可する。
+// 同種のチェックは japan-proxy-cost にもある（あちらは日本語混入を本番に出した実績がある）。
+function assertEnglishPagesHaveNoJapanese() {
+  const offenders = [];
+
+  const walk = (dir) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else if (entry.name.endsWith(".html")) check(full);
+    }
+  };
+
+  const check = (file) => {
+    const html = fs.readFileSync(file, "utf-8");
+    const title = (html.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || "";
+    const description = (html.match(/<meta\s+name="description"\s+content="([^"]*)"/) || [])[1] || "";
+    const ogTitle = (html.match(/<meta\s+property="og:title"\s+content="([^"]*)"/) || [])[1] || "";
+    const ogDesc = (html.match(/<meta\s+property="og:description"\s+content="([^"]*)"/) || [])[1] || "";
+
+    // 本文は script と lang="ja" の要素を除いてから判定する
+    const body = (html.match(/<body[^>]*>([\s\S]*)<\/body>/) || [])[1] || "";
+    const visible = body
+      .replace(/<script[\s\S]*?<\/script>/g, "")
+      .replace(/<[a-z]+[^>]*\slang="ja"[^>]*>[\s\S]*?<\/[a-z]+>/g, "")
+      .replace(/<[^>]*>/g, " ");
+
+    const fields = { title, description, ogTitle, ogDesc, body: visible };
+    const bad = Object.entries(fields).filter(([, v]) => hasJapanese(v));
+    if (bad.length === 0) return;
+
+    const sample = bad
+      .map(([k, v]) => {
+        const hit = (v.match(/\S*[぀-ゟ゠-ヿㇰ-ㇿｦ-ﾝ一-鿿]\S*/g) || []).slice(0, 3).join(" ");
+        return `${k}: ${hit}`;
+      })
+      .join(" / ");
+    offenders.push(`${path.relative(DIST, file).split(path.sep).join("/")} → ${sample}`);
+  };
+
+  const enDir = path.join(DIST, "en");
+  if (!fs.existsSync(enDir)) return;
+  walk(enDir);
+
+  if (offenders.length > 0) {
+    console.error(`\n❌ 英語ページに日本語が残っています（${offenders.length}ページ）:\n`);
+    for (const line of offenders.slice(0, 20)) console.error("   " + line);
+    if (offenders.length > 20) console.error(`   ...他${offenders.length - 20}ページ`);
+    console.error(
+      "\n   src/i18n/lockerText.js の辞書に語句を追加するか、日本語を出す必要がある箇所は" +
+        '\n   <span lang="ja"> で囲んでください。\n'
+    );
+    process.exit(1);
+  }
+  console.log("英語ページの日本語混入チェック: 問題なし");
+}
+
+assertEnglishPagesHaveNoJapanese();
 
 console.log(`静的HTMLを生成しました（${count}ページ、SITE_URL=${SITE_URL}）: ${DIST}`);

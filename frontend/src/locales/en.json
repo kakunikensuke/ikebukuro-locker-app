@@ -110,12 +110,15 @@
     "quantityValue": "{{count}}",
     "updatedAt": "Last updated: {{datetime}}",
     "disclaimer": "Note: Prices and the number of lockers installed may change. For real-time availability, please check on-site.",
-    "metaTitle": "{{name}} | Coin Locker Search",
+    "metaTitle": "{{name}} at {{station}} | Prices, Sizes & Location",
     "metaDescription": "{{address}}. From ¥{{price}}, Hours: {{hours}}",
-    "metaDescriptionNoPrice": "{{address}}. Hours: {{hours}}"
+    "metaDescriptionNoPrice": "{{address}}. Hours: {{hours}}",
+    "signName": "Japanese sign: {{name}}"
   },
   "businessHours": {
-    "allDay": "Open 24 hours"
+    "allDay": "Open 24 hours",
+    "firstToLastTrain": "First train to last train",
+    "unknown": "Unknown"
   },
   "mapView": {
     "detailButton": "View details"

@@ -108,12 +108,15 @@
     "quantityValue": "{{count}}個",
     "updatedAt": "最終更新: {{datetime}}",
     "disclaimer": "※料金・設置個数は変動する場合があります。空き状況など最新情報は現地でご確認ください。",
-    "metaTitle": "{{name}}｜コインロッカー検索",
+    "metaTitle": "{{station}}の{{name}}｜料金・サイズ・場所",
     "metaDescription": "{{address}}。{{price}}円〜、利用可能時間：{{hours}}",
-    "metaDescriptionNoPrice": "{{address}}。利用可能時間：{{hours}}"
+    "metaDescriptionNoPrice": "{{address}}。利用可能時間：{{hours}}",
+    "signName": "現地の表記：{{name}}"
   },
   "businessHours": {
-    "allDay": "終日利用可"
+    "allDay": "終日利用可",
+    "firstToLastTrain": "初電～終電",
+    "unknown": "不明"
   },
   "mapView": {
     "detailButton": "詳細を見る"

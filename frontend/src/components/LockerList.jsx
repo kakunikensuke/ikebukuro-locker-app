@@ -1,6 +1,7 @@
 import React from "react";
 import { slugToName } from "../stations";
 import { useLang, useT } from "../i18n/LangContext.js";
+import { lockerTexts } from "../i18n/lockerText.js";
 
 /**
  * 一覧画面：地図の代替ビュー。検索結果をリスト表示する。
@@ -17,6 +18,8 @@ export default function LockerList({ lockers, onSelectLocker }) {
   return (
     <ul className="locker-list">
       {lockers.map((locker) => {
+        // 英語では名称・所在地を英訳して出す（i18n/lockerText.js が唯一の実装）
+        const { name, address, stationName } = lockerTexts(locker, lang, t);
         const hasSizes = locker.sizes.length > 0;
         const minPrice = hasSizes ? Math.min(...locker.sizes.map((s) => s.price)) : null;
         const offeredSizes = locker.sizes.map((s) => s.size_type).join(" / ");
@@ -28,14 +31,14 @@ export default function LockerList({ lockers, onSelectLocker }) {
             onClick={() => onSelectLocker(locker.facility_id)}
           >
             <div className="locker-card-top">
-              <span className="locker-card-name">{locker.name}</span>
+              <span className="locker-card-name">{name}</span>
               <span className="locker-card-price">
                 {hasSizes ? t("lockerList.priceFrom", { price: minPrice }) : t("lockerList.priceUnknown")}
               </span>
             </div>
-            <div className="locker-card-address">{locker.address}</div>
+            <div className="locker-card-address">{address}</div>
             <div className="locker-card-tags">
-              <span className="tag">{slugToName(locker.station_slug, lang) ?? locker.nearest_station}</span>
+              <span className="tag">{stationName}</span>
               {hasSizes && <span className="tag">{t("lockerList.offeredSizes", { sizes: offeredSizes })}</span>}
             </div>
           </li>
