@@ -27,6 +27,8 @@ import SearchBar from "../components/SearchBar";
 import LockerList from "../components/LockerList";
 import LangSwitcher from "../components/LangSwitcher.jsx";
 import AdSlot from "../components/AdSlot";
+import InsightSection from "../components/InsightSection.jsx";
+import { stationInsightItems } from "../stationInsightRender.js";
 import NotFound from "./NotFound.jsx";
 
 export default function StationPage() {
@@ -41,6 +43,12 @@ export default function StationPage() {
   // 地図には駅の全ロッカーを常時表示するため、絞り込み条件なしの全件も別途保持する
   const [allStationLockers, setAllStationLockers] = useState([]);
   const [stations, setStations] = useState([]);
+  // 解説（駅ごとの特徴）は全国のデータと比べて初めて書けるため全件を読む。
+  // 45KB（gzip後）で /sizes や /guides でも同じ取得をしている。
+  // **プリレンダ（scripts/prerender.js）と同じ内容を必ず描くこと。** Reactは
+  // createRootで#rootを丸ごと置き換えるので、ここが無いとJSを実行するクローラからは
+  // 解説の無いページに見える（2026-08-29のAdSense不承認への対応の要）
+  const [allLockers, setAllLockers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -68,6 +76,12 @@ export default function StationPage() {
     }
     setSearchParams(next);
   };
+
+  useEffect(() => {
+    fetchLockers({})
+      .then((data) => setAllLockers(data.results))
+      .catch(() => setAllLockers([]));
+  }, []);
 
   // 駅一覧（プルダウン用）は初回のみ取得
   useEffect(() => {
@@ -139,6 +153,18 @@ export default function StationPage() {
     () => new Set(lockers.map((l) => l.facility_id)),
     [lockers]
   );
+
+  const insightItems = useMemo(() => {
+    if (!allStationLockers.length || !allLockers.length) return [];
+    return stationInsightItems({
+      stationLockers: allStationLockers,
+      allLockers,
+      stationSlug,
+      stationName,
+      lang,
+      t,
+    });
+  }, [allStationLockers, allLockers, stationSlug, stationName, lang, t]);
 
   const handleSelectLocker = (facilityId) => {
     // 現在の表示切替（?view=）を維持したまま詳細を開く
@@ -254,6 +280,11 @@ export default function StationPage() {
           </main>
         </>
       )}
+
+      <InsightSection
+        heading={t("stationInsight.heading", { station: stationName })}
+        items={insightItems}
+      />
 
       <Outlet />
 

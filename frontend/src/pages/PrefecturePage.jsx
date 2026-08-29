@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import {
@@ -10,11 +10,14 @@ import {
   pathForStation,
   slugToName,
 } from "../stations";
-import { fetchStations } from "../api";
+import { fetchLockers, fetchStations } from "../api";
 import { SITE_URL } from "../config";
 import { useLang, useT } from "../i18n/LangContext.js";
 import LangSwitcher from "../components/LangSwitcher.jsx";
 import NotFound from "./NotFound.jsx";
+import InsightSection from "../components/InsightSection.jsx";
+import { prefectureInsightItems } from "../stationInsightRender.js";
+import { prefectureForSlug } from "../stations";
 
 export default function PrefecturePage() {
   const { prefectureSlug } = useParams();
@@ -22,7 +25,17 @@ export default function PrefecturePage() {
   const t = useT();
   const [query, setQuery] = useState("");
   const [lockerCounts, setLockerCounts] = useState({});
+  // 県ごとの解説に必要。プリレンダ（scripts/prerender.js）と同じ内容を描くためのもので、
+  // ここが無いとJSを実行するクローラからは解説の無いページに見える
+  const [allLockers, setAllLockers] = useState([]);
   const prefecture = prefectureForPrefectureSlug(prefectureSlug);
+
+  const insightItems = useMemo(() => {
+    if (!prefecture || !allLockers.length) return [];
+    const prefectureLockers = allLockers.filter((l) => prefectureForSlug(l.station_slug) === prefecture);
+    if (!prefectureLockers.length) return [];
+    return prefectureInsightItems({ prefectureLockers, allLockers, prefecture, lang, t });
+  }, [prefecture, allLockers, lang, t]);
 
   useEffect(() => {
     fetchStations()
@@ -32,6 +45,12 @@ export default function PrefecturePage() {
         setLockerCounts(counts);
       })
       .catch(() => setLockerCounts({}));
+  }, []);
+
+  useEffect(() => {
+    fetchLockers({})
+      .then((data) => setAllLockers(data.results))
+      .catch(() => setAllLockers([]));
   }, []);
 
   if (!prefecture) {
@@ -80,6 +99,11 @@ export default function PrefecturePage() {
         <Link className="back-to-areas" to={pathForPrefectureList(lang)}>
           {t("prefecturePage.backToAreas")}
         </Link>
+        <InsightSection
+          heading={t("prefectureInsight.heading", { prefecture: prefLabel })}
+          items={insightItems}
+        />
+
         <h2>{t("prefecturePage.heading", { prefecture: prefLabel })}</h2>
         <input
           type="text"

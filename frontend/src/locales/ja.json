@@ -208,5 +208,33 @@
     "tablePriceRange": "{{min}}〜{{max}}円",
     "tableStationCount": "{{count}}駅",
     "stationQuantity": "{{count}}個"
+  },
+  "stationInsight": {
+    "heading": "{{station}}のコインロッカーの特徴",
+    "scaleWithSuitcase": "{{station}}のコインロッカーは{{facilities}}箇所・合計{{units}}台です。このうちスーツケースが入るLサイズ以上は{{suitcase}}台あります。",
+    "scaleNoSuitcase": "{{station}}のコインロッカーは{{facilities}}箇所・合計{{units}}台です。ただしスーツケースが入るLサイズ以上の扱いは無く、大型荷物を預けるなら別の駅を検討してください。",
+    "sizes": "設置されているサイズの内訳は次のとおりです。",
+    "sizeItem": "{{sizeName}}：{{quantity}}台（{{minPrice}}円〜）",
+    "priceCheaper": "最も安いのは{{sizeName}}の{{price}}円で、全国で最も多い{{national}}円より{{diff}}円安い水準です。",
+    "pricePricier": "最も安いのは{{sizeName}}の{{price}}円で、全国で最も多い{{national}}円より{{diff}}円高い水準です。",
+    "priceSame": "最も安いのは{{sizeName}}の{{price}}円で、全国で最も多い{{national}}円と同じ水準です。",
+    "gateBoth": "設置場所は改札内が{{inside}}箇所、改札外が{{outside}}箇所です。乗り換えの途中で預けるなら改札内、駅の外に出て動くなら改札外を選ぶと歩く距離が短くなります。",
+    "gateInsideOnly": "掲載しているロッカーは{{inside}}箇所すべてが改札内にあります。改札を出てしまうと使えないため、預けるのは改札を通る前に済ませてください。",
+    "gateOutsideOnly": "掲載しているロッカーは{{outside}}箇所すべてが改札外にあります。乗り換えの途中で預けることはできないので、いったん改札を出る必要があります。",
+    "hoursAllDay": "{{facilities}}箇所とも初電から終電まで利用できます。",
+    "hoursMixed": "{{facilities}}箇所のうち{{allDay}}箇所が初電から終電まで利用できます。残りは営業時間が公開されておらず当サイトでは確認できていないため、夜に取りに戻る予定なら現地で確認してください。",
+    "prefectureRank": "設置箇所の数では、{{prefecture}}に掲載している{{total}}駅のうち{{rank}}番目です。",
+    "alternatives": "同じ{{prefecture}}で設置箇所が多いのは次の駅です。",
+    "alternativeItem": "{{station}}（{{count}}箇所）"
+  },
+  "prefectureInsight": {
+    "heading": "{{prefecture}}のコインロッカーの傾向",
+    "scale": "{{prefecture}}では{{stations}}駅・{{facilities}}箇所・合計{{units}}台のコインロッカーを掲載しています。全国に掲載している設置箇所のおよそ{{share}}%にあたります。",
+    "suitcase": "スーツケースが入るLサイズ以上を扱っているのは{{stations}}駅中{{suitcaseStations}}駅です。大型荷物を預けるなら、駅を決める前にこの点を確認してください。",
+    "suitcaseNone": "{{prefecture}}に掲載している駅には、スーツケースが入るLサイズ以上の扱いがありません。大型荷物は宅配や手荷物預かりサービスの利用を検討してください。",
+    "sizes": "サイズ別の設置台数は次のとおりです。",
+    "priceRange": "料金は{{min}}円から{{max}}円まで幅があります。同じ駅でもサイズによって変わります。",
+    "priceFlat": "掲載しているロッカーの料金はいずれも{{min}}円です。",
+    "busiest": "{{prefecture}}で設置箇所が多いのは次の駅です。"
   }
 }

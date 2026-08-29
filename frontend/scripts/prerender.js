@@ -54,6 +54,7 @@ import {
   lockerDisplayName,
   translateBusinessHours,
 } from "../src/i18n/lockerText.js";
+import { prefectureInsightItems, stationInsightItems } from "../src/stationInsightRender.js";
 import ja from "../src/locales/ja.json" with { type: "json" };
 import en from "../src/locales/en.json" with { type: "json" };
 
@@ -137,6 +138,22 @@ function metaTags({ lang, title, description, canonicalPath, altJa, altEn, noind
 
 function link(href, text) {
   return `<a href="${esc(href)}">${esc(text)}</a>`;
+}
+
+// 解説ブロック（stationInsightRender.js が返す配列）をHTMLにする。
+// 駅ページと都道府県ページで共通
+function insightHtml(items, headingText) {
+  if (!items.length) return "";
+  const parts = items.map((item) => {
+    if (item.type === "list") {
+      return `<p>${esc(item.text)}</p><ul>${item.items.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`;
+    }
+    if (item.type === "links") {
+      return `<p>${esc(item.text)}</p><ul>${item.items.map((x) => `<li>${link(x.href, x.label)}</li>`).join("")}</ul>`;
+    }
+    return `<p>${esc(item.text)}</p>`;
+  });
+  return `<h2>${esc(headingText)}</h2>${parts.join("")}`;
 }
 
 // 全ページ共通のフッター（クライアント側のSiteFooter.jsxと同じ内容）。
@@ -237,11 +254,29 @@ function prefecturePage(lang, prefecture) {
     .map((station) => {
       const count = lockersByStation.get(station.slug)?.length ?? 0;
       const countLabel = t(lang, "prefecturePage.stationLockerCount", { count });
-      return `<li>${link(pathForStation(lang, station.slug), station.name[lang] || station.name.ja)}（${esc(
-        countLabel
-      )}）</li>`;
+      // 括弧は言語に合わせる。英語ページに全角括弧を出すと日本語の組版のまま見える
+      const open = lang === "en" ? " (" : "（";
+      const close = lang === "en" ? ")" : "）";
+      return `<li>${link(
+        pathForStation(lang, station.slug),
+        station.name[lang] || station.name.ja
+      )}${open}${esc(countLabel)}${close}</li>`;
     })
     .join("");
+
+  // 県ごとの解説。2026-08-29時点でこのページ群は本文の中央値232字とサイト内で最も薄く、
+  // AdSenseの「有用性の低いコンテンツ」判定の一因になっていた
+  const prefectureLockers = lockers.filter((l) => prefectureForSlug(l.station_slug) === prefecture);
+  const insight = insightHtml(
+    prefectureInsightItems({
+      prefectureLockers,
+      allLockers: lockers,
+      prefecture,
+      lang,
+      t: (key, vars) => t(lang, key, vars),
+    }),
+    t(lang, "prefectureInsight.heading", { prefecture: label })
+  );
 
   return {
     lang,
@@ -253,7 +288,7 @@ function prefecturePage(lang, prefecture) {
     ogType: "website",
     body: `<main><h1>${esc(t(lang, "prefecturePage.ogTitle", { prefecture: label }))}</h1><p>${esc(
       description
-    )}</p><h2>${esc(t(lang, "prefecturePage.heading", { prefecture: label }))}</h2><ul>${items}</ul><p>${link(
+    )}</p>${insight}<h2>${esc(t(lang, "prefecturePage.heading", { prefecture: label }))}</h2><ul>${items}</ul><p>${link(
       pathForPrefectureList(lang),
       t(lang, "prefecturePage.backToAreas")
     )}</p></main>`,
@@ -308,6 +343,23 @@ function stationPage(lang, station) {
     ? `<p>${esc(t(lang, "stationPage.resultCount", { count: stationLockers.length }))}</p><ul>${items}</ul>`
     : `<p>${esc(t(lang, "stationPage.noLockersYet"))}</p>`;
 
+  // その駅固有の解説。2026-08-29のAdSense不承認（有用性の低いコンテンツ）への対応で、
+  // 駅ページに独自の文章が一行も無かったのを埋めるもの。文面は locales、
+  // 何をどの順で出すかは src/stationInsightRender.js（Reactと共通）
+  const insight = hasLockers
+    ? insightHtml(
+        stationInsightItems({
+          stationLockers,
+          allLockers: lockers,
+          stationSlug: station.slug,
+          stationName,
+          lang,
+          t: (key, vars) => t(lang, key, vars),
+        }),
+        t(lang, "stationInsight.heading", { station: stationName })
+      )
+    : "";
+
   return {
     lang,
     // ロッカー件数をtitleに入れる（2026-08-08）。「〇〇駅 コインロッカー 料金／サイズ」等の
@@ -323,7 +375,7 @@ function stationPage(lang, station) {
     noindex: !hasLockers,
     body: `<main><h1>${esc(
       t(lang, "stationPage.ogTitle", { station: stationName })
-    )}</h1><p>${esc(description)}</p>${listOrNotice}${backLink}</main>`,
+    )}</h1><p>${esc(description)}</p>${listOrNotice}${insight}${backLink}</main>`,
   };
 }
 
