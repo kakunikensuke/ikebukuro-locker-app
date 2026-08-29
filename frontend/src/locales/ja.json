@@ -38,7 +38,8 @@
     "lead": "預けたい荷物が入る内寸から選べます。そのサイズのロッカーがある駅を一覧で確認できます。",
     "sizeCardSummary": "{{stationCount}}駅・{{lockerCount}}箇所",
     "sizeCardDimensions": "内寸 {{dimensions}}",
-    "linkFromTop": "サイズから探す（内寸・料金で比較）"
+    "linkFromTop": "サイズから探す（内寸・料金で比較）",
+    "sizeCardPrice": "料金は{{minPrice}}円〜{{maxPrice}}円。"
   },
   "sizePage": {
     "titleTag": "{{size}}のコインロッカーがある駅一覧｜全国{{count}}駅",
@@ -236,5 +237,13 @@
     "priceRange": "料金は{{min}}円から{{max}}円まで幅があります。同じ駅でもサイズによって変わります。",
     "priceFlat": "掲載しているロッカーの料金はいずれも{{min}}円です。",
     "busiest": "{{prefecture}}で設置箇所が多いのは次の駅です。"
+  },
+  "siteFooter": {
+    "footerAreas": "都道府県から探す",
+    "footerSizes": "サイズから探す",
+    "footerGuides": "使い方ガイド",
+    "footerContact": "お問い合わせ",
+    "footerOperator": "運営者情報",
+    "footerOperatorUrl": "https://kakuni-lab.com/"
   }
 }

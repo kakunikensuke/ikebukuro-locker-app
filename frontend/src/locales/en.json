@@ -41,7 +41,8 @@
     "lead": "Choose a size by its internal dimensions to find stations with lockers your luggage will fit.",
     "sizeCardSummary": "{{stationCount}} stations / {{lockerCount}} locations",
     "sizeCardDimensions": "Internal size {{dimensions}}",
-    "linkFromTop": "Browse by size (compare dimensions and prices)"
+    "linkFromTop": "Browse by size (compare dimensions and prices)",
+    "sizeCardPrice": "Prices run ¥{{minPrice}} to ¥{{maxPrice}}."
   },
   "sizePage": {
     "titleTag": "Stations with {{size}} Coin Lockers | {{count}} Stations in Japan",
@@ -251,5 +252,13 @@
     "priceRange": "Prices run from ¥{{min}} to ¥{{max}}, and vary by size even within one station.",
     "priceFlat": "Every locker listed here costs ¥{{min}}.",
     "busiest": "These stations in {{prefecture}} have the most locations."
+  },
+  "siteFooter": {
+    "footerAreas": "Browse by prefecture",
+    "footerSizes": "Browse by size",
+    "footerGuides": "Guides",
+    "footerContact": "Contact",
+    "footerOperator": "About the operator",
+    "footerOperatorUrl": "https://kakuni-lab.com/"
   }
 }

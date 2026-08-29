@@ -160,7 +160,23 @@ function insightHtml(items, headingText) {
 // これが無いと、JSを実行しないクロールでは/privacyへの内部リンクがどこにも存在せず、
 // sitemap経由でしか到達できなくなる
 function footerHtml(lang) {
-  return `<footer>${link(pathForPrivacy(lang), t(lang, "privacyPage.footerLink"))}</footer>`;
+  // 全ページから、主要な入口・お問い合わせ・運営者情報に到達できるようにする。
+  // 2026-08-29のAdSense不承認（有用性の低いコンテンツ）まで、ここにはプライバシー
+  // ポリシーへのリンク1本しか無く、駅ページから運営者へ辿る経路が実質無かった。
+  // 同じ構成をReactの components/SiteFooter.jsx にも持たせること
+  const items = [
+    link(pathForPrefectureList(lang), t(lang, "siteFooter.footerAreas")),
+    link(pathForSizeList(lang), t(lang, "siteFooter.footerSizes")),
+    link(pathForGuideList(lang), t(lang, "siteFooter.footerGuides")),
+    link(`${pathForPrivacy(lang)}#contact`, t(lang, "siteFooter.footerContact")),
+    link(pathForPrivacy(lang), t(lang, "privacyPage.footerLink")),
+    `<a href="${esc(t(lang, "siteFooter.footerOperatorUrl"))}">${esc(
+      t(lang, "siteFooter.footerOperator")
+    )}</a>`,
+  ];
+  // 区切りは言語に合わせる（英語ページに全角スラッシュを出さない）
+  const separator = lang === "en" ? " / " : " ／ ";
+  return `<footer>${items.join(separator)}</footer>`;
 }
 
 function renderPage(page) {
@@ -386,12 +402,22 @@ function sizesIndexPage(lang) {
     const note = summary.dimensions
       ? ` ${esc(t(lang, "sizesPage.sizeCardDimensions", { dimensions: summary.dimensions }))}`
       : "";
+    // 料金の幅もデータから出す。内寸だけでは「いくらで使えるか」が分からない
+    const price =
+      summary.minPrice && summary.maxPrice
+        ? ` ${esc(
+            t(lang, "sizesPage.sizeCardPrice", {
+              minPrice: summary.minPrice,
+              maxPrice: summary.maxPrice,
+            })
+          )}`
+        : "";
     return `<li>${link(pathForSize(lang, size.slug), t(lang, `sizePage.sizeName${size.sizeType}`))} ${esc(
       t(lang, "sizesPage.sizeCardSummary", {
         stationCount: summary.stationCount,
         lockerCount: summary.lockerCount,
       })
-    )}${note}</li>`;
+    )}${note}${price}</li>`;
   }).join("");
 
   return {
@@ -467,7 +493,12 @@ function guideBlocksHtml(lang, blocks, vars) {
 
 // 解説記事の一覧（/guides）
 function guidesIndexPage(lang) {
-  const items = GUIDES.map((g) => `<li>${link(pathForGuide(lang, g.slug), g.heading[lang])}</li>`).join("");
+  // 記事の説明文（GUIDES の description）を添える。従来はタイトルのリンクだけで、
+  // 一覧ページ自体には読む価値のある文章が無かった
+  const items = GUIDES.map(
+    (g) =>
+      `<li>${link(pathForGuide(lang, g.slug), g.heading[lang])}<br />${esc(g.description[lang])}</li>`
+  ).join("");
 
   return {
     lang,
@@ -623,7 +654,9 @@ function privacyPage(lang) {
         t(lang, "privacyPage.sourcesStation"),
         t(lang, "privacyPage.sourcesMap"),
       ]) +
-      `<h2>${esc(t(lang, "privacyPage.contactHeading"))}</h2>${contact}` +
+      // フッターの「お問い合わせ」がここに飛ぶのでidを振る（独立したページは作らず、
+      // プライバシーポリシー内のセクションとして持つ）
+      `<h2 id="contact">${esc(t(lang, "privacyPage.contactHeading"))}</h2>${contact}` +
       `<p>${link(pathForPrefectureList(lang), t(lang, "prefecturePage.backToAreas"))}</p></main>`,
   };
 }
