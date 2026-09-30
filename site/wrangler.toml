@@ -1,0 +1,15 @@
+# ルートドメイン kakuni-lab.com のサイト（2026-10-01に kakuni-lab-hub フォルダから移設）。
+# GitHub Actions（.github/workflows/deploy-site.yml）からデプロイする。
+name = "kakuni-lab-hub"
+compatibility_date = "2026-08-15"
+
+# kakuni-lab.com 以外からは配信しない（*.workers.dev の重複URLを作らない）
+workers_dev = false
+
+# ⚠ routes は書かない。カスタムドメイン kakuni-lab.com は2026-08-15に設定済みで、
+#   routes を書かなければ deploy しても外れない（ロッカーの Worker と同じ扱い）。
+#   書くと Actions の APIトークンにDNS編集権限が要り、無ければデプロイが落ちる。
+
+[assets]
+directory = "./public"
+not_found_handling = "404-page"

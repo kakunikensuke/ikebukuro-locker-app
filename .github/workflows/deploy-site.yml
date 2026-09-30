@@ -1,18 +1,15 @@
-name: Deploy frontend
+name: Deploy site (kakuni-lab.com)
 
-# 2026-10-01 コインロッカー検索を撤退。locker.kakuni-lab.com は全ページをルートへ転送する
-# Worker（locker-redirect/）だけを配信する。元のアプリのビルドと配信の手順は
-# タグ locker-final の版のこのファイルにある。
 on:
   push:
     branches: [main]
     paths:
-      - "locker-redirect/**"
-      - ".github/workflows/deploy-frontend.yml"
+      - "site/**"
+      - ".github/workflows/deploy-site.yml"
   workflow_dispatch: {}
 
 concurrency:
-  group: deploy-frontend
+  group: deploy-site
   cancel-in-progress: false
 
 jobs:
@@ -20,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: locker-redirect
+        working-directory: site
     steps:
       - uses: actions/checkout@v4
 

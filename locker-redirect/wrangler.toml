@@ -1,0 +1,6 @@
+# locker.kakuni-lab.com の転送専用 Worker（2026-10-01 ロッカー検索を撤退）。
+# 元のアプリ（frontend/）と同じ Worker 名で上書きしているので、カスタムドメインはそのまま効く。
+# 元に戻すときは deploy-frontend.yml をタグ locker-final の版に戻す。
+name = "ikebukuro-locker-app"
+main = "index.js"
+compatibility_date = "2026-10-01"

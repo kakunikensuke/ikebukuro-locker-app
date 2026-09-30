@@ -1,8 +1,8 @@
 name: Update lockers
 
+# 2026-10-01 コインロッカー検索の撤退に伴い、定期実行を止めた（手動実行だけ残す）。
+# multiecube のAPIが9月に形式を変え、2026-09-17以降このバッチは更新できていなかった。
 on:
-  schedule:
-    - cron: "0 */6 * * *"
   workflow_dispatch: {}
 
 permissions:

@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kakuni-lab｜個人開発のWebツール</title>
+    <meta
+      name="description"
+      content="kakuni-labが開発・運営しているWebツールの一覧です。駅前の生活利便施設スコアと、日本の購入代行サービスの料金比較を無料で公開しています。"
+    />
+    <link rel="canonical" href="https://kakuni-lab.com/" />
+    <meta property="og:title" content="kakuni-lab｜個人開発のWebツール" />
+    <meta
+      property="og:description"
+      content="駅前スコアと購入代行の料金比較。個人開発のWebツールを無料で公開しています。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://kakuni-lab.com/" />
+    <style>
+      :root {
+        --bg: #eee8d9;
+        --surface: #fbf8f1;
+        --primary: #1b2a55;
+        --primary-dark: #101a3b;
+        --text: #1c2130;
+        --muted: #75705f;
+        --border: #ded5bd;
+        --radius: 14px;
+      }
+      * {
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Noto Sans JP",
+          "Yu Gothic", "Segoe UI", sans-serif;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.8;
+      }
+      .wrap {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 0 20px 56px;
+      }
+      header {
+        padding: 44px 0 8px;
+      }
+      h1 {
+        margin: 0 0 6px;
+        font-size: 1.5rem;
+        letter-spacing: 0.02em;
+      }
+      .tagline {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      h2 {
+        margin: 40px 0 12px;
+        font-size: 1.05rem;
+        padding-bottom: 6px;
+        border-bottom: 1px solid var(--border);
+      }
+      h3 {
+        margin: 0 0 4px;
+        font-size: 1rem;
+      }
+      p,
+      li {
+        font-size: 0.88rem;
+      }
+      a {
+        color: var(--primary);
+      }
+      .apps {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 14px;
+      }
+      .app-card {
+        display: block;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px 20px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .app-card:hover {
+        border-color: var(--primary);
+      }
+      .app-card p {
+        margin: 6px 0 0;
+        color: var(--muted);
+      }
+      .app-url {
+        display: inline-block;
+        margin-top: 8px;
+        font-size: 0.78rem;
+        color: var(--primary);
+      }
+      .lang-note {
+        display: inline-block;
+        margin-left: 8px;
+        padding: 1px 8px;
+        border-radius: 999px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        font-size: 0.7rem;
+        color: var(--muted);
+        vertical-align: middle;
+      }
+      .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 14px;
+      }
+      .contact-form label {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+      .contact-form label em {
+        font-style: normal;
+        font-weight: normal;
+        color: var(--muted);
+      }
+      .contact-form input,
+      .contact-form select,
+      .contact-form textarea {
+        font: inherit;
+        font-weight: normal;
+        padding: 9px 10px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--text);
+      }
+      .contact-form textarea {
+        resize: vertical;
+      }
+      .contact-form button {
+        align-self: flex-start;
+        font: inherit;
+        font-weight: 600;
+        padding: 10px 24px;
+        border: 0;
+        border-radius: 999px;
+        background: var(--primary);
+        color: #fff;
+        cursor: pointer;
+      }
+      .contact-form button:hover {
+        background: var(--primary-dark);
+      }
+      .form-status {
+        margin: 0;
+        font-size: 0.82rem;
+      }
+      .form-status.error {
+        color: #b3261e;
+      }
+      .form-status.done {
+        color: #1f6b3b;
+      }
+      footer {
+        margin-top: 48px;
+        padding-top: 18px;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+      .en {
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>kakuni-lab</h1>
+        <p class="tagline">個人で開発・運営しているWebツールです。すべて無料で、登録なしで使えます。</p>
+      </header>
+
+      <main>
+        <h2>公開中のサービス</h2>
+        <ul class="apps">
+          <li>
+            <a class="app-card" href="https://eki.kakuni-lab.com/">
+              <h3>住みやすさ駅前スコア</h3>
+              <p>
+                駅名を選ぶと、その駅の徒歩圏内にコンビニ・スーパー・病院・飲食店が何軒あるかが分かります。引っ越し先の候補を同じ基準で比較するためのツールです。
+              </p>
+              <span class="app-url">eki.kakuni-lab.com</span>
+            </a>
+          </li>
+          <li>
+            <a class="app-card" href="https://japanproxy.kakuni-lab.com/">
+              <h3>Japan Proxy Cost Calculator<span class="lang-note">English</span></h3>
+              <p>
+                日本の購入代行サービス4社（Buyee・ZenMarket・Neokyo・FROM
+                JAPAN）の着地総額を比較する計算機です。海外から日本の商品を買う人向けに英語で提供しています。
+              </p>
+              <span class="app-url">japanproxy.kakuni-lab.com</span>
+            </a>
+          </li>
+        </ul>
+
+        <h2>運営者について</h2>
+        <p>
+          kakuni-lab は個人開発者です。法人ではなく、掲載しているサービスはいずれも個人で企画・開発・運営しています。特定の事業者との資本関係や業務提携はありません。
+        </p>
+        <p>
+          運営費用をまかなうため、各サービスには広告およびアフィリエイトリンクを掲載する場合があります。広告収益が、掲載する情報の内容や並び順に影響することはありません。
+        </p>
+        <p>
+          各サービスのデータの出典・免責事項・Cookieの取り扱いは、それぞれのサイト内のプライバシーポリシーに記載しています。
+        </p>
+        <p class="en">
+          kakuni-lab is an independent developer based in Japan. Everything here is built and run by one
+          person. Each site carries its own privacy policy covering data sources and cookies.
+        </p>
+
+        <h2>お問い合わせ</h2>
+        <p>
+          掲載内容の誤りのご指摘、削除のご依頼、その他のお問い合わせは下記のフォームからご連絡ください。個人で運営しているため、返信までに数日いただくことがあります。
+        </p>
+
+        <!-- 送信先はFormSubmit。メールアドレスのエイリアスなので生のアドレスはHTMLに出ない。
+             各アプリと同じ送信先を共用し、件名で発信元を見分ける。
+             ⚠ 有効化はドメインごとに必要。kakuni-lab.com から初回送信すると
+             有効化メールが届くので、それを押すまで実際には届かない。 -->
+        <form
+          class="contact-form"
+          action="https://formsubmit.co/21c6f56659051072bab367d0af9fb0bc"
+          method="POST"
+        >
+          <input type="hidden" name="_subject" value="kakuni-lab（ハブサイト） — お問い合わせ" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_template" value="table" />
+          <!-- ボット除け。人間には見えない欄で、埋まっていたら送信を捨てる -->
+          <input type="text" name="_honey" style="display: none" tabindex="-1" autocomplete="off" />
+
+          <label>
+            <span>お問い合わせの種類 <em>（必須）</em></span>
+            <select name="種類" required>
+              <option value="住みやすさ駅前スコアについて">住みやすさ駅前スコアについて</option>
+              <option value="Japan Proxy Cost について">Japan Proxy Cost について</option>
+              <option value="削除依頼">削除依頼</option>
+              <option value="その他">その他</option>
+            </select>
+          </label>
+
+          <label>
+            <span>該当ページのURL（任意）</span>
+            <input type="url" name="該当ページ" />
+          </label>
+
+          <label>
+            <span>お問い合わせ内容 <em>（必須）</em></span>
+            <textarea name="内容" rows="6" required></textarea>
+          </label>
+
+          <label>
+            <span>返信用メールアドレス（任意）</span>
+            <input type="email" name="email" />
+          </label>
+
+          <p class="form-status" id="form-status" hidden></p>
+          <button type="submit">送信する</button>
+        </form>
+      </main>
+
+      <footer>
+        <p>&copy; kakuni-lab</p>
+      </footer>
+    </div>
+
+    <script>
+      // 素のPOSTだと送信後にFormSubmitの英語の完了ページへ飛ばされ、サイトを離れてしまう
+      // （_next は効かないことを2026-08-15に確認済み）。AJAXで送って結果をこのページに出す。
+      // fetch自体が届かない場合だけ素のPOSTにフォールバックする。
+      (function () {
+        var form = document.querySelector(".contact-form");
+        var status = document.getElementById("form-status");
+
+        form.addEventListener("submit", async function (event) {
+          event.preventDefault();
+          var button = form.querySelector("button");
+          button.disabled = true;
+          status.hidden = false;
+          status.className = "form-status";
+          status.textContent = "送信中…";
+
+          var response;
+          try {
+            response = await fetch("https://formsubmit.co/ajax/21c6f56659051072bab367d0af9fb0bc", {
+              method: "POST",
+              headers: { Accept: "application/json" },
+              body: new FormData(form),
+            });
+          } catch (e) {
+            form.submit();
+            return;
+          }
+
+          // ステータスだけ見てはいけない。FormSubmitは未有効化のドメインからの送信にも
+          // HTTP 200を返し、本文で有効化を求めてくる
+          var payload = await response.json().catch(function () {
+            return null;
+          });
+          if (!response.ok || String(payload && payload.success) !== "true") {
+            status.className = "form-status error";
+            status.textContent = "送信できませんでした。時間をおいて再度お試しください。";
+            button.disabled = false;
+            return;
+          }
+
+          form.reset();
+          status.className = "form-status done";
+          status.textContent = "送信しました。内容を確認のうえ、必要に応じて返信します。";
+          button.disabled = false;
+        });
+      })();
+    </script>
+  </body>
+</html>
