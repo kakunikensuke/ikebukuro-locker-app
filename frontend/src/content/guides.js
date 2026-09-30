@@ -103,15 +103,30 @@ export const GUIDES = [
     },
     heading: { ja: "特大コインロッカー（LW）がある駅", en: "Stations with extra-large (LW) lockers" },
     description: {
-      ja: "Lサイズにも入らない大型スーツケース・楽器・スキー板向けのLWサイズは、掲載{{stationCount}}駅のうち{{stationsLW}}駅にしかありません。設置駅を個数の多い順に一覧にしました。",
-      en: "LW lockers take what will not fit in an L — oversized cases, instruments, skis. Only {{stationsLW}} of the {{stationCount}} stations listed have them. Here they are, largest first.",
+      ja: "Lサイズより背の高いLWサイズは、掲載{{stationCount}}駅のうち{{stationsLW}}駅にしかありません。実際の高さと、LWを探す必要が本当にあるのかを確かめたうえで、設置駅を個数の多い順に一覧にしました。",
+      en: "LW lockers are the tall ones, and only {{stationsLW}} of the {{stationCount}} stations listed have them. How tall they really are, whether you actually need one, and every station that has them, largest first.",
     },
     blocks: [
       {
         type: "p",
         text: {
-          ja: "LWはLサイズよりさらに大きい区分で、大型スーツケース・楽器のハードケース・スキー板・ベビーカーなどを想定した枠です。掲載中の{{stationCount}}駅のうち設置が確認できているのは{{stationsLW}}駅、合計{{lockersLW}}箇所しかありません。",
-          en: "LW is the class above L, sized for oversized suitcases, instrument cases, skis and pushchairs. Of the {{stationCount}} stations listed here, only {{stationsLW}} have one — {{lockersLW}} locations in total.",
+          ja: "LWはLサイズの上の区分で、大型スーツケースや楽器のハードケースのような背の高い荷物を想定した枠です。掲載中の{{stationCount}}駅のうち設置が確認できているのは{{stationsLW}}駅、合計{{lockersLW}}箇所しかありません。",
+          en: "LW is the class above L, meant for tall items such as oversized suitcases and instrument cases. Of the {{stationCount}} stations listed here, only {{stationsLW}} have one — {{lockersLW}} locations in total.",
+        },
+      },
+      { type: "h2", text: { ja: "LWの高さはLとあまり変わらないこともある", en: "An LW is not always much taller than an L" } },
+      {
+        type: "p",
+        text: {
+          ja: "内寸が公開されているLW（{{lwKnownCount}}箇所）の高さは{{lwMinHeight}}cmから{{lwMaxHeight}}cmまでで、設置場所によってかなり違います。Lサイズの高さは86cmなので、低い方のLWはLとほとんど同じです。スキー板やゴルフバッグのように{{lwMaxHeight}}cmを超える長さの荷物は、LWでも入りません。",
+          en: "Where the inside dimensions are published ({{lwKnownCount}} locations), an LW is between {{lwMinHeight}}cm and {{lwMaxHeight}}cm tall, and it varies a lot from bank to bank. An L is 86cm tall, so the lower LWs are about the same as an L. Anything longer than {{lwMaxHeight}}cm, such as skis or a golf bag, will not fit even in an LW.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          ja: "一方で、1週間以上の旅行に使う大型のスーツケース（外寸75×52×30cm程度）は、内寸86cmのLサイズに収まります。このサイズのスーツケースが入るロッカーがある駅は{{suitcaseLStations}}駅あり、LWの{{stationsLW}}駅よりずっと多いです。スーツケースを預けるだけなら、LWにこだわらず「荷物の大きさから探す」で入るロッカーを探す方が早く見つかります。",
+          en: "A large suitcase for a week or more away — about 75×52×30cm outside — fits in an 86cm-tall L. {{suitcaseLStations}} stations have a locker that takes a case that size, against {{stationsLW}} with an LW. If all you need to store is a suitcase, searching by luggage size finds a locker much faster than hunting for an LW.",
         },
       },
       {
@@ -191,6 +206,21 @@ export const GUIDES = [
             en: "Someone else is collecting the bag. Outside the gates they do not need a ticket.",
           },
         ],
+      },
+      { type: "h2", text: { ja: "改札内にもスーツケースは預けられる", en: "You can store a suitcase inside the gates too" } },
+      {
+        type: "p",
+        text: {
+          ja: "改札内のロッカーは小さいものばかり、と思われがちですが、実データではそうなっていません。改札内にロッカーがある{{insideStations}}駅のうち、{{insideSuitcaseStations}}駅では改札内に預け入れサイズのスーツケースが入るロッカーがあります。内寸が分かっている台数で比べると、預け入れサイズが入る割合は改札内が{{insideSuitcasePercent}}%、改札外が{{outsideSuitcasePercent}}%です。",
+          en: "It is easy to assume the lockers inside the gates are all small ones. The data says otherwise: of the {{insideStations}} stations with lockers inside the gates, {{insideSuitcaseStations}} have one there that takes a check-in sized suitcase. Counting units whose inside dimensions are known, {{insideSuitcasePercent}}% of those inside the gates take a check-in case, against {{outsideSuitcasePercent}}% outside.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          ja: "乗り換えの途中でスーツケースを預けたいなら、荷物が大きいからといって改札の外まで出る必要はありません。駅ページのロッカー一覧で、改札内の設置場所のうち「預け入れMサイズまで」か「大型スーツケースも入る」と出ているものを選んでください。",
+          en: "If you want to drop a suitcase between trains, a large bag is no reason to leave the gates. On each station page, pick a location inside the gates tagged \"Up to a medium suitcase\" or \"Fits a large suitcase\".",
+        },
       },
       { type: "h2", text: { ja: "見落としやすい注意点", en: "The thing people get caught by" } },
       {
@@ -276,6 +306,13 @@ export const GUIDES = [
         text: {
           ja: "大きな駅ほどロッカーは分散しています。改札前の目立つ場所から埋まるので、少し離れた出口や地下通路の設置場所が残っていることがよくあります。当サイトの駅ページには設置場所が全て並んでいるので、目立たない場所を狙ってください。",
           en: "The bigger the station, the more scattered the lockers. The ones by the gates go first, so a bank down a side exit or in an underground passage is often still open. The station pages here list every location — aim for the inconspicuous ones.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          ja: "掲載{{stationCount}}駅のうち、設置場所が2か所以上ある駅は{{multiSiteStations}}駅、5か所以上ある駅は{{bigSiteStations}}駅で、最も多い駅では{{maxSites}}か所に分かれています。反対に{{singleSiteStations}}駅は設置場所が1か所だけなので、そこが埋まっていたら同じ駅で探し続けず、次の手に移った方が早く片付きます。",
+          en: "Of the {{stationCount}} stations listed, {{multiSiteStations}} have lockers in two or more places, {{bigSiteStations}} in five or more, and the busiest has them spread over {{maxSites}}. The other {{singleSiteStations}} have a single bank — if that one is full, stop searching the station and move on to the next option.",
         },
       },
       { type: "h2", text: { ja: "2. 手荷物預かり所を使う", en: "2. Use a staffed luggage counter" } },
