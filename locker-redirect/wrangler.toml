@@ -3,4 +3,4 @@
 # 元に戻すときは deploy-frontend.yml をタグ locker-final の版に戻す。
 name = "ikebukuro-locker-app"
 main = "index.js"
-compatibility_date = "2026-10-01"
+compatibility_date = "2026-09-29"
