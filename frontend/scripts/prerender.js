@@ -58,6 +58,7 @@ import { prefectureInsightItems, stationInsightItems } from "../src/stationInsig
 import { sizeFitText, stationListLine, stationSummaryItems } from "../src/stationSummary.js";
 import { LUGGAGE, largestLuggageForLocker } from "../src/luggageFit.js";
 import { pathForLuggageList } from "../src/luggageSearch.js";
+import { sizeUnitBreakdown, sizePageFacts } from "../src/lockerStats.js";
 import { luggagePageContent, luggageResult } from "../src/luggagePageContent.js";
 import { airportContent, homeAbout, homeRankings, pathForAirports } from "../src/homeContent.js";
 import STATION_PHOTOS from "../src/data/stationPhotos.json" with { type: "json" };
@@ -496,6 +497,34 @@ function stationPage(lang, station) {
 }
 
 // サイズ別一覧のハブ（/sizes）。SizesIndexPageと同じ翻訳キー・同じ集計を使う
+// /sizes の設置台数の内訳と「外寸から探す」への案内。画面の SizesIndexPage と同じ sizeUnitBreakdown
+function sizeBreakdownHtml(lang) {
+  const b = sizeUnitBreakdown(lockers);
+  const name = (type) => t(lang, `sizePage.sizeName${type}`);
+  const items = b.rows
+    .map((r) => `<li>${esc(t(lang, "sizesPage.breakdownItem", { size: name(r.sizeType), units: r.units.toLocaleString("en-US"), share: r.share }))}</li>`)
+    .join("");
+  return (
+    `<h2>${esc(t(lang, "sizesPage.breakdownHeading"))}</h2>` +
+    `<p>${esc(t(lang, "sizesPage.breakdownLead", { total: b.total.toLocaleString("en-US"), top: name(b.top.sizeType), share: b.top.share }))}</p>` +
+    `<ul>${items}</ul>` +
+    `<p>${esc(t(lang, "sizesPage.luggageHint"))} ${link(pathForLuggageList(lang), t(lang, "sizesPage.luggageLink"))}</p>`
+  );
+}
+
+// /sizes/:size のいちばん多い料金と、内寸が公開されている箇所数。画面の SizePage と同じ sizePageFacts
+function sizeFactsHtml(lang, sizeType, sizeName) {
+  const f = sizePageFacts(lockers, sizeType);
+  let html = "";
+  if (f.priceMode !== null) {
+    html += `<p>${esc(t(lang, "sizePage.priceMode", { size: sizeName, price: f.priceMode, share: f.priceModeShare }))}</p>`;
+  }
+  if (f.known < f.locations) {
+    html += `<p>${esc(t(lang, "sizePage.dimsKnown", { locations: f.locations, known: f.known }))}</p>`;
+  }
+  return html;
+}
+
 function sizesIndexPage(lang) {
   const cards = LOCKER_SIZES.map((size) => {
     const summary = sizeSummary(lockers, size.sizeType);
@@ -533,7 +562,7 @@ function sizesIndexPage(lang) {
     ogType: "website",
     body: `<main><h1>${esc(t(lang, "sizesPage.heading"))}</h1><p>${esc(
       t(lang, "sizesPage.lead")
-    )}</p><ul>${cards}</ul><p>${link(
+    )}</p><ul>${cards}</ul>${sizeBreakdownHtml(lang)}<p>${link(
       pathForPrefectureList(lang),
       t(lang, "prefecturePage.backToAreas")
     )}</p></main>`,
@@ -850,7 +879,7 @@ function sizePage(lang, size) {
     )}</p>${(() => {
       const fit = sizeFitText(summary.dimensions, (k, v) => t(lang, k, v), "sizePage.fitNote", { size: sizeName });
       return fit ? `<p>${esc(fit)}</p>` : "";
-    })()}${sections}<p>${link(pathForSizeList(lang), t(lang, "sizePage.backToSizes"))}</p></main>`,
+    })()}${sizeFactsHtml(lang, size.sizeType, sizeName)}${sections}<p>${link(pathForSizeList(lang), t(lang, "sizePage.backToSizes"))}</p></main>`,
   };
 }
 

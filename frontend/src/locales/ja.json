@@ -40,7 +40,12 @@
     "sizeCardDimensions": "内寸 {{dimensions}}",
     "linkFromTop": "サイズから探す（内寸・料金で比較）",
     "sizeCardPrice": "料金は{{minPrice}}円〜{{maxPrice}}円。",
-    "sizeCardFit": "入る荷物の目安：{{luggage}}"
+    "sizeCardFit": "入る荷物の目安：{{luggage}}",
+    "breakdownHeading": "設置台数の内訳",
+    "breakdownLead": "掲載中のロッカーの扉{{total}}台をサイズ別に数えると次のとおりです。最も多いのは{{top}}で、全体の{{share}}%を占めます。",
+    "breakdownItem": "{{size}}：{{units}}台（{{share}}%）",
+    "luggageHint": "同じサイズ名でも、事業者によって内寸が違うことがあります（Lサイズでも高さ86cmのものと50cm台のものがあります）。荷物の外寸が分かっているなら、サイズ名で選ぶより外寸から探す方が確実です。",
+    "luggageLink": "荷物の大きさから探す"
   },
   "sizePage": {
     "titleTag": "{{size}}のコインロッカーがある駅一覧｜全国{{count}}駅",
@@ -56,7 +61,9 @@
     "sizeNameM": "Mサイズ（中型）",
     "sizeNameL": "Lサイズ（大型）",
     "sizeNameLW": "LWサイズ（特大・スーツケース対応）",
-    "fitNote": "{{size}}の内寸（{{dimensions}}）で、どの荷物まで入るかを判定した結果は「{{luggage}}」です。キャスターと取っ手を含めた外寸で比べており、内寸に幅がある場合は小さい方で判定しています。駅ごとの内寸は各駅のページで確認できます。"
+    "fitNote": "{{size}}の内寸（{{dimensions}}）で、どの荷物まで入るかを判定した結果は「{{luggage}}」です。キャスターと取っ手を含めた外寸で比べており、内寸に幅がある場合は小さい方で判定しています。駅ごとの内寸は各駅のページで確認できます。",
+    "priceMode": "{{size}}でいちばん多い料金は{{price}}円で、設置場所の{{share}}%がこの料金です。",
+    "dimsKnown": "内寸が公開されているのは{{locations}}箇所のうち{{known}}箇所です。残りは事業者が内寸を公開していないため、入る荷物の判定をしていません。"
   },
   "prefecturePage": {
     "titleTag": "{{prefecture}}のコインロッカー設置駅一覧｜コインロッカー検索",

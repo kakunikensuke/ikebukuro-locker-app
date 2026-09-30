@@ -15,6 +15,7 @@ import { SITE_URL } from "../config";
 import { useLang, useT } from "../i18n/LangContext.js";
 import LangSwitcher from "../components/LangSwitcher.jsx";
 import { sizeFitText } from "../stationSummary.js";
+import { sizePageFacts } from "../lockerStats.js";
 import NotFound from "./NotFound.jsx";
 
 /**
@@ -27,12 +28,16 @@ export default function SizePage() {
   const lang = useLang();
   const t = useT();
   const [summary, setSummary] = useState(null);
+  const [facts, setFacts] = useState(null);
   const size = sizeBySlug(sizeSlug);
 
   useEffect(() => {
     if (!size) return;
     fetchLockers({})
-      .then((data) => setSummary(sizeSummary(data.results ?? [], size.sizeType)))
+      .then((data) => {
+        setSummary(sizeSummary(data.results ?? [], size.sizeType));
+        setFacts(sizePageFacts(data.results ?? [], size.sizeType));
+      })
       .catch(() => setSummary(null));
   }, [size]);
 
@@ -107,6 +112,13 @@ export default function SizePage() {
         {/* 入る荷物の目安。静的HTML（prerender.js の sizePage）と同じ sizeFitText */}
         {summary && sizeFitText(summary.dimensions, t, "sizePage.fitNote", { size: sizeName }) && (
           <p>{sizeFitText(summary.dimensions, t, "sizePage.fitNote", { size: sizeName })}</p>
+        )}
+        {/* いちばん多い料金と内寸の公開状況。静的HTML（prerender.js の sizeFactsHtml）と同じ sizePageFacts */}
+        {facts && facts.priceMode !== null && (
+          <p>{t("sizePage.priceMode", { size: sizeName, price: facts.priceMode, share: facts.priceModeShare })}</p>
+        )}
+        {facts && facts.known < facts.locations && (
+          <p>{t("sizePage.dimsKnown", { locations: facts.locations, known: facts.known })}</p>
         )}
 
         {groups.map(({ prefecture, stations }) => (

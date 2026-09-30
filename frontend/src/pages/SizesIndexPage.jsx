@@ -8,6 +8,8 @@ import { SITE_URL } from "../config";
 import { useLang, useT } from "../i18n/LangContext.js";
 import LangSwitcher from "../components/LangSwitcher.jsx";
 import { sizeFitText } from "../stationSummary.js";
+import { sizeUnitBreakdown } from "../lockerStats.js";
+import { pathForLuggageList } from "../luggageSearch.js";
 
 /**
  * サイズ別一覧のハブページ（/sizes）。
@@ -18,6 +20,7 @@ export default function SizesIndexPage() {
   const lang = useLang();
   const t = useT();
   const [summaries, setSummaries] = useState([]);
+  const [breakdown, setBreakdown] = useState(null);
 
   useEffect(() => {
     fetchLockers({})
@@ -26,6 +29,7 @@ export default function SizesIndexPage() {
         setSummaries(
           LOCKER_SIZES.map((size) => ({ ...size, ...sizeSummary(lockers, size.sizeType) }))
         );
+        setBreakdown(sizeUnitBreakdown(lockers));
       })
       .catch(() => setSummaries([]));
   }, []);
@@ -95,6 +99,35 @@ export default function SizesIndexPage() {
             </li>
           ))}
         </ul>
+
+        {/* 設置台数の内訳。静的HTML（prerender.js の sizeBreakdownHtml）と同じ sizeUnitBreakdown */}
+        {breakdown && breakdown.total > 0 && (
+          <section>
+            <h2>{t("sizesPage.breakdownHeading")}</h2>
+            <p>
+              {t("sizesPage.breakdownLead", {
+                total: breakdown.total.toLocaleString("en-US"),
+                top: t(`sizePage.sizeName${breakdown.top.sizeType}`),
+                share: breakdown.top.share,
+              })}
+            </p>
+            <ul>
+              {breakdown.rows.map((r) => (
+                <li key={r.sizeType}>
+                  {t("sizesPage.breakdownItem", {
+                    size: t(`sizePage.sizeName${r.sizeType}`),
+                    units: r.units.toLocaleString("en-US"),
+                    share: r.share,
+                  })}
+                </li>
+              ))}
+            </ul>
+            <p>
+              {t("sizesPage.luggageHint")}{" "}
+              <Link to={pathForLuggageList(lang)}>{t("sizesPage.luggageLink")}</Link>
+            </p>
+          </section>
+        )}
       </main>
     </div>
   );

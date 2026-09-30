@@ -194,3 +194,43 @@ export function guideVars(lockers) {
   vars.maxSites = Math.max(...sites);
   return vars;
 }
+
+// /sizes の「設置台数の内訳」。箇所数ではなく台数（扉の数）で数える。
+// 利用者にとっての「見つけやすさ」は扉の数で決まるため
+export function sizeUnitBreakdown(lockers) {
+  const units = new Map(LOCKER_SIZES.map((s) => [s.sizeType, 0]));
+  for (const l of lockers) {
+    for (const s of l.sizes) {
+      if (units.has(s.size_type) && s.quantity) units.set(s.size_type, units.get(s.size_type) + s.quantity);
+    }
+  }
+  const total = [...units.values()].reduce((a, b) => a + b, 0);
+  const rows = LOCKER_SIZES.map((s) => ({
+    sizeType: s.sizeType,
+    units: units.get(s.sizeType),
+    share: Math.round((units.get(s.sizeType) / Math.max(total, 1)) * 100),
+  }));
+  const top = [...rows].sort((a, b) => b.units - a.units)[0];
+  return { rows, total, top };
+}
+
+// /sizes/:size の補足。いちばん多い料金とその割合、内寸が公開されている箇所数
+export function sizePageFacts(lockers, sizeType) {
+  let locations = 0;
+  let known = 0;
+  const freq = new Map();
+  for (const l of lockers) {
+    const s = l.sizes.find((x) => x.size_type === sizeType && x.quantity);
+    if (!s) continue;
+    locations++;
+    if (parseDimensions(s.dimensions)) known++;
+    freq.set(s.price, (freq.get(s.price) ?? 0) + 1);
+  }
+  const mode = [...freq].sort((a, b) => b[1] - a[1])[0];
+  return {
+    locations,
+    known,
+    priceMode: mode ? mode[0] : null,
+    priceModeShare: mode ? Math.round((mode[1] / locations) * 100) : 0,
+  };
+}

@@ -43,7 +43,12 @@
     "sizeCardDimensions": "Internal size {{dimensions}}",
     "linkFromTop": "Browse by size (compare dimensions and prices)",
     "sizeCardPrice": "Prices run ¥{{minPrice}} to ¥{{maxPrice}}.",
-    "sizeCardFit": "What fits: {{luggage}}"
+    "sizeCardFit": "What fits: {{luggage}}",
+    "breakdownHeading": "Units installed, by size",
+    "breakdownLead": "Counting all {{total}} locker doors listed here by size gives the figures below. The most common is {{top}}, at {{share}}% of the total.",
+    "breakdownItem": "{{size}}: {{units}} units ({{share}}%)",
+    "luggageHint": "The same size name can mean different inside dimensions depending on the operator — some L lockers are 86cm tall, others only in the 50s. If you know your bag's outside dimensions, searching by those is more reliable than going by the size name.",
+    "luggageLink": "Search by luggage size"
   },
   "sizePage": {
     "titleTag": "Stations with {{size}} Coin Lockers | {{count}} Stations in Japan",
@@ -60,7 +65,9 @@
     "sizeNameM": "M (Medium)",
     "sizeNameL": "L (Large)",
     "sizeNameLW": "LW (Extra Large, fits suitcases)",
-    "fitNote": "Going by the inside size of {{size}} ({{dimensions}}), what fits is: {{luggage}}. We compare against outside dimensions including wheels and handles, and use the smaller figure where the inside size is a range. Each station page shows its own inside sizes."
+    "fitNote": "Going by the inside size of {{size}} ({{dimensions}}), what fits is: {{luggage}}. We compare against outside dimensions including wheels and handles, and use the smaller figure where the inside size is a range. Each station page shows its own inside sizes.",
+    "priceMode": "The most common price for {{size}} is {{price}} yen, charged at {{share}}% of locations.",
+    "dimsKnown": "Inside dimensions are published for {{known}} of the {{locations}} locations. The operator does not publish them for the rest, so we do not say what fits there."
   },
   "prefecturePage": {
     "titleTag": "Coin Locker Stations in {{prefecture}} | Coin Locker Search",
