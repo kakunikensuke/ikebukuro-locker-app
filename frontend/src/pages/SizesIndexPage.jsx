@@ -7,6 +7,7 @@ import { pathForPrefectureList } from "../stations";
 import { SITE_URL } from "../config";
 import { useLang, useT } from "../i18n/LangContext.js";
 import LangSwitcher from "../components/LangSwitcher.jsx";
+import { sizeFitText } from "../stationSummary.js";
 
 /**
  * サイズ別一覧のハブページ（/sizes）。
@@ -77,6 +78,17 @@ export default function SizesIndexPage() {
                 {size.dimensions && (
                   <span className="area-card-note">
                     {t("sizesPage.sizeCardDimensions", { dimensions: size.dimensions })}
+                  </span>
+                )}
+                {/* 料金の幅と入る荷物の目安。静的HTML（prerender.js の sizesIndexPage）と同じ内容 */}
+                {size.minPrice && size.maxPrice && (
+                  <span className="area-card-note">
+                    {t("sizesPage.sizeCardPrice", { minPrice: size.minPrice, maxPrice: size.maxPrice })}
+                  </span>
+                )}
+                {sizeFitText(size.dimensions, t, "sizesPage.sizeCardFit") && (
+                  <span className="area-card-note size-card-fit">
+                    {sizeFitText(size.dimensions, t, "sizesPage.sizeCardFit")}
                   </span>
                 )}
               </Link>

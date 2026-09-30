@@ -4,7 +4,7 @@
 // 違うが、**どの文をどの順で出すかの判断はここ1か所に集約する。** 片方だけ直すと
 // 静的HTMLとハイドレート後で本文がずれる（CLAUDE.md参照）。
 import { prefectureInsightBlocks, stationInsightBlocks } from "./stationInsight.js";
-import { prefectureName, pathForStation } from "./stations.js";
+import { prefectureName, pathForStation, slugToName } from "./stations.js";
 
 /**
  * 表示用に正規化したブロックを返す。
@@ -102,6 +102,7 @@ export function prefectureInsightItems({ prefectureLockers, allLockers, prefectu
         })),
       };
     }
-    return { type: "p", text: t(block.key, { ...block.vars, prefecture: label }) };
+    const station = block.stationSlug ? slugToName(block.stationSlug, lang) ?? block.stationSlug : undefined;
+    return { type: "p", text: t(block.key, { ...block.vars, prefecture: label, station }) };
   });
 }

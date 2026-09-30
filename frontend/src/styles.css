@@ -1446,3 +1446,40 @@ html {
     gap: 8px;
   }
 }
+
+/* サイズ一覧のカードは内寸・料金・入る荷物の行が増えたので折り返す */
+.area-card {
+  flex-wrap: wrap;
+}
+
+.size-card-fit {
+  flex-basis: 100%;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* 都道府県ページの駅一覧。各行に要点（台数・スーツケースが入る台数・最安）を出す */
+.station-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule);
+}
+
+.station-rows li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2px 16px;
+  padding: 10px 4px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.station-rows a {
+  font-weight: 700;
+}
+
+.station-rows span {
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}

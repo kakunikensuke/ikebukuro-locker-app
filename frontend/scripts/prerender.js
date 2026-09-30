@@ -55,7 +55,7 @@ import {
   translateBusinessHours,
 } from "../src/i18n/lockerText.js";
 import { prefectureInsightItems, stationInsightItems } from "../src/stationInsightRender.js";
-import { stationSummaryItems } from "../src/stationSummary.js";
+import { sizeFitText, stationListLine, stationSummaryItems } from "../src/stationSummary.js";
 import { LUGGAGE, largestLuggageForLocker } from "../src/luggageFit.js";
 import { pathForLuggageList } from "../src/luggageSearch.js";
 import { luggagePageContent, luggageResult } from "../src/luggagePageContent.js";
@@ -332,8 +332,12 @@ function prefecturePage(lang, prefecture) {
   });
   const items = stations
     .map((station) => {
-      const count = lockersByStation.get(station.slug)?.length ?? 0;
-      const countLabel = t(lang, "prefecturePage.stationLockerCount", { count });
+      const stationLockers = lockersByStation.get(station.slug);
+      const count = stationLockers?.length ?? 0;
+      // ロッカーのある駅は要点（台数・スーツケースが入る台数・最安）を出す。画面と同じ stationListLine()
+      const countLabel = stationLockers
+        ? stationListLine(stationLockers, (key, vars) => t(lang, key, vars), lang)
+        : t(lang, "prefecturePage.stationLockerCount", { count });
       // 括弧は言語に合わせる。英語ページに全角括弧を出すと日本語の組版のまま見える
       const open = lang === "en" ? " (" : "（";
       const close = lang === "en" ? ")" : "）";
@@ -508,7 +512,10 @@ function sizesIndexPage(lang) {
             })
           )}`
         : "";
-    return `<li>${link(pathForSize(lang, size.slug), t(lang, `sizePage.sizeName${size.sizeType}`))} ${esc(
+    // 入る荷物の目安（内寸から判定。画面の SizesIndexPage と同じ sizeFitText）
+    const fitText = sizeFitText(summary.dimensions, (k, v) => t(lang, k, v), "sizesPage.sizeCardFit");
+    const fit = fitText ? ` ${esc(fitText)}` : "";
+    return `<li>${link(pathForSize(lang, size.slug), t(lang, `sizePage.sizeName${size.sizeType}`))}${fit} ${esc(
       t(lang, "sizesPage.sizeCardSummary", {
         stationCount: summary.stationCount,
         lockerCount: summary.lockerCount,
@@ -840,7 +847,10 @@ function sizePage(lang, size) {
     ogType: "website",
     body: `<main><h1>${esc(t(lang, "sizePage.heading", { size: sizeName }))}</h1><p>${esc(
       t(lang, "sizePage.summary", vars)
-    )}</p>${sections}<p>${link(pathForSizeList(lang), t(lang, "sizePage.backToSizes"))}</p></main>`,
+    )}</p>${(() => {
+      const fit = sizeFitText(summary.dimensions, (k, v) => t(lang, k, v), "sizePage.fitNote", { size: sizeName });
+      return fit ? `<p>${esc(fit)}</p>` : "";
+    })()}${sections}<p>${link(pathForSizeList(lang), t(lang, "sizePage.backToSizes"))}</p></main>`,
   };
 }
 

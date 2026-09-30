@@ -17,6 +17,7 @@ import LangSwitcher from "../components/LangSwitcher.jsx";
 import NotFound from "./NotFound.jsx";
 import InsightSection from "../components/InsightSection.jsx";
 import { prefectureInsightItems } from "../stationInsightRender.js";
+import { stationListLine } from "../stationSummary.js";
 import { prefectureForSlug } from "../stations";
 
 export default function PrefecturePage() {
@@ -29,6 +30,16 @@ export default function PrefecturePage() {
   // ここが無いとJSを実行するクローラからは解説の無いページに見える
   const [allLockers, setAllLockers] = useState([]);
   const prefecture = prefectureForPrefectureSlug(prefectureSlug);
+
+  // 駅一覧の各行に要点を出すため、駅ごとにロッカーをまとめておく
+  const lockersByStation = useMemo(() => {
+    const map = new Map();
+    for (const l of allLockers) {
+      if (!map.has(l.station_slug)) map.set(l.station_slug, []);
+      map.get(l.station_slug).push(l);
+    }
+    return map;
+  }, [allLockers]);
 
   const insightItems = useMemo(() => {
     if (!prefecture || !allLockers.length) return [];
@@ -115,19 +126,22 @@ export default function PrefecturePage() {
         {filteredStations.length === 0 ? (
           <p className="empty-message">{t("prefecturePage.searchNoResults")}</p>
         ) : (
-          <ul className="area-grid">
-            {filteredStations.map((s) => (
-              <li key={s.slug}>
-                <Link className="area-card" to={pathForStation(lang, s.slug)}>
-                  <span className="area-card-name">{slugToName(s.slug, lang)}</span>
-                  <div className="locker-card-tags">
-                    <span className="tag">
-                      {t("prefecturePage.stationLockerCount", { count: lockerCounts[s.slug] || 0 })}
-                    </span>
-                  </div>
-                </Link>
-              </li>
-            ))}
+          // 各駅の要点（台数・スーツケースが入る台数・最安）を1行で出す（2026-09-30）。
+          // 静的HTML（prerender.js の prefecturePage）と同じ stationListLine() から作る
+          <ul className="station-rows">
+            {filteredStations.map((s) => {
+              const ls = lockersByStation.get(s.slug);
+              return (
+                <li key={s.slug}>
+                  <Link to={pathForStation(lang, s.slug)}>{slugToName(s.slug, lang)}</Link>
+                  <span>
+                    {ls
+                      ? stationListLine(ls, t, lang)
+                      : t("prefecturePage.stationLockerCount", { count: lockerCounts[s.slug] || 0 })}
+                  </span>
+                </li>
+              );
+            })}
           </ul>
         )}
       </main>

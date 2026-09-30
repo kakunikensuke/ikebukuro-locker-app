@@ -142,3 +142,32 @@ export function stationSummaryItems(stationLockers, t) {
 export function lockerLuggageText(luggageId, t) {
   return t(`luggage.${luggageId ?? "unknown"}`);
 }
+
+/**
+ * 都道府県ページの駅一覧の1行（「3か所・205台／預け入れサイズが入るのは115台／最安900円」）。
+ * 画面（PrefecturePage.jsx）と静的HTML（prerender.js の prefecturePage）の両方がこれを使う
+ */
+export function stationListLine(stationLockers, t, lang) {
+  const s = stationSummary(stationLockers);
+  const allUnknown = s.sizes.length > 0 && s.sizes.every((r) => r.luggage === null);
+  const parts = [
+    t("stationList.scale", { facilities: s.facilities, units: s.units.toLocaleString("en-US"), count: s.facilities }),
+    s.suitcaseUnits > 0
+      ? t("stationList.suitcase", { units: s.suitcaseUnits.toLocaleString("en-US"), count: s.suitcaseUnits })
+      : allUnknown
+        ? t("stationList.unknown")
+        : t("stationList.noSuitcase"),
+    s.minPrice !== null ? t("stationList.price", { price: s.minPrice }) : null,
+  ].filter(Boolean);
+  return parts.join(lang === "en" ? "; " : "／");
+}
+
+/**
+ * サイズ一覧・サイズ別ページに出す「このサイズに入る荷物の目安」。
+ * 内寸（幅のある表記は小さい方）から luggageFit.js で判定する。内寸が無ければ null（書かない）
+ */
+export function sizeFitText(dimensions, t, key, vars = {}) {
+  const id = largestLuggage(dimensions);
+  if (!id) return null;
+  return t(key, { ...vars, luggage: t(`luggage.${id}`), dimensions });
+}

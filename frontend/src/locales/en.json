@@ -42,7 +42,8 @@
     "sizeCardSummary": "{{stationCount}} stations / {{lockerCount}} locations",
     "sizeCardDimensions": "Internal size {{dimensions}}",
     "linkFromTop": "Browse by size (compare dimensions and prices)",
-    "sizeCardPrice": "Prices run ¥{{minPrice}} to ¥{{maxPrice}}."
+    "sizeCardPrice": "Prices run ¥{{minPrice}} to ¥{{maxPrice}}.",
+    "sizeCardFit": "What fits: {{luggage}}"
   },
   "sizePage": {
     "titleTag": "Stations with {{size}} Coin Lockers | {{count}} Stations in Japan",
@@ -58,7 +59,8 @@
     "sizeNameS": "S (Standard)",
     "sizeNameM": "M (Medium)",
     "sizeNameL": "L (Large)",
-    "sizeNameLW": "LW (Extra Large, fits suitcases)"
+    "sizeNameLW": "LW (Extra Large, fits suitcases)",
+    "fitNote": "Going by the inside size of {{size}} ({{dimensions}}), what fits is: {{luggage}}. We compare against outside dimensions including wheels and handles, and use the smaller figure where the inside size is a range. Each station page shows its own inside sizes."
   },
   "prefecturePage": {
     "titleTag": "Coin Locker Stations in {{prefecture}} | Coin Locker Search",
@@ -225,10 +227,6 @@
     "gateBoth": "{{inside}} of the locations sit inside the ticket gates and {{outside}} outside. Inside is the shorter walk if you are changing trains; outside is better if you are leaving the station.",
     "prefectureRank": "By number of locations, this station ranks {{rank}} of the {{total}} stations we list in {{prefecture}}.",
     "alternatives": "These stations in {{prefecture}} have more locations.",
-    "scaleWithSuitcase_one": "{{station}} has a single locker location with {{units}} lockers in it. {{suitcase}} of them are size L or larger, which is what a suitcase needs.",
-    "scaleWithSuitcase_other": "{{station}} has {{facilities}} locker locations with {{units}} lockers in total. {{suitcase}} of them are size L or larger, which is what a suitcase needs.",
-    "scaleNoSuitcase_one": "{{station}} has a single locker location with {{units}} lockers in it. None of them are size L or larger, so a suitcase will not fit — try another station for large luggage.",
-    "scaleNoSuitcase_other": "{{station}} has {{facilities}} locker locations with {{units}} lockers in total. None of them are size L or larger, so a suitcase will not fit — try another station for large luggage.",
     "sizeItem_one": "{{sizeName}}: 1 locker (¥{{minPrice}})",
     "sizeItem_other": "{{sizeName}}: {{quantity}} lockers (from ¥{{minPrice}})",
     "gateInsideOnly_one": "The only location here is inside the ticket gates. You cannot reach it once you have exited, so store your bags before you pass through.",
@@ -240,18 +238,29 @@
     "hoursMixed_one": "It runs from the first train to the last.",
     "hoursMixed_other": "{{allDay}} of the {{facilities}} locations run from the first train to the last. The operator does not publish hours for the rest and we have not been able to confirm them, so check on site if you are coming back at night.",
     "alternativeItem_one": "{{station}} (1 location)",
-    "alternativeItem_other": "{{station}} ({{count}} locations)"
+    "alternativeItem_other": "{{station}} ({{count}} locations)",
+    "scaleWithSuitcase_one": "{{station}} has a single locker location with {{units}} lockers in it. {{suitcase}} of them are big enough inside for a checked-size suitcase.",
+    "scaleWithSuitcase_other": "{{station}} has {{facilities}} locker locations with {{units}} lockers in total. {{suitcase}} of them are big enough inside for a checked-size suitcase.",
+    "scaleNoSuitcase_one": "{{station}} has a single locker location with {{units}} lockers in it. None of those with published inside sizes takes a checked-size suitcase — try another station for large luggage.",
+    "scaleNoSuitcase_other": "{{station}} has {{facilities}} locker locations with {{units}} lockers in total. None of those with published inside sizes takes a checked-size suitcase — try another station for large luggage.",
+    "scaleUnknown_one": "{{station}} has a single locker location with {{units}} lockers in it. The inside sizes aren't published, so we can't tell whether a suitcase fits.",
+    "scaleUnknown_other": "{{station}} has {{facilities}} locker locations with {{units}} lockers in total. The inside sizes aren't published, so we can't tell whether a suitcase fits."
   },
   "prefectureInsight": {
     "heading": "What coin lockers in {{prefecture}} are like",
     "scale": "We list {{facilities}} locker locations across {{stations}} stations in {{prefecture}}, holding {{units}} lockers in total — roughly {{share}}% of every location on this site.",
-    "suitcase_one": "Only 1 of the {{stations}} stations here offers size L or larger, the size a suitcase needs. Check this before you settle on a station for big luggage.",
-    "suitcase_other": "{{suitcaseStations}} of the {{stations}} stations here offer size L or larger, the size a suitcase needs. Check this before you settle on a station for big luggage.",
-    "suitcaseNone": "None of the stations we list in {{prefecture}} offer size L or larger, so a suitcase will not fit. Consider luggage delivery or a staffed storage service instead.",
+    "suitcaseNone": "None of the lockers with published inside sizes at the stations we list in {{prefecture}} takes a checked-size suitcase. Consider luggage delivery or a staffed storage service instead.",
     "sizes": "The lockers break down by size like this.",
     "priceRange": "Prices run from ¥{{min}} to ¥{{max}}, and vary by size even within one station.",
     "priceFlat": "Every locker listed here costs ¥{{min}}.",
-    "busiest": "These stations in {{prefecture}} have the most locations."
+    "busiest": "These stations in {{prefecture}} have the most locations.",
+    "suitcase_one": "Only 1 of the {{stations}} stations here has a locker big enough inside for a checked-size suitcase. Check this before you settle on a station for big luggage.",
+    "suitcase_other": "{{suitcaseStations}} of the {{stations}} stations here have a locker big enough inside for a checked-size suitcase. Check this before you settle on a station for big luggage.",
+    "suitcaseUnknown": "The stations we list in {{prefecture}} don't publish locker inside sizes, so we can't tell whether a suitcase fits.",
+    "cheapestSuitcase": "The cheapest place in the prefecture to leave a checked-size suitcase is {{station}}, from ¥{{price}}.",
+    "insideStations_one": "1 of the {{stations}} stations also has lockers inside the ticket gates, so you can store bags without exiting.",
+    "insideStations_other": "{{inside}} of the {{stations}} stations also have lockers inside the ticket gates, so you can store bags without exiting.",
+    "insideNone": "None of the stations we list has lockers inside the ticket gates; you have to exit first."
   },
   "siteFooter": {
     "footerAreas": "Browse by prefecture",
@@ -405,5 +414,14 @@
     "tipsHeading": "Before you leave your bags",
     "tipHours": "If you're storing or collecting bags around an early or late flight, check the opening hours on each station's page. Some lockers don't publish their hours.",
     "linkFromTop": "Airport station lockers"
+  },
+  "stationList": {
+    "scale_one": "{{units}} lockers in 1 location",
+    "scale_other": "{{units}} lockers in {{facilities}} locations",
+    "suitcase_one": "1 fits a checked suitcase",
+    "suitcase_other": "{{units}} fit a checked suitcase",
+    "noSuitcase": "No checked suitcase fits",
+    "unknown": "Inside size not published",
+    "price": "from ¥{{price}}"
   }
 }

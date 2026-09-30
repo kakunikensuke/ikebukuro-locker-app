@@ -14,6 +14,7 @@ import {
 import { SITE_URL } from "../config";
 import { useLang, useT } from "../i18n/LangContext.js";
 import LangSwitcher from "../components/LangSwitcher.jsx";
+import { sizeFitText } from "../stationSummary.js";
 import NotFound from "./NotFound.jsx";
 
 /**
@@ -102,6 +103,10 @@ export default function SizePage() {
               maxPrice: summary.maxPrice,
             })}
           </p>
+        )}
+        {/* 入る荷物の目安。静的HTML（prerender.js の sizePage）と同じ sizeFitText */}
+        {summary && sizeFitText(summary.dimensions, t, "sizePage.fitNote", { size: sizeName }) && (
+          <p>{sizeFitText(summary.dimensions, t, "sizePage.fitNote", { size: sizeName })}</p>
         )}
 
         {groups.map(({ prefecture, stations }) => (

@@ -15,9 +15,13 @@
 //   prerender.js（ビルド時）と StationPage.jsx（ブラウザ）が同じ結果を描くための唯一の実装。
 import { LOCKER_SIZES } from "./lockerSizes.js";
 import { STATIONS, prefectureForSlug } from "./stations.js";
+import { stationSummary } from "./stationSummary.js";
+import { LUGGAGE, fits, parseDimensions } from "./luggageFit.js";
 
-// スーツケースが入る目安のサイズ。利用者が最も知りたい情報なので独立して扱う
-const SUITCASE_SIZES = ["L", "LW"];
+// スーツケースが入るかは、2026-09-30からサイズ名（L・LW）ではなく実際の内寸で判定する
+// （stationSummary.js / luggageFit.js）。同じ「L」でも高さ50cm台の事業者があり、
+// サイズ名で数えると駅ページ上部の要点（内寸で判定）と数字が食い違っていた
+const CHECKED = LUGGAGE.find((l) => l.id === "checkedM").dims;
 
 function totalQuantity(locker) {
   return (locker.sizes ?? []).reduce((sum, s) => sum + (s.quantity ?? 0), 0);
@@ -142,13 +146,18 @@ export function stationInsightBlocks(stationLockers, allLockers, stationSlug) {
   const sizes = sizeBreakdown(stationLockers);
 
   // 1. 規模。台数まで出すと「箇所数」だけの表示より実態が分かる
-  const suitcase = sizes
-    .filter((r) => SUITCASE_SIZES.includes(r.sizeType))
-    .reduce((sum, r) => sum + r.quantity, 0);
+  const summary = stationSummary(stationLockers);
+  const suitcase = summary.suitcaseUnits;
+  const allUnknown = summary.sizes.length > 0 && summary.sizes.every((r) => r.luggage === null);
   // count は t() が英語の単複（`_one` / `_other`）を選ぶために必要。
   // 日本語側は単複の区別が無いのでサフィックス無しのキーにフォールバックする
   blocks.push({
-    key: suitcase > 0 ? "stationInsight.scaleWithSuitcase" : "stationInsight.scaleNoSuitcase",
+    key:
+      suitcase > 0
+        ? "stationInsight.scaleWithSuitcase"
+        : allUnknown
+          ? "stationInsight.scaleUnknown"
+          : "stationInsight.scaleNoSuitcase",
     vars: { facilities, units, suitcase, count: facilities },
   });
 
@@ -258,15 +267,56 @@ export function prefectureInsightBlocks(prefectureLockers, allLockers, prefectur
     },
   });
 
-  // 2. スーツケースが入る駅がどれだけあるか。これが県ページで最も知りたい情報
-  const suitcaseStations = new Set(
-    prefectureLockers
-      .filter((l) => (l.sizes ?? []).some((s) => SUITCASE_SIZES.includes(s.size_type) && s.quantity > 0))
-      .map((l) => l.station_slug)
-  );
+  // 2. スーツケースが入る駅がどれだけあるか。これが県ページで最も知りたい情報。
+  //    内寸で判定する（駅ページの要点と同じ stationSummary）
+  const byStation = new Map();
+  for (const l of prefectureLockers) {
+    if (!byStation.has(l.station_slug)) byStation.set(l.station_slug, []);
+    byStation.get(l.station_slug).push(l);
+  }
+  let suitcaseStations = 0;
+  let unknownStations = 0;
+  for (const ls of byStation.values()) {
+    const s = stationSummary(ls);
+    if (s.suitcaseUnits > 0) suitcaseStations++;
+    else if (s.sizes.length > 0 && s.sizes.every((r) => r.luggage === null)) unknownStations++;
+  }
   blocks.push({
-    key: suitcaseStations.size ? "prefectureInsight.suitcase" : "prefectureInsight.suitcaseNone",
-    vars: { suitcaseStations: suitcaseStations.size, stations: stations.size, count: suitcaseStations.size },
+    key: suitcaseStations
+      ? "prefectureInsight.suitcase"
+      : unknownStations === stations.size
+        ? "prefectureInsight.suitcaseUnknown"
+        : "prefectureInsight.suitcaseNone",
+    vars: { suitcaseStations, stations: stations.size, count: suitcaseStations },
+  });
+
+  // 2b. 県内で預け入れサイズのスーツケースを最も安く預けられる駅（同額なら台数の多い駅）
+  const cheap = new Map();
+  for (const l of prefectureLockers) {
+    for (const s of l.sizes ?? []) {
+      if (!(s.quantity > 0)) continue;
+      const box = parseDimensions(s.dimensions);
+      if (!box || !fits(box, CHECKED)) continue;
+      const cur = cheap.get(l.station_slug) ?? { slug: l.station_slug, price: Infinity, units: 0 };
+      cur.price = Math.min(cur.price, s.price);
+      cur.units += s.quantity;
+      cheap.set(l.station_slug, cur);
+    }
+  }
+  const cheapest = [...cheap.values()].sort((a, b) => a.price - b.price || b.units - a.units)[0];
+  if (cheapest && suitcaseStations > 1) {
+    blocks.push({
+      key: "prefectureInsight.cheapestSuitcase",
+      vars: { price: cheapest.price },
+      stationSlug: cheapest.slug,
+    });
+  }
+
+  // 2c. 改札内にロッカーがある駅の数（乗り換えの途中で預けられるか）
+  const insideStations = new Set(prefectureLockers.filter((l) => /改札内/.test(l.address)).map((l) => l.station_slug));
+  blocks.push({
+    key: insideStations.size ? "prefectureInsight.insideStations" : "prefectureInsight.insideNone",
+    vars: { inside: insideStations.size, stations: stations.size, count: insideStations.size },
   });
 
   // 3. サイズ別の総台数
