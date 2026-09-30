@@ -56,7 +56,9 @@ import {
 } from "../src/i18n/lockerText.js";
 import { prefectureInsightItems, stationInsightItems } from "../src/stationInsightRender.js";
 import { stationSummaryItems } from "../src/stationSummary.js";
-import { largestLuggageForLocker } from "../src/luggageFit.js";
+import { LUGGAGE, largestLuggageForLocker } from "../src/luggageFit.js";
+import { pathForLuggageList } from "../src/luggageSearch.js";
+import { luggagePageContent, luggageResult } from "../src/luggagePageContent.js";
 import STATION_PHOTOS from "../src/data/stationPhotos.json" with { type: "json" };
 import ja from "../src/locales/ja.json" with { type: "json" };
 import en from "../src/locales/en.json" with { type: "json" };
@@ -170,6 +172,7 @@ function footerHtml(lang) {
   const items = [
     link(pathForPrefectureList(lang), t(lang, "siteFooter.footerAreas")),
     link(pathForSizeList(lang), t(lang, "siteFooter.footerSizes")),
+    link(pathForLuggageList(lang), t(lang, "siteFooter.footerLuggage")),
     link(pathForGuideList(lang), t(lang, "siteFooter.footerGuides")),
     link(`${pathForPrivacy(lang)}#contact`, t(lang, "siteFooter.footerContact")),
     link(pathForPrivacy(lang), t(lang, "privacyPage.footerLink")),
@@ -527,6 +530,43 @@ function guideBlocksHtml(lang, blocks, vars) {
 }
 
 // 解説記事の一覧（/guides）
+// 荷物の大きさから探す（/luggage、2026-09-30）。画面の LuggagePage と同じ luggagePageContent()
+// から作る。寸法を入れて調べる道具は操作が要るので画面のみで、ここには機内持ち込みの結果を例として出す
+function luggageIndexPage(lang) {
+  const tt = (key, vars) => t(lang, key, vars);
+  const content = luggagePageContent(lockers, lang, tt);
+  const example = luggageResult(lockers, LUGGAGE.find((l) => l.id === "carryon").dims, lang, tt);
+  const table = ({ columns, rows }) =>
+    `<table><thead><tr>${columns.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${rows
+      .map((r) => `<tr>${r.map((cell, i) => (i === 0 ? `<th>${esc(cell)}</th>` : `<td>${esc(cell)}</td>`)).join("")}</tr>`)
+      .join("")}</tbody></table>`;
+  const links = (items) => `<ul>${items.map((x) => `<li>${link(x.href, x.label)}</li>`).join("")}</ul>`;
+  const { compare, carryonOnly, noSuitcase, pref, rules } = content;
+
+  return {
+    lang,
+    title: tt("luggagePage.titleTag"),
+    description: tt("luggagePage.description", { stations: content.allStations }),
+    canonicalPath: pathForLuggageList(lang),
+    altJa: pathForLuggageList("ja"),
+    altEn: pathForLuggageList("en"),
+    ogType: "website",
+    body:
+      `<main><h1>${esc(tt("luggagePage.heading"))}</h1><p>${esc(tt("luggagePage.lead"))}</p>` +
+      `<h2>${esc(tt("luggagePage.toolHeading"))}</h2><p>${esc(tt("luggageName.carryon"))}: ${esc(
+        example.summary
+      )}</p>${example.cheapest ? `<p>${esc(example.cheapest)}</p>` : ""}` +
+      `<h2>${esc(compare.heading)}</h2>${table(compare)}<p>${esc(compare.note)}</p>` +
+      `<h2>${esc(carryonOnly.heading)}</h2><p>${esc(carryonOnly.lead)}</p>${links(carryonOnly.items)}` +
+      `<h2>${esc(noSuitcase.heading)}</h2><p>${esc(noSuitcase.lead)}</p>${links(noSuitcase.items)}<p>${esc(
+        noSuitcase.note
+      )}</p>` +
+      `<h2>${esc(pref.heading)}</h2><p>${esc(pref.lead)}</p>${table(pref)}` +
+      `<h2>${esc(rules.heading)}</h2><ul>${rules.items.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` +
+      `<p>${link(pathForPrefectureList(lang), tt("prefecturePage.backToAreas"))}</p></main>`,
+  };
+}
+
 function guidesIndexPage(lang) {
   // 記事の説明文（GUIDES の description）を添える。従来はタイトルのリンクだけで、
   // 一覧ページ自体には読む価値のある文章が無かった
@@ -926,6 +966,9 @@ for (const lang of LANGS) {
   }
 
   writePage(sizesIndexPage(lang));
+  count++;
+
+  writePage(luggageIndexPage(lang));
   count++;
 
   writePage(guidesIndexPage(lang));

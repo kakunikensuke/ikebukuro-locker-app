@@ -12,6 +12,7 @@ import GuideArticlePage from "./pages/GuideArticlePage.jsx";
 import PrivacyPage from "./pages/PrivacyPage.jsx";
 import ContactReceivedPage from "./pages/ContactReceivedPage.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import LuggagePage from "./pages/LuggagePage.jsx";
 
 // ja/en共通のルート木。LangLayout配下のindex Routeと組み合わせて使う
 function areaRoutes() {
@@ -69,6 +70,7 @@ export default function App() {
         {areaRoutes()}
         {sizeRoutes()}
         {guideRoutes()}
+        <Route path="luggage" element={<LuggagePage />} />
         <Route path="privacy" element={<PrivacyPage />} />
         <Route path="contact-received" element={<ContactReceivedPage />} />
         {stationRoutes()}
@@ -79,6 +81,7 @@ export default function App() {
         {areaRoutes()}
         {sizeRoutes()}
         {guideRoutes()}
+        <Route path="luggage" element={<LuggagePage />} />
         <Route path="privacy" element={<PrivacyPage />} />
         <Route path="contact-received" element={<ContactReceivedPage />} />
         {stationRoutes()}
