@@ -724,7 +724,7 @@ const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "hatchobori",
     name: { ja: "八丁堀駅", en: "Hatchobori Station" },
-    kana: "はちょうぼり",
+    kana: "はっちょうぼり",
     prefecture: "東京都",
     center: [35.674623, 139.776869],
   },
@@ -738,7 +738,7 @@ const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "etchujima",
     name: { ja: "越中島駅", en: "Etchujima Station" },
-    kana: "えちゅうじま",
+    kana: "えっちゅうじま",
     prefecture: "東京都",
     center: [35.667932, 139.792654],
   },
@@ -794,7 +794,7 @@ const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "otsuki",
     name: { ja: "大月駅", en: "Otsuki Station" },
-    kana: "おうつき",
+    kana: "おおつき",
     prefecture: "山梨県",
     center: [35.613213, 138.942723],
   },
@@ -821,15 +821,15 @@ const JR_AND_MULTIECUBE_STATIONS = [
   },
   {
     slug: "nishi-fuchu",
-    name: { ja: "西府駅", en: "Nishi-Fuchu Station" },
-    kana: "にしふちゅう",
+    name: { ja: "西府駅", en: "Nishifu Station" },
+    kana: "にしふ",
     prefecture: "東京都",
     center: [35.671063, 139.457506],
   },
   {
     slug: "kawabe",
-    name: { ja: "河辺駅", en: "Kawabe Station" },
-    kana: "かわべ",
+    name: { ja: "河辺駅", en: "Kabe Station" },
+    kana: "かべ",
     prefecture: "東京都",
     center: [35.784585, 139.284706],
   },
@@ -1116,7 +1116,7 @@ const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "oiso",
     name: { ja: "大磯駅", en: "Oiso Station" },
-    kana: "おういそ",
+    kana: "おおいそ",
     prefecture: "神奈川県",
     center: [35.311143, 139.313425],
   },
@@ -1144,7 +1144,7 @@ const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "tokaichiba",
     name: { ja: "十日市場駅", en: "Tokaichiba Station" },
-    kana: "とうかいちば",
+    kana: "とおかいちば",
     prefecture: "神奈川県",
     center: [35.526165, 139.516702],
   },
@@ -1249,28 +1249,32 @@ const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "kozu",
     name: { ja: "国府津駅", en: "Kozu Station" },
-    kana: "こうず",
+    kana: "こうづ",
     prefecture: "神奈川県",
     center: [35.280917, 139.212869],
   },
   {
     slug: "okubo",
     name: { ja: "大久保駅", en: "Okubo Station" },
-    kana: "おうくぼ",
+    kana: "おおくぼ",
     prefecture: "東京都",
     center: [35.700677, 139.697405],
   },
   {
     slug: "kamakura-post-office",
-    name: { ja: "鎌倉郵便局駅", en: "Kamakura Post Office Station" },
-    kana: "かまくらぽといえ",
+    name: { ja: "鎌倉郵便局", en: "Kamakura Post Office" },
+    kana: "かまくらゆうびんきょく",
+    // 駅ではないロッカー設置場所（2026-09-30、名前から「駅」を外した）
+    facility: true,
     prefecture: "神奈川県",
     center: [35.31812, 139.552002],
   },
   {
     slug: "eneos-platform-hitachino-ushiku-ss",
-    name: { ja: "ENEOSプラットフォームひたち野うしくSS駅", en: "ENEOS Platform Hitachino Ushiku SS Station" },
+    name: { ja: "ENEOSプラットフォームひたち野うしくSS", en: "ENEOS Platform Hitachino Ushiku SS" },
     kana: "えねおすぷらっとふぉーむひたちのうしくえすえす",
+    // 駅ではないロッカー設置場所（2026-09-30、名前から「駅」を外した）
+    facility: true,
     prefecture: "茨城県",
     center: [36.00273, 140.162676],
   },
@@ -1284,7 +1288,7 @@ const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "higashi-omiya",
     name: { ja: "東大宮駅", en: "Higashi-Omiya Station" },
-    kana: "ひがしおうみや",
+    kana: "ひがしおおみや",
     prefecture: "埼玉県",
     center: [35.948746, 139.640254],
   },
@@ -1340,7 +1344,7 @@ const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "oguchi",
     name: { ja: "大口駅", en: "Oguchi Station" },
-    kana: "おうぐち",
+    kana: "おおぐち",
     prefecture: "神奈川県",
     center: [35.492159, 139.646147],
   },
@@ -1438,7 +1442,7 @@ const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "kyoto",
     name: { ja: "京都駅", en: "Kyoto Station" },
-    kana: "きょと",
+    kana: "きょうと",
     prefecture: "京都府",
     center: [34.985853, 135.758753],
   },
@@ -1529,7 +1533,7 @@ const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "kozukue",
     name: { ja: "小机駅", en: "Kozukue Station" },
-    kana: "こずくえ",
+    kana: "こづくえ",
     prefecture: "神奈川県",
     center: [35.5085839, 139.5998762],
   },
@@ -1543,28 +1547,28 @@ const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "shin-yokohama",
     name: { ja: "新横浜駅", en: "Shin-Yokohama Station" },
-    kana: "しにょこはま",
+    kana: "しんよこはま",
     prefecture: "神奈川県",
     center: [35.5076588, 139.617535],
   },
   {
     slug: "manazuru",
     name: { ja: "真鶴駅", en: "Manazuru Station" },
-    kana: "まなずる",
+    kana: "まなづる",
     prefecture: "神奈川県",
     center: [35.1568492, 139.1325164],
   },
   {
     slug: "shin-aomori",
     name: { ja: "新青森駅", en: "Shin-Aomori Station" },
-    kana: "しなおもり",
+    kana: "しんあおもり",
     prefecture: "青森県",
     center: [40.828192, 140.6934674],
   },
   {
     slug: "koriyama",
     name: { ja: "郡山駅", en: "Koriyama Station" },
-    kana: "こりやま",
+    kana: "こおりやま",
     prefecture: "福島県",
     center: [37.3985584, 140.3883985],
   },
@@ -1585,14 +1589,14 @@ const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "shin-osaka",
     name: { ja: "新大阪駅", en: "Shin-Osaka Station" },
-    kana: "しのうさか",
+    kana: "しんおおさか",
     prefecture: "大阪府",
     center: [34.7334653, 135.5002422],
   },
   {
     slug: "nishi-oi",
     name: { ja: "西大井駅", en: "Nishi-Oi Station" },
-    kana: "にしおうい",
+    kana: "にしおおい",
     prefecture: "東京都",
     center: [35.6017954, 139.7218013],
   },
@@ -1830,14 +1834,16 @@ const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "shin-okubo",
     name: { ja: "新大久保駅", en: "Shin-Okubo Station" },
-    kana: "しのうくぼ",
+    kana: "しんおおくぼ",
     prefecture: "東京都",
     center: [35.7012498, 139.7002234],
   },
   {
     slug: "aeon-mall-sendai-uesugi",
-    name: { ja: "イオンモール仙台上杉駅", en: "AEON Mall Sendai Uesugi Station" },
+    name: { ja: "イオンモール仙台上杉", en: "AEON Mall Sendai Uesugi" },
     kana: "いおんもーるせんだいうえすぎ",
+    // 駅ではないロッカー設置場所（2026-09-30、名前から「駅」を外した）
+    facility: true,
     prefecture: "宮城県",
     center: [38.2759491, 140.8724141],
   },
@@ -1851,7 +1857,7 @@ const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "shin-akitsu",
     name: { ja: "新秋津駅", en: "Shin-Akitsu Station" },
-    kana: "しなきつ",
+    kana: "しんあきつ",
     prefecture: "東京都",
     center: [35.777858, 139.4933665],
   },
@@ -1949,7 +1955,7 @@ const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "musashi-shinjo",
     name: { ja: "武蔵新城駅", en: "Musashi-Shinjo Station" },
-    kana: "むさししんじょ",
+    kana: "むさししんじょう",
     prefecture: "神奈川県",
     center: [35.5872993, 139.6295268],
   },
@@ -1963,14 +1969,14 @@ const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "kansai-international-airport",
     name: { ja: "関西国際空港駅", en: "Kansai International Airport Station" },
-    kana: "かんさいいんてないおなあいぽ",
+    kana: "かんさいこくさいくうこう",
     prefecture: "大阪府",
     center: [34.4320042, 135.2366026],
   },
   {
     slug: "osaka-international-airport",
     name: { ja: "大阪国際空港駅", en: "Osaka International Airport Station" },
-    kana: "おさかいんてないおなあいぽ",
+    kana: "おおさかこくさいくうこう",
     prefecture: "兵庫県",
     center: [34.7915145, 135.4418616],
   },
@@ -2109,8 +2115,10 @@ const JR_AND_MULTIECUBE_STATIONS = [
   },
   {
     slug: "yakushiji-temple",
-    name: { ja: "薬師寺駅", en: "Yakushiji Temple Station" },
-    kana: "やくしじてんえ",
+    name: { ja: "薬師寺", en: "Yakushiji Temple" },
+    kana: "やくしじ",
+    // 駅ではないロッカー設置場所（2026-09-30、名前から「駅」を外した）
+    facility: true,
     prefecture: "奈良県",
     center: [34.6703328, 135.7833696],
   },
@@ -2187,7 +2195,7 @@ const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "katsunuma-budokyo",
     name: { ja: "勝沼ぶどう郷駅", en: "Katsunuma Budokyo Station" },
-    kana: "かつぬまぶどきょ",
+    kana: "かつぬまぶどうきょう",
     prefecture: "山梨県",
     center: [35.6724473, 138.7430063],
   },
@@ -2270,8 +2278,10 @@ const JR_AND_MULTIECUBE_STATIONS = [
   },
   {
     slug: "aeon-laketown-mori",
-    name: { ja: "イオンレイクタウンmori駅", en: "AEON LakeTown mori Station" },
+    name: { ja: "イオンレイクタウンmori", en: "AEON LakeTown mori" },
     kana: "いおんれいくたうんもり",
+    // 駅ではないロッカー設置場所（2026-09-30、名前から「駅」を外した）
+    facility: true,
     prefecture: "埼玉県",
     center: [35.8797605, 139.827657],
   },
@@ -2327,7 +2337,7 @@ const JR_AND_MULTIECUBE_STATIONS = [
   {
     slug: "ome",
     name: { ja: "青梅駅", en: "Ome Station" },
-    kana: "おめ",
+    kana: "おうめ",
     prefecture: "東京都",
     center: [35.7903002, 139.2583245],
   },
@@ -2354,8 +2364,10 @@ const JR_AND_MULTIECUBE_STATIONS = [
   },
   {
     slug: "takasaki-opa",
-    name: { ja: "高崎オーパ駅", en: "Takasaki OPA Station" },
+    name: { ja: "高崎オーパ", en: "Takasaki OPA" },
     kana: "たかさきおーぱ",
+    // 駅ではないロッカー設置場所（2026-09-30、名前から「駅」を外した）
+    facility: true,
     prefecture: "群馬県",
     center: [36.3230837, 139.0110944],
   },

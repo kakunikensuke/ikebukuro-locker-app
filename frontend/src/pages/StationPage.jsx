@@ -26,7 +26,6 @@ import MapView from "../components/MapView";
 import SearchBar from "../components/SearchBar";
 import LockerList from "../components/LockerList";
 import LangSwitcher from "../components/LangSwitcher.jsx";
-import AdSlot from "../components/AdSlot";
 import InsightSection from "../components/InsightSection.jsx";
 import { stationInsightItems } from "../stationInsightRender.js";
 import NotFound from "./NotFound.jsx";
@@ -287,8 +286,6 @@ export default function StationPage() {
       />
 
       <Outlet />
-
-      <AdSlot />
     </div>
   );
 }

@@ -810,7 +810,7 @@ function lockerPage(lang, locker, station) {
 //   駅を追加するときは、公式サイトかWikipediaで英語表記と読みを確認してから入れること。
 function assertStationDataIsSane() {
   // 実在する表記で、規則には引っかかるが正しいもの
-  const ALLOW_CAMEL = new Set(["AEON LakeTown mori Station"]);
+  const ALLOW_CAMEL = new Set(["AEON LakeTown mori"]);
   const problems = [];
   const add = (station, reason) =>
     problems.push(`${station.slug}  ${station.name?.ja ?? "?"}  → ${reason}`);
@@ -824,8 +824,15 @@ function assertStationDataIsSane() {
       add(s, "name.ja または name.en が無い");
       continue;
     }
-    if (!s.name.ja.endsWith("駅")) add(s, `日本語名が「駅」で終わっていない: ${s.name.ja}`);
-    if (!s.name.en.endsWith(" Station")) add(s, `英語名が「 Station」で終わっていない: ${s.name.en}`);
+    // 駅ではないロッカー設置場所（郵便局・商業施設など）は facility: true で、名前に「駅」を付けない。
+    // 逆に、駅なのに「駅」で終わらない、施設なのに「駅」で終わる、はどちらも誤り
+    if (s.facility) {
+      if (s.name.ja.endsWith("駅")) add(s, `施設なのに日本語名が「駅」で終わっている: ${s.name.ja}`);
+      if (s.name.en.endsWith(" Station")) add(s, `施設なのに英語名が「 Station」で終わっている: ${s.name.en}`);
+    } else {
+      if (!s.name.ja.endsWith("駅")) add(s, `日本語名が「駅」で終わっていない: ${s.name.ja}`);
+      if (!s.name.en.endsWith(" Station")) add(s, `英語名が「 Station」で終わっていない: ${s.name.en}`);
+    }
 
     // ひらがなと長音記号だけを許す。カタカナ・漢字・数字が残っていたら変換の失敗
     if (!s.kana) add(s, "kana が無い");
@@ -833,7 +840,7 @@ function assertStationDataIsSane() {
 
     const en = s.name.en.replace(/ Station$/, "");
     // 語の途中の大文字（EchigoYuzawa / MetroTenjimbashisuji）。区切りが無い証拠
-    if (!ALLOW_CAMEL.has(s.name.en) && en.split(/[\s-]/).some((w) => /^[A-Za-z][a-z]+[A-Z]/.test(w))) {
+    if (!ALLOW_CAMEL.has(en) && en.split(/[\s-]/).some((w) => /^[A-Za-z][a-z]+[A-Z]/.test(w))) {
       add(s, `英語名の語中に大文字がある（区切り漏れ）: ${en}`);
     }
     // 「駅」をローマ字のまま英語名に残している（Osakametroimafukutsurumieki）。

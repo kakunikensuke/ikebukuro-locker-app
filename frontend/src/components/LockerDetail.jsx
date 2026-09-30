@@ -5,7 +5,6 @@ import { pathForLocker, slugToName } from "../stations";
 import { SITE_URL } from "../config";
 import { useLang, useT } from "../i18n/LangContext.js";
 import { lockerTexts } from "../i18n/lockerText.js";
-import AdSlot from "./AdSlot";
 
 /**
  * フェーズ4: ロッカー詳細画面
@@ -103,8 +102,6 @@ export default function LockerDetail({ facilityId, onClose }) {
               })}
             </p>
             <p className="detail-disclaimer">{t("lockerDetail.disclaimer")}</p>
-
-            <AdSlot />
           </>
         )}
       </div>
