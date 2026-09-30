@@ -55,6 +55,9 @@ import {
   translateBusinessHours,
 } from "../src/i18n/lockerText.js";
 import { prefectureInsightItems, stationInsightItems } from "../src/stationInsightRender.js";
+import { stationSummaryItems } from "../src/stationSummary.js";
+import { largestLuggageForLocker } from "../src/luggageFit.js";
+import STATION_PHOTOS from "../src/data/stationPhotos.json" with { type: "json" };
 import ja from "../src/locales/ja.json" with { type: "json" };
 import en from "../src/locales/en.json" with { type: "json" };
 
@@ -339,7 +342,9 @@ function stationPage(lang, station) {
         stationNameJa: station.name.ja,
         stationNameEn: station.name.en,
       });
-      const detail = [address, hours, sizes].filter(Boolean).map(esc).join(" ／ ");
+      // どの荷物まで入るか（内寸で判定。画面の LockerList と同じ関数）
+      const luggage = t(lang, `luggage.${largestLuggageForLocker(locker) ?? "unknown"}`);
+      const detail = [address, hours, sizes, luggage].filter(Boolean).map(esc).join(" ／ ");
       return `<li>${link(
         pathForLocker(lang, station.slug, locker.facility_id),
         name
@@ -358,6 +363,34 @@ function stationPage(lang, station) {
   const listOrNotice = hasLockers
     ? `<p>${esc(t(lang, "stationPage.resultCount", { count: stationLockers.length }))}</p><ul>${items}</ul>`
     : `<p>${esc(t(lang, "stationPage.noLockersYet"))}</p>`;
+
+  // 見出しの要点とサイズ図（2026-09-30）。画面の StationHero / SizeWall と同じ
+  // stationSummaryItems() から作る。扉の図は描けないので、同じ内容を文字の一覧で出す
+  const photo = STATION_PHOTOS[station.slug] ?? null;
+  const summaryHtml = hasLockers
+    ? (() => {
+        const tt = (key, vars) => t(lang, key, vars);
+        const { facts, doors } = stationSummaryItems(stationLockers, tt);
+        const artist = lang === "en" && hasJapanese(photo?.artist ?? "")
+          ? `<span lang="ja">${esc(photo.artist)}</span>`
+          : esc(photo?.artist ?? "");
+        const photoHtml = photo
+          ? `<figure><img src="${esc(photo.src)}" width="${photo.width}" height="${photo.height}" alt="${esc(
+              tt("stationSummary.photoAlt", { station: stationName })
+            )}" /><figcaption>${esc(tt("stationSummary.photoCreditPrefix"))}<a href="${esc(photo.page)}">${artist}</a>${esc(
+              tt("stationSummary.photoCreditSuffix", { license: photo.license })
+            )}</figcaption></figure>`
+          : "";
+        const factsHtml = `<dl>${facts.map((f) => `<dt>${esc(f.label)}</dt><dd>${esc(f.value)}</dd>`).join("")}</dl>`;
+        const doorsHtml = `<h2>${esc(tt("stationSummary.wallHeading", { station: stationName }))}</h2><ul>${doors
+          .map(
+            (d) =>
+              `<li>${esc([d.name, d.count, d.price, d.heightText, d.luggageText].filter(Boolean).join(lang === "en" ? ", " : "、"))}</li>`
+          )
+          .join("")}</ul><p>${esc(tt("stationSummary.wallNote"))}</p>`;
+        return photoHtml + factsHtml + doorsHtml;
+      })()
+    : "";
 
   // その駅固有の解説。2026-08-29のAdSense不承認（有用性の低いコンテンツ）への対応で、
   // 駅ページに独自の文章が一行も無かったのを埋めるもの。文面は locales、
@@ -391,7 +424,9 @@ function stationPage(lang, station) {
     noindex: !hasLockers,
     body: `<main><h1>${esc(
       t(lang, "stationPage.ogTitle", { station: stationName })
-    )}</h1><p>${esc(description)}</p>${listOrNotice}${insight}${backLink}</main>`,
+    )}</h1><p>${esc(description)}</p>${summaryHtml}<h2>${esc(
+      t(lang, "stationSummary.locationsHeading")
+    )}</h2>${listOrNotice}${insight}${backLink}</main>`,
   };
 }
 

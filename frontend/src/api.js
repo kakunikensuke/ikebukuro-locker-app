@@ -62,3 +62,11 @@ export async function fetchLockerDetail(facilityId) {
   if (!data) throw new Error("詳細情報の取得に失敗しました");
   return data;
 }
+
+/**
+ * 駅の写真（撮影者・ライセンス付き）。写真が無い駅は null。
+ * 生成元は scripts/generateApiData.js（元データは src/data/stationPhotos.json）
+ */
+export async function fetchStationPhoto(stationSlug) {
+  return fetchJson(`${API_BASE}/photos/${stationSlug}.json`);
+}

@@ -152,16 +152,8 @@ export function stationInsightBlocks(stationLockers, allLockers, stationSlug) {
     vars: { facilities, units, suitcase, count: facilities },
   });
 
-  // 2. サイズ別の内訳。表にせず文章にするのは、1サイズしか無い駅が多いため
-  if (sizes.length) {
-    blocks.push({
-      key: "stationInsight.sizes",
-      vars: {
-        list: sizes.map((r) => ({ sizeType: r.sizeType, quantity: r.quantity, minPrice: r.minPrice })),
-      },
-      list: true,
-    });
-  }
+  // 2. サイズ別の内訳は 2026-09-30 から出さない。駅ページ上部のサイズ図（stationSummary.js）が
+  //    同じ内容を扉の図と文字で出しており、同じ数字を2回並べるだけになるため
 
   // 3. 料金。全国の最頻値と比べて高い/安い/同水準を言い切る
   const cheapest = sizes.reduce((min, r) => (r.minPrice < min ? r.minPrice : min), Infinity);

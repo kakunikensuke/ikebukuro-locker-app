@@ -52,6 +52,15 @@ for (const locker of lockers) {
   writeJson(path.join("lockers", `${locker.facility_id}.json`), locker);
 }
 
+// 駅の写真（駅ページの見出しに使う）。元データは src/data/stationPhotos.json
+// （scripts/importStationPhotos.mjs で駅前スコアから取り込む）。全駅ぶんをJSの本体に入れると
+// どのページでも145KBを読むことになるので、駅ごとに切り出す
+const PHOTOS_PATH = path.join(__dirname, "..", "src", "data", "stationPhotos.json");
+const photos = fs.existsSync(PHOTOS_PATH) ? JSON.parse(fs.readFileSync(PHOTOS_PATH, "utf-8")) : {};
+for (const [slug, photo] of Object.entries(photos)) {
+  writeJson(path.join("photos", `${slug}.json`), photo);
+}
+
 console.log(
   `静的APIを生成しました（ロッカー${lockers.length}件 / 駅${byStation.size}駅）: ${OUTPUT_DIR}`
 );

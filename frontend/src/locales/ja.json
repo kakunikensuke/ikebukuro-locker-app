@@ -245,5 +245,35 @@
     "footerContact": "お問い合わせ",
     "footerOperator": "運営者情報",
     "footerOperatorUrl": "https://kakuni-lab.com/"
+  },
+  "stationSummary": {
+    "factPrice": "最安",
+    "factPriceValue": "{{price}}円（{{size}}）",
+    "factSuitcase": "スーツケース",
+    "factUnits": "預け入れサイズが入るのは{{count}}台",
+    "factCarryonOnly": "機内持ち込みサイズまで（{{count}}台）",
+    "factNone": "入るサイズがありません",
+    "factGate": "設置場所",
+    "factGateValue": "改札内{{inside}}か所／改札外{{outside}}か所",
+    "factScale": "規模",
+    "factScaleValue": "{{facilities}}か所に合計{{units}}台",
+    "wallHeading": "{{station}}のロッカーのサイズ",
+    "wallNote": "扉の高さは内寸の高さに合わせて描いています。入る荷物は、キャスターと取っ手を含めた外寸（機内持ち込み55×40×25cm、預け入れMサイズ67×47×28cm、預け入れLサイズ75×52×30cm）で判定した目安です。同じサイズ名でも事業者によって内寸が違う場合は、小さい方で判定しています。",
+    "doorCount": "{{count}}台",
+    "doorPrice": "{{price}}円〜",
+    "doorHeight": "高さ{{height}}cm",
+    "locationsHeading": "ロッカーの場所",
+    "photoCreditPrefix": "写真：",
+    "photoCreditSuffix": "（{{license}}、Wikimedia Commons）",
+    "photoAlt": "{{station}}",
+    "factUnknown": "内寸が公開されておらず判定できません"
+  },
+  "luggage": {
+    "small": "小物のみ",
+    "backpack": "リュックまで",
+    "carryon": "機内持ち込みサイズまで",
+    "checkedM": "預け入れMサイズまで",
+    "checkedL": "大型スーツケースも入る",
+    "unknown": "内寸の公開なし"
   }
 }

@@ -8,7 +8,7 @@ import {
   Link,
 } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { fetchLockers, fetchStations } from "../api";
+import { fetchLockers, fetchStationPhoto, fetchStations } from "../api";
 import {
   slugToName,
   centerForSlug,
@@ -27,6 +27,9 @@ import SearchBar from "../components/SearchBar";
 import LockerList from "../components/LockerList";
 import LangSwitcher from "../components/LangSwitcher.jsx";
 import InsightSection from "../components/InsightSection.jsx";
+import StationHero from "../components/StationHero.jsx";
+import SizeWall from "../components/SizeWall.jsx";
+import { stationSummaryItems } from "../stationSummary.js";
 import { stationInsightItems } from "../stationInsightRender.js";
 import NotFound from "./NotFound.jsx";
 
@@ -48,6 +51,8 @@ export default function StationPage() {
   // createRootで#rootを丸ごと置き換えるので、ここが無いとJSを実行するクローラからは
   // 解説の無いページに見える（2026-08-29のAdSense不承認への対応の要）
   const [allLockers, setAllLockers] = useState([]);
+  // 見出しの写真（駅前スコアが集めた Wikimedia Commons の写真）。無い駅は null
+  const [photo, setPhoto] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -94,6 +99,10 @@ export default function StationPage() {
     if (!stationName) return;
     const filters = location.state?.filters || {};
     loadLockers({ station_slug: stationSlug, ...filters, lang });
+    setPhoto(null);
+    fetchStationPhoto(stationSlug)
+      .then((p) => setPhoto(p))
+      .catch(() => setPhoto(null));
     // 地図用の全件（絞り込みなし）は駅が変わったときだけ取得すればよい
     fetchLockers({ station_slug: stationSlug })
       .then((data) => setAllStationLockers(data.results))
@@ -165,6 +174,12 @@ export default function StationPage() {
     });
   }, [allStationLockers, allLockers, stationSlug, stationName, lang, t]);
 
+  // 見出しの要点とサイズ図。静的HTML（prerender.js）と同じ関数で作る
+  const summaryItems = useMemo(
+    () => (allStationLockers.length ? stationSummaryItems(allStationLockers, t) : null),
+    [allStationLockers, t]
+  );
+
   const handleSelectLocker = (facilityId) => {
     // 現在の表示切替（?view=）を維持したまま詳細を開く
     navigate({ pathname: pathForLocker(lang, stationSlug, facilityId), search: location.search });
@@ -228,11 +243,28 @@ export default function StationPage() {
         </div>
       </header>
 
-      {prefecture && (
-        <Link className="back-to-areas" to={pathForPrefecture(lang, prefecture)}>
-          {t("stationPage.otherStationsInPrefecture", { prefecture: prefectureName(prefecture, lang) })}
-        </Link>
+      {summaryItems ? (
+        <>
+          <StationHero
+            stationName={stationName}
+            prefectureLabel={prefecture ? prefectureName(prefecture, lang) : null}
+            prefecturePath={prefecture ? pathForPrefecture(lang, prefecture) : null}
+            facts={summaryItems.facts}
+            photo={photo}
+            lang={lang}
+            t={t}
+          />
+          <SizeWall
+            heading={t("stationSummary.wallHeading", { station: stationName })}
+            note={t("stationSummary.wallNote")}
+            doors={summaryItems.doors}
+          />
+        </>
+      ) : (
+        <h2>{stationName}</h2>
       )}
+
+      <h2 className="locations-heading">{t("stationSummary.locationsHeading")}</h2>
 
       <SearchBar
         stationSlug={stationSlug}
@@ -284,6 +316,12 @@ export default function StationPage() {
         heading={t("stationInsight.heading", { station: stationName })}
         items={insightItems}
       />
+
+      {prefecture && (
+        <Link className="back-to-areas" to={pathForPrefecture(lang, prefecture)}>
+          {t("stationPage.otherStationsInPrefecture", { prefecture: prefectureName(prefecture, lang) })}
+        </Link>
+      )}
 
       <Outlet />
     </div>

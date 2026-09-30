@@ -260,5 +260,39 @@
     "footerContact": "Contact",
     "footerOperator": "About the operator",
     "footerOperatorUrl": "https://kakuni-lab.com/"
+  },
+  "stationSummary": {
+    "factPrice": "Cheapest",
+    "factPriceValue": "¥{{price}} ({{size}})",
+    "factSuitcase": "Suitcases",
+    "factUnits_one": "1 locker fits a checked suitcase",
+    "factUnits_other": "{{count}} lockers fit a checked suitcase",
+    "factCarryonOnly_one": "Carry-on size only (1 locker)",
+    "factCarryonOnly_other": "Carry-on size only ({{count}} lockers)",
+    "factNone": "No locker fits a suitcase",
+    "factGate": "Location",
+    "factGateValue": "{{inside}} inside the gates, {{outside}} outside",
+    "factScale": "Scale",
+    "factScaleValue_one": "1 locker in {{facilities}} locations",
+    "factScaleValue_other": "{{units}} lockers in {{facilities}} locations",
+    "wallHeading": "Locker sizes at {{station}}",
+    "wallNote": "Each door is drawn to the locker's inside height. What fits is judged against typical outside dimensions including wheels and handles (carry-on 55×40×25 cm, medium checked suitcase 67×47×28 cm, large checked suitcase 75×52×30 cm). Where operators use the same size name for different insides, the smaller one is used.",
+    "doorCount_one": "1 locker",
+    "doorCount_other": "{{count}} lockers",
+    "doorPrice": "from ¥{{price}}",
+    "doorHeight": "{{height}} cm tall",
+    "locationsHeading": "Where the lockers are",
+    "photoCreditPrefix": "Photo: ",
+    "photoCreditSuffix": " ({{license}}, Wikimedia Commons)",
+    "photoAlt": "{{station}}",
+    "factUnknown": "Inside size not published, so we cannot tell"
+  },
+  "luggage": {
+    "small": "Small items only",
+    "backpack": "Up to a backpack",
+    "carryon": "Up to a carry-on",
+    "checkedM": "Up to a medium suitcase",
+    "checkedL": "Fits a large suitcase",
+    "unknown": "Inside size not published"
   }
 }
