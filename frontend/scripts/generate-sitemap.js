@@ -12,6 +12,7 @@ import {
 } from "../src/staticPages.js";
 import { GUIDES } from "../src/content/guides.js";
 import { pathForLuggageList } from "../src/luggageSearch.js";
+import { pathForAirports } from "../src/homeContent.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SITE_URL = process.env.VITE_SITE_URL || "https://example.com";
@@ -53,6 +54,9 @@ for (const size of LOCKER_SIZES) {
 // 荷物の大きさから探す（2026-09-30）。荷物の種類ごとのページは作らない
 // （預け入れM・Lは結果が完全に同じで、分けると中身が同じページが並ぶ。luggageSearch.js 参照）
 urls.push(...urlPair(pathForLuggageList("ja"), pathForLuggageList("en")));
+
+// 空港駅のまとめ（2026-09-30）
+urls.push(...urlPair(pathForAirports("ja"), pathForAirports("en")));
 
 // プライバシーポリシー・免責事項。検索需要のあるページではないが、
 // 運営者情報に到達できることを示す必要があるためインデックス対象にする

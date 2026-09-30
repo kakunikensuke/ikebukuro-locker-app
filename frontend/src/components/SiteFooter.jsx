@@ -4,6 +4,7 @@ import { pathForGuideList, pathForPrivacy } from "../staticPages";
 import { pathForPrefectureList } from "../stations";
 import { pathForSizeList } from "../lockerSizes";
 import { pathForLuggageList } from "../luggageSearch.js";
+import { pathForAirports } from "../homeContent.js";
 import { useLang, useT } from "../i18n/LangContext.js";
 
 // 全ページ共通のフッター。
@@ -27,6 +28,8 @@ export default function SiteFooter() {
       <Link to={pathForSizeList(lang)}>{t("siteFooter.footerSizes")}</Link>
       {sep}
       <Link to={pathForLuggageList(lang)}>{t("siteFooter.footerLuggage")}</Link>
+      {sep}
+      <Link to={pathForAirports(lang)}>{t("siteFooter.footerAirports")}</Link>
       {sep}
       <Link to={pathForGuideList(lang)}>{t("siteFooter.footerGuides")}</Link>
       {sep}

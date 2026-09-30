@@ -87,9 +87,13 @@ a:hover {
 
 h1,
 h2,
-h3 {
+h3,
+strong {
   line-height: 1.4;
   font-weight: 700;
+  /* 日本語の見出しを文節で折り返す（「預けたい」の「い」だけが次の行に落ちる等を防ぐ）。
+     対応していないブラウザでは通常の折り返しになるだけ */
+  word-break: auto-phrase;
 }
 
 h2 {
@@ -474,7 +478,8 @@ html {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  /* スマホでも2列に並ぶ幅（1列だと都道府県だけで23行になり長すぎる） */
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   border-top: 1px solid var(--rule);
   border-left: 1px solid var(--rule);
 }
@@ -1264,4 +1269,180 @@ html {
 
 .luggage-page section > ul {
   padding-left: 1.2em;
+}
+
+/* ----- トップページ ---------------------------------------------------- */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.home-hero h2 {
+  max-width: 22em;
+  margin: 12px 0 12px;
+  font-size: clamp(1.75rem, 4.2vw, 2.6rem);
+  line-height: 1.3;
+}
+
+.home-hero .page-lead {
+  color: var(--ink);
+}
+
+/* 目的別の入口はロッカーの扉の形。先頭（スーツケース）だけ黄色 */
+.home-entries ul {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entry-door {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  min-height: 132px;
+  padding: 18px 34px 18px 18px;
+  background: var(--door);
+  border: 2px solid var(--rule-strong);
+  border-radius: var(--radius);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+/* 取っ手 */
+.entry-door::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  width: 4px;
+  height: 26px;
+  transform: translateY(-50%);
+  background: var(--rule-strong);
+  border-radius: 2px;
+}
+
+.entry-door strong {
+  font-size: var(--fs-lg);
+  line-height: 1.35;
+}
+
+.entry-door span {
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.entry-door:hover {
+  border-color: var(--ink);
+}
+
+.entry-door.is-primary {
+  background: var(--tenji);
+  border-color: var(--ink);
+}
+
+.entry-door.is-primary span {
+  color: var(--ink);
+}
+
+.entry-door.is-primary::after {
+  background: var(--ink);
+}
+
+.home-rankings {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 44px;
+}
+
+.home-rankings h3 {
+  margin: 0 0 4px;
+  padding-top: 12px;
+  border-top: 3px solid var(--ink);
+  font-size: var(--fs-md);
+}
+
+.home-ranking-lead {
+  margin: 0 0 10px;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.home-rankings ol {
+  margin: 0;
+  padding-left: 1.6em;
+}
+
+.home-rankings li {
+  padding: 3px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--fs-sm);
+}
+
+.home-rankings li span {
+  float: right;
+  color: var(--muted);
+}
+
+.home-about {
+  max-width: 76ch;
+}
+
+/* ----- 空港駅のまとめ ------------------------------------------------- */
+
+.airport {
+  margin-top: 28px;
+  padding-top: 4px;
+  border-top: 3px solid var(--ink);
+}
+
+.airport h3 {
+  margin-top: 12px;
+}
+
+.airport-stations {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.airport-stations > li {
+  padding: 14px 16px;
+  background: var(--door);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  font-weight: 700;
+}
+
+.airport-stations ul {
+  margin: 6px 0 0;
+  padding-left: 1.1em;
+  font-weight: 400;
+  font-size: var(--fs-sm);
+}
+
+@media (max-width: 900px) {
+  .home-entries ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .home-rankings {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
 }

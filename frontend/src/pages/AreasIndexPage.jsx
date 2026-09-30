@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import {
@@ -13,15 +13,38 @@ import {
 } from "../stations";
 import { pathForSizeList } from "../lockerSizes";
 import { pathForGuideList } from "../staticPages";
+import { pathForLuggageList } from "../luggageSearch.js";
+import { homeAbout, homeRankings, pathForAirports } from "../homeContent.js";
+import { fetchLockers } from "../api";
 import { SITE_URL } from "../config";
 import { useLang, useT } from "../i18n/LangContext.js";
 import LangSwitcher from "../components/LangSwitcher.jsx";
 
+/**
+ * トップページ（都道府県一覧を兼ねる）。
+ *
+ * 2026-09-30 作り直し: それまでは都道府県のカードが並ぶだけで、何のサイトかの説明も無かった
+ * （本文257字）。目的別の入口・ランキング・このサイトについてを足した。
+ * **ランキングと「このサイトについて」は scripts/prerender.js の topPage と同じ
+ * homeContent.js の関数から作ること**（片方だけだとクローラと画面で中身がずれる）
+ */
 export default function AreasIndexPage() {
   const lang = useLang();
   const t = useT();
   const [query, setQuery] = useState("");
-  const description = t("areasPage.description", { count: STATIONS.length });
+  const [lockers, setLockers] = useState([]);
+
+  useEffect(() => {
+    fetchLockers({})
+      .then((data) => setLockers(data.results ?? []))
+      .catch(() => setLockers([]));
+  }, []);
+
+  const stationsWithLockers = useMemo(() => new Set(lockers.map((l) => l.station_slug)), [lockers]);
+  const stationCount = lockers.length ? stationsWithLockers.size : STATIONS.length;
+  const description = t("areasPage.description", { count: stationCount });
+  const rankings = useMemo(() => (lockers.length ? homeRankings(lockers, lang, t) : []), [lockers, lang, t]);
+  const about = useMemo(() => (lockers.length ? homeAbout(lockers, t) : []), [lockers, t]);
 
   const filteredPrefectures = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -42,6 +65,14 @@ export default function AreasIndexPage() {
 
   const hasQuery = query.trim().length > 0;
   const noResults = hasQuery && filteredPrefectures.length === 0 && filteredStations.length === 0;
+
+  // 目的別の入口。先頭（スーツケース）だけ黄色の扉にする（ロゴの「自分が使う扉」と同じ意味）
+  const entries = [
+    { to: pathForLuggageList(lang), label: t("home.entryLuggage"), note: t("home.entryLuggageNote"), primary: true },
+    { to: pathForAirports(lang), label: t("home.entryAirports"), note: t("home.entryAirportsNote") },
+    { to: pathForSizeList(lang), label: t("home.entrySizes"), note: t("home.entrySizesNote") },
+    { to: pathForGuideList(lang), label: t("home.entryGuides"), note: t("home.entryGuidesNote") },
+  ];
 
   return (
     <div className="app-container">
@@ -68,58 +99,102 @@ export default function AreasIndexPage() {
         </div>
       </header>
 
-      <main className="app-main">
-        {/* サイズ別の横断一覧への導線。トップから1クリックで辿れるようにしてクロールの入口にもする */}
-        <Link className="back-to-areas" to={pathForSizeList(lang)}>
-          {t("sizesPage.linkFromTop")}
-        </Link>
-        {/* 解説記事への導線。トップから1クリックで辿れるようにしてクロールの入口にする */}
-        <Link className="back-to-areas" to={pathForGuideList(lang)}>
-          {t("guidesPage.linkFromTop")}
-        </Link>
-        <h2>{t("areasPage.heading")}</h2>
-        <input
-          type="text"
-          className="page-search-input"
-          placeholder={t("areasPage.searchPlaceholder")}
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        {noResults && <p className="empty-message">{t("areasPage.searchNoResults")}</p>}
+      <main className="app-main home">
+        <section className="home-hero">
+          <h2>{t("home.heroHeading")}</h2>
+          <p className="page-lead">{t("home.heroLead", { stations: stationCount })}</p>
+          <input
+            type="search"
+            className="page-search-input"
+            placeholder={t("areasPage.searchPlaceholder")}
+            aria-label={t("areasPage.searchPlaceholder")}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          {noResults && <p className="empty-message">{t("areasPage.searchNoResults")}</p>}
+          {filteredStations.length > 0 && (
+            <>
+              <h3>{t("areasPage.stationResultsHeading")}</h3>
+              <ul className="area-grid">
+                {filteredStations.map((s) => (
+                  <li key={s.slug}>
+                    <Link className="area-card" to={pathForStation(lang, s.slug)}>
+                      <span className="area-card-name">{slugToName(s.slug, lang)}</span>
+                      <span className="area-card-note">{prefectureName(s.prefecture, lang)}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </section>
 
-        {filteredStations.length > 0 && (
-          <>
-            <h3>{t("areasPage.stationResultsHeading")}</h3>
-            <ul className="area-grid">
-              {filteredStations.map((s) => (
-                <li key={s.slug}>
-                  <Link className="area-card" to={pathForStation(lang, s.slug)}>
-                    <span className="area-card-name">{slugToName(s.slug, lang)}</span>
-                    <div className="locker-card-tags">
-                      <span className="tag">{prefectureName(s.prefecture, lang)}</span>
-                    </div>
+        {!hasQuery && (
+          <section className="home-entries">
+            <h3 className="visually-hidden">{t("home.entryHeading")}</h3>
+            <ul>
+              {entries.map((e) => (
+                <li key={e.to}>
+                  <Link className={`entry-door${e.primary ? " is-primary" : ""}`} to={e.to}>
+                    <strong>{e.label}</strong>
+                    <span>{e.note}</span>
                   </Link>
                 </li>
               ))}
             </ul>
-          </>
+          </section>
         )}
 
-        {filteredPrefectures.length > 0 && (
-          <ul className="area-grid">
-            {filteredPrefectures.map((pref) => (
-              <li key={pref}>
-                <Link className="area-card" to={pathForPrefecture(lang, pref)}>
-                  <span className="area-card-name">{prefectureName(pref, lang)}</span>
-                  <div className="locker-card-tags">
-                    <span className="tag">
-                      {t("areasPage.prefectureStationCount", { count: stationsInPrefecture(pref).length })}
+        <section>
+          <h2>{t("home.prefHeading")}</h2>
+          {filteredPrefectures.length > 0 && (
+            <ul className="area-grid">
+              {filteredPrefectures.map((pref) => (
+                <li key={pref}>
+                  <Link className="area-card" to={pathForPrefecture(lang, pref)}>
+                    <span className="area-card-name">{prefectureName(pref, lang)}</span>
+                    <span className="area-card-note">
+                      {/* ロッカーのある駅だけ数える（静的HTMLの topPage と同じ）。駅データには
+                          ロッカー0件の駅も入っていて、全部数えると「全国427駅」と合わなくなる */}
+                      {t("areasPage.prefectureStationCount", {
+                        count: lockers.length
+                          ? stationsInPrefecture(pref).filter((s) => stationsWithLockers.has(s.slug)).length
+                          : stationsInPrefecture(pref).length,
+                      })}
                     </span>
-                  </div>
-                </Link>
-              </li>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        {rankings.length > 0 && (
+          <section className="home-rankings">
+            {rankings.map((r) => (
+              <div key={r.id}>
+                <h3>{r.heading}</h3>
+                <p className="home-ranking-lead">{r.lead}</p>
+                <ol>
+                  {r.items.map((x) => (
+                    <li key={x.href}>
+                      <Link to={x.href}>{x.label}</Link>
+                      <span>{x.value}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
             ))}
-          </ul>
+          </section>
+        )}
+
+        {about.length > 0 && (
+          <section className="home-about">
+            <h2>{t("home.aboutHeading")}</h2>
+            {about.map((p) => (
+              <p key={p}>{p}</p>
+            ))}
+          </section>
         )}
 
         <p className="data-source-credit">{t("areasPage.dataSourceCredit")}</p>

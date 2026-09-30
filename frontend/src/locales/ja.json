@@ -245,7 +245,8 @@
     "footerContact": "お問い合わせ",
     "footerOperator": "運営者情報",
     "footerOperatorUrl": "https://kakuni-lab.com/",
-    "footerLuggage": "荷物の大きさから探す"
+    "footerLuggage": "荷物の大きさから探す",
+    "footerAirports": "空港駅のロッカー"
   },
   "stationSummary": {
     "factPrice": "最安",
@@ -328,5 +329,53 @@
     "carryon": "機内持ち込みサイズのスーツケース",
     "checkedM": "預け入れMサイズのスーツケース（60〜70L）",
     "checkedL": "預け入れLサイズのスーツケース（80L以上）"
+  },
+  "home": {
+    "heroHeading": "駅のコインロッカーを、荷物の大きさと料金で探す",
+    "heroLead": "全国{{stations}}駅のコインロッカーについて、設置場所・サイズごとの台数・料金・内寸をまとめています。スーツケースが入るかどうかは、サイズ名ではなく実際の内寸で判定しています。",
+    "entryHeading": "目的から探す",
+    "entryLuggage": "スーツケースを預けたい",
+    "entryLuggageNote": "荷物の大きさから入るロッカーを探す",
+    "entryAirports": "空港駅のロッカー",
+    "entryAirportsNote": "羽田・関西・伊丹の空港駅を比べる",
+    "entrySizes": "サイズから探す",
+    "entrySizesNote": "内寸と料金をサイズごとに比べる",
+    "entryGuides": "使い方ガイド",
+    "entryGuidesNote": "サイズの選び方・料金相場・満杯のとき",
+    "rankUnits": "{{units}}台",
+    "rankPrice": "{{price}}円〜",
+    "rankInside": "{{count}}か所",
+    "rankSuitcaseHeading": "スーツケースが入る台数が多い駅",
+    "rankSuitcaseLead": "預け入れサイズのスーツケースが入るロッカーの台数です。",
+    "rankCheapHeading": "スーツケースを安く預けられる駅",
+    "rankCheapLead": "預け入れサイズのスーツケースが入るサイズの、最も安い料金です。",
+    "rankInsideHeading": "改札内のロッカーが多い駅",
+    "rankInsideLead": "改札を出ずに預けられる設置場所の数です。乗り換えの途中で荷物を置きたいときに。",
+    "aboutHeading": "このサイトについて",
+    "about1": "掲載しているのは{{stations}}駅・{{facilities}}か所・合計{{units}}台のコインロッカーです。鉄道事業者が公開している設置場所・サイズ・料金の情報を6時間ごとに取り込んで更新しています。",
+    "about2": "リアルタイムの空き状況は扱っていません。台数は設置されている数で、空いている数ではありません。",
+    "about3": "{{facilities}}か所のうち{{withDims}}か所は内寸が公開されていて、どの荷物まで入るかを判定しています。内寸が公開されていないロッカーは「内寸の公開なし」と表示し、入るとも入らないとも書きません。",
+    "prefHeading": "都道府県から探す"
+  },
+  "airports": {
+    "titleTag": "空港駅のコインロッカー｜羽田・関西・伊丹を比較",
+    "description": "羽田空港・関西国際空港・大阪国際空港（伊丹）の空港駅にあるコインロッカーの台数、スーツケースが入る台数、料金、改札の内外を比べられます。",
+    "heading": "空港駅のコインロッカー",
+    "lead": "空港に直結する駅のコインロッカーを空港ごとにまとめました。数字は各駅のページと同じデータから数えています。",
+    "name_haneda": "羽田空港",
+    "name_kansai": "関西国際空港",
+    "name_itami": "大阪国際空港（伊丹）",
+    "name_narita": "成田空港",
+    "summary": "{{stations}}駅に合計{{units}}台。このうち預け入れサイズのスーツケースが入るのは{{suitcase}}台です。",
+    "noData": "成田空港駅・空港第2ビル駅は、鉄道事業者の公開データにロッカーの情報が無く、当サイトでは掲載できていません。",
+    "stationUnits": "{{facilities}}か所に{{units}}台",
+    "stationSuitcase": "預け入れサイズが入るのは{{units}}台",
+    "stationNoSuitcase": "預け入れサイズのスーツケースは入りません",
+    "stationUnknown": "内寸が公開されておらず、入るかどうかは判定できません",
+    "stationPrice": "最安{{price}}円",
+    "stationGate": "改札内{{inside}}か所／改札外{{outside}}か所",
+    "tipsHeading": "預ける前に",
+    "tipHours": "早朝・深夜の便に合わせて預けたり取り出したりする場合は、各駅のページで営業時間を確かめてください。営業時間が公開されていないロッカーもあります。",
+    "linkFromTop": "空港駅のロッカー"
   }
 }

@@ -59,6 +59,7 @@ import { stationSummaryItems } from "../src/stationSummary.js";
 import { LUGGAGE, largestLuggageForLocker } from "../src/luggageFit.js";
 import { pathForLuggageList } from "../src/luggageSearch.js";
 import { luggagePageContent, luggageResult } from "../src/luggagePageContent.js";
+import { airportContent, homeAbout, homeRankings, pathForAirports } from "../src/homeContent.js";
 import STATION_PHOTOS from "../src/data/stationPhotos.json" with { type: "json" };
 import ja from "../src/locales/ja.json" with { type: "json" };
 import en from "../src/locales/en.json" with { type: "json" };
@@ -173,6 +174,7 @@ function footerHtml(lang) {
     link(pathForPrefectureList(lang), t(lang, "siteFooter.footerAreas")),
     link(pathForSizeList(lang), t(lang, "siteFooter.footerSizes")),
     link(pathForLuggageList(lang), t(lang, "siteFooter.footerLuggage")),
+    link(pathForAirports(lang), t(lang, "siteFooter.footerAirports")),
     link(pathForGuideList(lang), t(lang, "siteFooter.footerGuides")),
     link(`${pathForPrivacy(lang)}#contact`, t(lang, "siteFooter.footerContact")),
     link(pathForPrivacy(lang), t(lang, "privacyPage.footerLink")),
@@ -237,13 +239,38 @@ function writePage(page) {
 
 // トップ（都道府県一覧）。JSなしのクローラに全都道府県ページへの導線を渡す
 function topPage(lang) {
+  const tt = (key, vars) => t(lang, key, vars);
   const stationCount = STATIONS.filter((s) => lockersByStation.has(s.slug)).length;
   const description = t(lang, "areasPage.description", { count: stationCount });
+  const open = lang === "en" ? " (" : "（";
+  const close = lang === "en" ? ")" : "）";
   const items = PREFECTURES.map((pref) => {
     const count = stationsInPrefecture(pref).filter((s) => lockersByStation.has(s.slug)).length;
     const label = t(lang, "areasPage.prefectureStationCount", { count });
-    return `<li>${link(pathForPrefecture(lang, pref), prefectureName(pref, lang))}（${esc(label)}）</li>`;
+    return `<li>${link(pathForPrefecture(lang, pref), prefectureName(pref, lang))}${open}${esc(label)}${close}</li>`;
   }).join("");
+
+  // 2026-09-30: 目的別の入口・ランキング・このサイトについてを足した（画面の AreasIndexPage と
+  // 同じ homeContent.js から作る）。それまでトップの本文は257字しか無かった
+  const entries = [
+    [pathForLuggageList(lang), "home.entryLuggage", "home.entryLuggageNote"],
+    [pathForAirports(lang), "home.entryAirports", "home.entryAirportsNote"],
+    [pathForSizeList(lang), "home.entrySizes", "home.entrySizesNote"],
+    [pathForGuideList(lang), "home.entryGuides", "home.entryGuidesNote"],
+  ]
+    .map(([href, label, note]) => `<li>${link(href, tt(label))} ${esc(tt(note))}</li>`)
+    .join("");
+  const rankings = homeRankings(lockers, lang, tt)
+    .map(
+      (r) =>
+        `<h3>${esc(r.heading)}</h3><p>${esc(r.lead)}</p><ol>${r.items
+          .map((x) => `<li>${link(x.href, x.label)} ${esc(x.value)}</li>`)
+          .join("")}</ol>`
+    )
+    .join("");
+  const about = homeAbout(lockers, tt)
+    .map((p) => `<p>${esc(p)}</p>`)
+    .join("");
 
   return {
     lang,
@@ -256,10 +283,41 @@ function topPage(lang) {
     // サイズ別一覧と解説記事への導線をトップに置く。クローラがここから
     // 「駅名クエリ以外」のページ群に入れるようにするため
     body:
-      `<main><h1>${esc(t(lang, "areasPage.ogTitle"))}</h1><p>${esc(description)}</p>` +
-      `<p>${link(pathForSizeList(lang), t(lang, "sizesPage.linkFromTop"))} ／ ` +
-      `${link(pathForGuideList(lang), t(lang, "guidesPage.linkFromTop"))}</p>` +
-      `<h2>${esc(t(lang, "areasPage.heading"))}</h2><ul>${items}</ul></main>`,
+      `<main><h1>${esc(tt("home.heroHeading"))}</h1><p>${esc(tt("home.heroLead", { stations: stationCount }))}</p>` +
+      `<h2>${esc(tt("home.entryHeading"))}</h2><ul>${entries}</ul>` +
+      `<h2>${esc(tt("home.prefHeading"))}</h2><ul>${items}</ul>` +
+      rankings +
+      `<h2>${esc(tt("home.aboutHeading"))}</h2>${about}</main>`,
+  };
+}
+
+// 空港駅のまとめ（/airports、2026-09-30）。画面の AirportsPage と同じ airportContent() から作る
+function airportsPage(lang) {
+  const tt = (key, vars) => t(lang, key, vars);
+  const c = airportContent(lockers, lang, tt);
+  const sections = c.airports
+    .map(
+      (a) =>
+        `<h2>${esc(a.heading)}</h2><p>${esc(a.summary)}</p>` +
+        (a.stations.length
+          ? `<ul>${a.stations
+              .map((s) => `<li>${link(s.href, s.label)}<ul>${s.facts.map((f) => `<li>${esc(f)}</li>`).join("")}</ul></li>`)
+              .join("")}</ul>`
+          : "")
+    )
+    .join("");
+  return {
+    lang,
+    title: tt("airports.titleTag"),
+    description: tt("airports.description"),
+    canonicalPath: pathForAirports(lang),
+    altJa: pathForAirports("ja"),
+    altEn: pathForAirports("en"),
+    ogType: "website",
+    body:
+      `<main><h1>${esc(c.heading)}</h1><p>${esc(c.lead)}</p>${sections}` +
+      `<h2>${esc(tt("airports.tipsHeading"))}</h2>${c.tips.map((x) => `<p>${esc(x)}</p>`).join("")}` +
+      `<p>${link(pathForPrefectureList(lang), tt("prefecturePage.backToAreas"))}</p></main>`,
   };
 }
 
@@ -969,6 +1027,9 @@ for (const lang of LANGS) {
   count++;
 
   writePage(luggageIndexPage(lang));
+  count++;
+
+  writePage(airportsPage(lang));
   count++;
 
   writePage(guidesIndexPage(lang));
