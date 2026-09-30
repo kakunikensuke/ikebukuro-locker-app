@@ -1,0 +1,91 @@
+<!-- 送信先はFormSubmit。メールアドレスのエイリアスなので生のアドレスはHTMLに出ない。
+     各アプリと同じ送信先を共用し、件名で発信元を見分ける。
+     ⚠ FormSubmitは送信元URLごとに有効化が必要。https://kakuni-lab.com/ のこのフォームが有効化済みかは未確認（2026-10-01時点）。
+     ⚠ フォームを / 以外のページに移すと、URLが変わって再度の有効化（メールのボタンを押す）が要る。 -->
+<form
+  class="contact-form"
+  action="https://formsubmit.co/21c6f56659051072bab367d0af9fb0bc"
+  method="POST"
+>
+  <input type="hidden" name="_subject" value="kakuni-lab（ハブサイト） — お問い合わせ" />
+  <input type="hidden" name="_captcha" value="false" />
+  <input type="hidden" name="_template" value="table" />
+  <!-- ボット除け。人間には見えない欄で、埋まっていたら送信を捨てる -->
+  <input type="text" name="_honey" style="display: none" tabindex="-1" autocomplete="off" />
+
+  <label>
+    <span>お問い合わせの種類 <em>（必須）</em></span>
+    <select name="種類" required>
+      <option value="記事について">記事について</option>
+      <option value="住みやすさ駅前スコアについて">住みやすさ駅前スコアについて</option>
+      <option value="Japan Proxy Cost について">Japan Proxy Cost について</option>
+      <option value="削除依頼">削除依頼</option>
+      <option value="その他">その他</option>
+    </select>
+  </label>
+
+  <label>
+    <span>該当ページのURL（任意）</span>
+    <input type="url" name="該当ページ" />
+  </label>
+
+  <label>
+    <span>お問い合わせ内容 <em>（必須）</em></span>
+    <textarea name="内容" rows="6" required></textarea>
+  </label>
+
+  <label>
+    <span>返信用メールアドレス（任意）</span>
+    <input type="email" name="email" />
+  </label>
+
+  <p class="form-status" id="form-status" hidden></p>
+  <button type="submit">送信する</button>
+</form>
+<script>
+  // 素のPOSTだと送信後にFormSubmitの英語の完了ページへ飛ばされ、サイトを離れてしまう
+  // （_next は効かないことを2026-08-15に確認済み）。AJAXで送って結果をこのページに出す。
+  // fetch自体が届かない場合だけ素のPOSTにフォールバックする。
+  (function () {
+    var form = document.querySelector(".contact-form");
+    var status = document.getElementById("form-status");
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      var button = form.querySelector("button");
+      button.disabled = true;
+      status.hidden = false;
+      status.className = "form-status";
+      status.textContent = "送信中…";
+
+      var response;
+      try {
+        response = await fetch("https://formsubmit.co/ajax/21c6f56659051072bab367d0af9fb0bc", {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: new FormData(form),
+        });
+      } catch (e) {
+        form.submit();
+        return;
+      }
+
+      // ステータスだけ見てはいけない。FormSubmitは未有効化のドメインからの送信にも
+      // HTTP 200を返し、本文で有効化を求めてくる
+      var payload = await response.json().catch(function () {
+        return null;
+      });
+      if (!response.ok || String(payload && payload.success) !== "true") {
+        status.className = "form-status error";
+        status.textContent = "送信できませんでした。時間をおいて再度お試しください。";
+        button.disabled = false;
+        return;
+      }
+
+      form.reset();
+      status.className = "form-status done";
+      status.textContent = "送信しました。内容を確認のうえ、必要に応じて返信します。";
+      button.disabled = false;
+    });
+  })();
+</script>

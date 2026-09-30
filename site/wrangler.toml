@@ -11,5 +11,6 @@ workers_dev = false
 #   書くと Actions の APIトークンにDNS編集権限が要り、無ければデプロイが落ちる。
 
 [assets]
-directory = "./public"
+# build.mjs が content/ と public/ から書き出す先
+directory = "./dist"
 not_found_handling = "404-page"

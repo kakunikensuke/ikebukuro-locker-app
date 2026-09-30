@@ -1,0 +1,543 @@
+/* kakuni-lab.com
+   読み物のサイト。装飾は減らし、目を引くのは記事中の表と横棒グラフだけにする。
+   色は下のトークンだけを使う（アクセントは地図の青1色） */
+
+:root {
+  --bg: #f5f6f3;
+  --surface: #ffffff;
+  --ink: #1a1e1c;
+  --muted: #59625d;
+  --line: #d9dfda;
+  --accent: #1c5b8e;
+  --accent-soft: #e3edf5;
+  --bar: #1c5b8e;
+  --track: #e8ebe8;
+  --ok: #1f6b3b;
+  --err: #b3261e;
+  --measure: 42rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #151816;
+    --surface: #1d211f;
+    --ink: #e7ebe8;
+    --muted: #a3aca7;
+    --line: #333a36;
+    --accent: #7fb3de;
+    --accent-soft: #1f2d38;
+    --bar: #6fa6d4;
+    --track: #2a302d;
+    --ok: #7cc79a;
+    --err: #f2a29c;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP",
+    "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
+  font-size: 1rem;
+  line-height: 1.9;
+  font-feature-settings: "palt" 0;
+}
+
+h1,
+h2,
+h3,
+.brand,
+.article-title,
+.topic-name,
+.tool-name {
+  font-family: "BIZ UDPGothic", "Hiragino Sans", "Noto Sans JP", sans-serif;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 0.2em;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.wrap {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ---- ヘッダー・フッター ---- */
+
+.site-header {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.header-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 20px;
+  padding-top: 14px;
+  padding-bottom: 12px;
+}
+
+.brand {
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 1.15rem;
+}
+
+.site-header nav,
+.site-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  font-size: 0.9rem;
+}
+
+.site-header nav a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.site-header nav a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+main.wrap {
+  padding-bottom: 64px;
+}
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: 24px 0 40px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.site-footer p {
+  margin: 12px 0 0;
+}
+
+/* ---- トップ ---- */
+
+.intro {
+  padding: 48px 0 8px;
+}
+
+.intro h1 {
+  margin: 0 0 16px;
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  line-height: 1.35;
+}
+
+.intro p {
+  margin: 0 0 12px;
+  color: var(--muted);
+}
+
+main h2 {
+  margin: 48px 0 12px;
+  font-size: 1.25rem;
+}
+
+.more {
+  margin: 12px 0 0;
+}
+
+.note {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.topics,
+.tools {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.topics li,
+.tools li {
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+
+.topics li:last-child,
+.tools li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.topics a,
+.tools a {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 12px;
+  text-decoration: none;
+}
+
+.topic-name,
+.tool-name {
+  font-size: 1.05rem;
+}
+
+.topics a:hover .topic-name,
+.tools a:hover .tool-name {
+  text-decoration: underline;
+}
+
+.topic-count,
+.tool-url {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.topics p,
+.tools p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+/* ---- 記事の一覧 ---- */
+
+.page-title {
+  margin: 40px 0 8px;
+  font-size: 1.7rem;
+}
+
+.page-lead,
+.category-lead {
+  margin: 0 0 12px;
+  color: var(--muted);
+}
+
+.category {
+  margin-top: 40px;
+}
+
+.category h2 {
+  margin: 0 0 4px;
+}
+
+.article-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.article-item a {
+  display: block;
+  padding: 14px 0 14px 16px;
+  border-left: 3px solid var(--line);
+  margin: 10px 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.article-item a:hover {
+  border-left-color: var(--accent);
+}
+
+.article-item a:hover .article-title {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.article-title {
+  display: block;
+  font-size: 1.05rem;
+}
+
+.article-desc {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.75;
+}
+
+/* ---- 記事 ---- */
+
+.crumbs {
+  margin: 28px 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.article h1 {
+  margin: 8px 0 8px;
+  font-size: clamp(1.45rem, 4.4vw, 1.95rem);
+  line-height: 1.45;
+}
+
+.article-meta {
+  margin: 0 0 28px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.prose h2 {
+  margin: 48px 0 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-size: 1.3rem;
+}
+
+.prose h3 {
+  margin: 32px 0 8px;
+  font-size: 1.08rem;
+}
+
+.prose p {
+  margin: 0 0 1.1em;
+}
+
+.prose ul,
+.prose ol {
+  margin: 0 0 1.1em;
+  padding-left: 1.4em;
+}
+
+.prose li {
+  margin: 0.3em 0;
+}
+
+.prose strong {
+  background: linear-gradient(transparent 62%, var(--accent-soft) 62%);
+}
+
+.prose blockquote {
+  margin: 0 0 1.1em;
+  padding: 4px 0 4px 16px;
+  border-left: 3px solid var(--accent);
+  color: var(--muted);
+}
+
+/* 表: 数字の列は右寄せ（Markdownの ---: で指定） */
+.table-wrap {
+  margin: 0 0 1.4em;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+}
+
+th,
+td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+  /* 日本語を1文字ずつ折り返さず、空白と句読点でだけ折り返す。入りきらない表は横にスクロールする */
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+th {
+  border-bottom: 2px solid var(--ink);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+td.right,
+th.right {
+  text-align: right;
+  white-space: nowrap;
+}
+
+td.center,
+th.center {
+  text-align: center;
+}
+
+/* 横棒グラフ（```bars ブロック） */
+.bars {
+  margin: 0 0 1.6em;
+  padding: 16px 16px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.bars figcaption {
+  margin: 0 0 10px;
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+/* 列の幅を全行でそろえる（行ごとにgridにすると、数値の長さで棒の基準がずれる） */
+.bars ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: auto minmax(3em, 1fr) auto;
+  align-items: center;
+  gap: 6px 10px;
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+
+.bars li {
+  display: contents;
+}
+
+.bar-label {
+  max-width: 11em;
+}
+
+.bar-track {
+  height: 12px;
+  background: var(--track);
+}
+
+.bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--bar);
+}
+
+.bar-value {
+  min-width: 4em;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.sources,
+.author {
+  margin-top: 40px;
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-size: 0.88rem;
+  line-height: 1.8;
+}
+
+.sources h2,
+.related h2 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.sources ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+.author {
+  margin-top: 12px;
+}
+
+.author p {
+  margin: 0;
+}
+
+.related {
+  margin-top: 40px;
+}
+
+/* ---- お問い合わせ ---- */
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.contact-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.contact-form label em {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  font: inherit;
+  font-weight: 400;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.contact-form textarea {
+  resize: vertical;
+}
+
+.contact-form button {
+  align-self: flex-start;
+  font: inherit;
+  font-weight: 700;
+  padding: 10px 28px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+.contact-form button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.form-status {
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.form-status.error {
+  color: var(--err);
+}
+
+.form-status.done {
+  color: var(--ok);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .contact-form button {
+    color: #0f1a24;
+  }
+}

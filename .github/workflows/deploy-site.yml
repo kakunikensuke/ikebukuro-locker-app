@@ -25,6 +25,13 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Install dependencies
+        run: npm ci
+
+      # content/ のMarkdownから dist/ を書き出す。本文2,000字未満の記事があると落ちる
+      - name: Build
+        run: npm run build
+
       - name: Deploy to Cloudflare Workers
         run: npx wrangler@4 deploy
         env:

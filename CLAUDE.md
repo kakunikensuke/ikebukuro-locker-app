@@ -1,5 +1,22 @@
 # ikebukuro-locker-app（コインロッカー検索アプリ）
 
+## 🔴 2026-10-01 ロッカー検索は撤退。このリポジトリはルートサイト kakuni-lab.com の置き場になった
+
+- **locker.kakuni-lab.com は全ページを https://kakuni-lab.com/ へ301で転送している**（`locker-redirect/`、
+  `deploy-frontend.yml` がこれだけを配信する）。元のアプリ（`frontend/`・`backend/`）はコードとデータを残してあるだけで配信していない。
+  戻すときはタグ `locker-final` の `deploy-frontend.yml` と `update-lockers.yml` に戻す。データの複製は `D:\ClaudeData\locker-archive`
+- データ更新バッチ（`update-lockers.yml`）の定期実行は止めた。multiecube のAPIが2026-09に形式を変え、9/17以降は更新できていなかった
+- **`site/` がルートドメイン kakuni-lab.com のサイト**（旧 `ハブサイトプロジェクト/kakuni-lab-hub` から移設）。
+  `site/**` への push で `deploy-site.yml` がビルドしてデプロイする。手元の wrangler はCloudflareにログインしておらず、
+  Cloudflareの鍵はこのリポジトリのGitHub Actionsにしか無いため、ここに置いた
+  - 記事は `site/content/articles/<slug>.md`。数字は集計した時点の値を本文に書き、`dataAsOf` に時点を書く（自動更新しない）
+  - `npm run build` は本文2,000字未満の記事があると落ちる（AdSense審査で薄いページを出さないため）
+  - お問い合わせフォームはトップ（`/#contact`）に置く。FormSubmitは送信元URLごとに有効化が要るので、別URLへ移さない
+  - 集計に使ったスクリプトは残していない。記事を更新するときは、元データ（eki-facility-app の backend/data、
+    このリポジトリの backend/data/lockers.json、japan-proxy-cost の data/）から集計し直す
+
+以下は撤退前のロッカーアプリの記録。
+
 ## お問い合わせフォーム（2026-08-15移行済み）
 
 Googleフォームからサイト内フォーム（FormSubmit）へ移行した。定義は`src/staticPages.js`に集約してあり、
