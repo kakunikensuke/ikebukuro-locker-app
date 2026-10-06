@@ -1525,5 +1525,108 @@
    "cur": "TWD",
    "lithium": "conditional"
   }
+ },
+ "standardDays": {
+  "note": "日本郵便の料金計算で、東京都から1kgの物品を差し出す場合の標準日数（差出日を含まない）。アメリカはニューヨーク州、カナダはバンクーバー、中国は上海、韓国はソウル。土日・休日、航空保安の検査、航空機の遅延などがあると、さらに日数がかかる（日本郵便の注記）。船便は日本郵便の案内で2〜4か月",
+  "source": "https://www.post.japanpost.jp/cgi-charge/index.php",
+  "verifiedAt": "2026-10-06",
+  "methods": [
+   "ems",
+   "airpacket",
+   "small_packet",
+   "parcel_air"
+  ],
+  "byCountry": {
+   "US": {
+    "ems": 11,
+    "airpacket": 18,
+    "small_packet": 18,
+    "parcel_air": 14
+   },
+   "CA": {
+    "ems": 6,
+    "airpacket": 13,
+    "small_packet": 13,
+    "parcel_air": 9
+   },
+   "GB": {
+    "ems": 5,
+    "airpacket": 12,
+    "small_packet": 12,
+    "parcel_air": 8
+   },
+   "DE": {
+    "ems": 5,
+    "airpacket": 12,
+    "small_packet": 12,
+    "parcel_air": 8
+   },
+   "FR": {
+    "ems": 6,
+    "airpacket": 13,
+    "small_packet": 13,
+    "parcel_air": 9
+   },
+   "AU": {
+    "ems": 8,
+    "airpacket": 14,
+    "small_packet": 14,
+    "parcel_air": 10
+   },
+   "SG": {
+    "ems": 2,
+    "airpacket": 9,
+    "small_packet": 9,
+    "parcel_air": 5
+   },
+   "HK": {
+    "ems": 3,
+    "airpacket": 10,
+    "small_packet": 10,
+    "parcel_air": 6
+   },
+   "TW": {
+    "ems": 2,
+    "airpacket": 9,
+    "small_packet": 9,
+    "parcel_air": 5
+   },
+   "CN": {
+    "ems": 4,
+    "airpacket": 11,
+    "small_packet": 11,
+    "parcel_air": 7
+   },
+   "KR": {
+    "ems": 3,
+    "airpacket": 10,
+    "small_packet": 10,
+    "parcel_air": 6
+   },
+   "TH": {
+    "ems": 3,
+    "airpacket": 10,
+    "small_packet": 10,
+    "parcel_air": 6
+   },
+   "VN": {
+    "ems": 3,
+    "airpacket": 10,
+    "small_packet": 10,
+    "parcel_air": 6
+   },
+   "PH": {
+    "ems": 12,
+    "airpacket": 19,
+    "small_packet": 19,
+    "parcel_air": 15
+   },
+   "NZ": {
+    "ems": 9,
+    "airpacket": 16,
+    "small_packet": 16,
+    "parcel_air": 12
+   }
+  }
  }
 }
