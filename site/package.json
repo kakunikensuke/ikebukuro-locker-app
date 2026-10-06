@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node build.mjs"
+    "build": "node scripts/verify-shipping-calc.mjs && node build.mjs"
   },
   "dependencies": {
     "marked": "^15.0.0"

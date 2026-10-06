@@ -12,6 +12,7 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, cpSync, ex
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Marked } from "marked";
+import { toolBody, TOOL_PATH } from "./src/shipping-tool-page.mjs";
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DIST = join(ROOT, "dist");
@@ -425,11 +426,24 @@ write("/articles/", articlesIndex(articles));
 for (const a of articles) write(a.path, articlePage(a, articles));
 const topicKeys = Object.keys(CATEGORIES).filter((key) => articles.some((a) => a.category === key));
 for (const key of topicKeys) write(topicPath(key), topicPage(key, articles));
+const shippingData = JSON.parse(readFileSync(join(ROOT, "data", "overseas-shipping.json"), "utf8"));
+write(
+  TOOL_PATH,
+  layout({
+    title: "海外へ荷物を送る料金と、相手が払う税の計算機",
+    description: "送り先・重さ・中身の値段を入れると、EMS・航空便・船便・小形包装物・国際エアパケットの送料と、受け取る人が払う税の目安を並べて比べます。アメリカの100ドル、EUの45ユーロなど、贈り物の免税枠も表示。9か国・地域に対応。",
+    path: TOOL_PATH,
+    body: toolBody(shippingData),
+    jsonLd: { "@context": "https://schema.org", "@type": "WebApplication", name: "海外へ荷物を送る料金と、相手が払う税の計算機", url: SITE + TOOL_PATH, applicationCategory: "UtilitiesApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "JPY" } },
+  }),
+);
+mkdirSync(join(DIST, "js"), { recursive: true });
+cpSync(join(ROOT, "src", "shipping-calc.mjs"), join(DIST, "js", "shipping-calc.js"));
 write("/about/", staticPage("about", "/about/"));
 write("/privacy/", staticPage("privacy", "/privacy/"));
 write("/404.html", notFoundPage());
 
-const urls = ["/", "/articles/", ...topicKeys.map(topicPath), "/about/", "/privacy/", ...articles.map((a) => a.path)];
+const urls = ["/", TOOL_PATH, "/articles/", ...topicKeys.map(topicPath), "/about/", "/privacy/", ...articles.map((a) => a.path)];
 writeFileSync(
   join(DIST, "sitemap.xml"),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls

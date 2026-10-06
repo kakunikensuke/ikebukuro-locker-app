@@ -587,3 +587,223 @@ th.center {
 .prose .findings li {
   margin: 0 0 8px;
 }
+
+/* ---- 海外発送の計算機（/tools/overseas-shipping/） ----
+   このサイトでいちばん目立たせる場所。入力欄は地図の青の帯で囲み、結果の表は「合計」の列を太くする */
+
+.tool-lead {
+  margin: 0 0 20px;
+}
+
+.calc-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+  padding: 18px;
+  border-top: 4px solid var(--accent);
+  background: var(--surface);
+  margin: 0 0 24px;
+}
+
+.calc-form label,
+.calc-form fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.calc-form fieldset {
+  border: 0;
+  padding: 0;
+  grid-column: 1 / -1;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+}
+
+.calc-form legend {
+  padding: 0;
+  margin-bottom: 4px;
+  width: 100%;
+}
+
+.calc-form label.inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-weight: 400;
+}
+
+.calc-form > label.inline {
+  grid-column: 1 / -1;
+}
+
+.calc-form select,
+.calc-form input[type="number"] {
+  font: inherit;
+  font-weight: 400;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--ink);
+  width: 100%;
+  min-width: 0;
+}
+
+.calc-form input[type="radio"],
+.calc-form input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
+.with-unit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 400;
+}
+
+.calc-help {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.calc-summary {
+  margin: 0 0 10px;
+  font-weight: 700;
+}
+
+.calc-table .sub {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--muted);
+  white-space: normal;
+}
+
+.calc-table td.total {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.calc-table tr.best th,
+.calc-table tr.best td {
+  background: var(--accent-soft);
+}
+
+.calc-table .tag {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.calc-table tr.off th,
+.calc-table tr.off td {
+  color: var(--muted);
+}
+
+.calc-result h3 {
+  margin: 20px 0 6px;
+  font-size: 1rem;
+}
+
+.calc-rules {
+  margin: 0 0 28px;
+  padding-left: 1.3em;
+  font-size: 0.92rem;
+}
+
+.calc-rules li {
+  margin: 0.25em 0;
+}
+
+@media (max-width: 640px) {
+  .calc-form {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+
+  /* 結果の表は、スマホでは送り方ごとのカードにする */
+  .calc-table thead {
+    display: none;
+  }
+
+  .calc-table,
+  .calc-table tbody,
+  .calc-table tr,
+  .calc-table th,
+  .calc-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .calc-table tr {
+    border: 1px solid var(--line);
+    margin: 0 0 10px;
+    background: var(--surface);
+  }
+
+  .calc-table th {
+    border-bottom: 1px solid var(--line);
+    white-space: normal;
+  }
+
+  .calc-table td {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 0;
+    padding: 6px 10px;
+    text-align: right;
+  }
+
+  .calc-table td::before {
+    content: attr(data-label);
+    flex: none;
+    text-align: left;
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .calc-table td .val {
+    text-align: right;
+  }
+
+  .calc-table tr.off td {
+    text-align: left;
+  }
+}
+
+/* 計算機のページだけ横幅を広げる（結果の表が6列あるため）。文章は読みやすい幅のまま */
+body:has(.tool) .wrap {
+  max-width: 62rem;
+}
+
+.tool > h1,
+.tool > .article-meta,
+.tool .tool-lead,
+.tool .prose,
+.tool .sources {
+  max-width: var(--measure);
+}
+
+.calc-table tbody th {
+  border-bottom: 1px solid var(--line);
+  white-space: normal;
+}
+
+@media (min-width: 641px) {
+  .calc-table td:nth-child(5),
+  .calc-table td:nth-child(6) {
+    white-space: nowrap;
+  }
+}

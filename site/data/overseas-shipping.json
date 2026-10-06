@@ -501,7 +501,7 @@
   "airpacket": {
    "name": "国際エアパケット",
    "maxG": 2000,
-   "days": "航空便の扱い（5〜21日程度）",
+   "days": "5〜21日程度",
    "tracking": true,
    "rates": [
     {
@@ -690,7 +690,7 @@
   "small_packet": {
    "name": "小形包装物（航空便）",
    "maxG": 2000,
-   "days": "航空便の扱い（5〜21日程度）",
+   "days": "5〜21日程度",
    "tracking": false,
    "rates": [
     {
