@@ -14,6 +14,8 @@
   - 記事の frontmatter には `finding:`（その記事で分かったことを1行）が必須。テーマのページ `/topics/<category>/` とトップの「集計して分かったこと」に並ぶ（2026-10-06〜）
   - 購入代行の記事3本（送料・海外の税・送れない物）と海外発送の記事2本は japan-proxy-cost の data/ の値を手で写している。向こうのデータを直したらこちらも合わせる
   - **海外発送の計算機 `/tools/overseas-shipping/`（2026-10-06〜、トップの最上部）**: 計算は `site/src/shipping-calc.mjs` だけ（ブラウザは `/js/shipping-calc.js` としてコピーを読み、ビルドは入力例の結果を静的HTMLに書く）。データは `site/data/overseas-shipping.json`（料金・補償・為替は japan-proxy-cost の data/ から写した値、国際エアパケットの料金と各国の贈り物の決まりは2026-10-06に公式で確認）。`npm run build` の前に `scripts/verify-shipping-calc.mjs` が手計算の値28件と照合する。日本郵便の料金改定・各国の税の変更があったら、データと照合スクリプトの両方を直す
+  - **国ごとのページ（2026-10-06〜）**: `/tools/overseas-shipping/<国>/` を15本。中身は `src/shipping-tool-page.mjs` の `countryBody()`。国を足すときは data の countries・standardDays・lithium（航空便と船便で別）・RULES・taxFor・照合スクリプトを全部そろえ、国ページどうしの文章の重なりを測る（80%未満）
+  - **タイル地図（2026-10-06〜）**: 記事の ```tilemap <キー> | <見出し>```。データは `data/pref-top.json`（OSMを数え直した都道府県ごとの1位）
   - **写真（2026-10-06〜）**: `site/public/img/<key>-800.webp` / `-1600.webp`（hero・towns・lockers・shopping・notes・tool）。Wikimedia Commons の CC0 / CC BY / CC BY-SA だけ。作者とライセンスは `site/data/photo-credits.json` にあり、写真の右上と運営者情報の「写真のクレジット」に出る。**消さないこと**（CC BY 系の利用条件）。色は藍と山吹の2色だけ（`public/style.css` の先頭）
   - お問い合わせフォームはトップ（`/#contact`）に置く。FormSubmitは送信元URLごとに有効化が要るので、別URLへ移さない
   - 集計に使ったスクリプトは残していない。記事を更新するときは、元データ（eki-facility-app の backend/data、
