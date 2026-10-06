@@ -173,6 +173,9 @@ ${noindex ? '<meta name="robots" content="noindex" />' : `<link rel="canonical" 
 <meta property="og:type" content="${path.startsWith("/articles/") && path !== "/articles/" ? "article" : "website"}" />
 <meta property="og:url" content="${url}" />
 <meta property="og:site_name" content="${SITE_NAME}" />
+<link rel="icon" type="image/svg+xml" href="${bodyClass === "tool-page" ? "/img/icon-tool.svg" : "/favicon.svg"}" />
+<link rel="apple-touch-icon" href="${bodyClass === "tool-page" ? "/img/icon-tool-180.png" : "/apple-touch-icon.png"}" />
+<meta name="theme-color" content="#1f3a5f" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Shippori+Mincho+B1:wght@700;800&display=swap" rel="stylesheet" />
