@@ -11,6 +11,8 @@
   Cloudflareの鍵はこのリポジトリのGitHub Actionsにしか無いため、ここに置いた
   - 記事は `site/content/articles/<slug>.md`。数字は集計した時点の値を本文に書き、`dataAsOf` に時点を書く（自動更新しない）
   - `npm run build` は本文2,000字未満の記事があると落ちる（AdSense審査で薄いページを出さないため）
+  - 記事の frontmatter には `finding:`（その記事で分かったことを1行）が必須。テーマのページ `/topics/<category>/` とトップの「集計して分かったこと」に並ぶ（2026-10-06〜）
+  - 購入代行の記事3本（送料・海外の税・送れない物）と海外発送の記事2本は japan-proxy-cost の data/ の値を手で写している。向こうのデータを直したらこちらも合わせる
   - お問い合わせフォームはトップ（`/#contact`）に置く。FormSubmitは送信元URLごとに有効化が要るので、別URLへ移さない
   - 集計に使ったスクリプトは残していない。記事を更新するときは、元データ（eki-facility-app の backend/data、
     このリポジトリの backend/data/lockers.json、japan-proxy-cost の data/）から集計し直す
