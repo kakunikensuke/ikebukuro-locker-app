@@ -34,6 +34,27 @@ ok("星3万円は400SGD以下で0", get({ country: "SG", valueJpy: 30000 }, "sma
 ok("香港は0", get({ country: "HK", valueJpy: 500000 }, "ems").tax.lo === 0);
 ok("豪10万円（約911豪ドル）は0", get({ country: "AU", valueJpy: 100000 }, "ems").tax.lo === 0);
 ok("電池入りの独あては全部使えない", calculate(data, { ...base, country: "DE", lithium: true }).rows.every((r) => !r.available));
+ok("電池入りの英あては航空便が使えず、船便だけ使える", (() => { const rs = calculate(data, { ...base, country: "GB", lithium: true }).rows; return rs.filter((r) => r.available).map((r) => r.id).join() === "parcel_sea"; })());
+ok("電池入りのタイあては全部使えない", calculate(data, { ...base, country: "TH", lithium: true }).rows.every((r) => !r.available));
+ok("電池入りの米あては船便だけ使えない", (() => { const rs = calculate(data, { ...base, lithium: true }).rows; return rs.filter((r) => !r.available).map((r) => r.id).join() === "parcel_sea"; })());
+// 2026-10-06 に足した6か国
+ok("中国1kg EMS 2,200（第1地帯）", get({ country: "CN" }, "ems").price === 2200);
+ok("タイ1kg EMS 3,150（第2地帯）", get({ country: "TH" }, "ems").price === 3150);
+ok("NZ1kg EMS 4,400（第3地帯）", get({ country: "NZ" }, "ems").price === 4400);
+ok("中国1万円の服の贈り物は13〜20%（税額50元超）", (() => { const t = get({ country: "CN", valueJpy: 10000, weightG: 2000 }, "ems").tax; return t.lo === 1300 && t.hi === 2000; })());
+ok("中国3,000円のおもちゃは税額50元以下で0", get({ country: "CN", valueJpy: 3000, item: "toy" }, "ems").tax.lo === 0);
+ok("中国3万円（1,000元超）は限度額の注意", calculate(data, { ...base, country: "CN", valueJpy: 30000 }).notes.some((n) => n.includes("1,000元")));
+ok("韓国2万円（150米ドル以下）は0", get({ country: "KR", valueJpy: 20000 }, "ems").tax.lo === 0);
+ok("韓国3万円は付加価値税10%＋α", (() => { const t = get({ country: "KR", valueJpy: 30000 }, "ems").tax; return t.lo === Math.round((30000 + 2200) * 0.1) && t.open; })());
+ok("タイ5,000円1kg EMSは(5000+3150)*7%＋α", (() => { const t = get({ country: "TH" }, "ems").tax; return t.lo === Math.round(8150 * 0.07) && t.open; })());
+ok("ベトナム5,000円の贈り物は0", get({ country: "VN" }, "ems").tax.lo === 0);
+ok("ベトナムの売った物は金額を出さない", get({ country: "VN", kind: "sale" }, "ems").tax.unknown === true);
+ok("フィリピン2万円（1万ペソ以下）は0", get({ country: "PH", valueJpy: 20000 }, "ems").tax.lo === 0);
+ok("フィリピン3万円は付加価値税12%＋α", get({ country: "PH", valueJpy: 30000 }, "ems").tax.lo === Math.round((30000 + 3150) * 0.12));
+ok("NZ5万円（1,000NZドル以下）は0", get({ country: "NZ", valueJpy: 50000 }, "ems").tax.lo === 0);
+ok("NZ10万円は消費税15%＋α", get({ country: "NZ", valueJpy: 100000 }, "ems").tax.lo === Math.round((100000 + 4400) * 0.15));
+ok("米EMSの日数は標準11日", get({}, "ems").days === "標準11日");
+ok("船便は2〜4か月", get({}, "parcel_sea").days === "2〜4か月");
 ok("電池入りの米あては使える", calculate(data, { ...base, lithium: true }).rows.some((r) => r.available));
 // 補償
 ok("EMS 10万円は＋200円", get({ valueJpy: 100000 }, "ems").cover.extraText.includes("200円"));

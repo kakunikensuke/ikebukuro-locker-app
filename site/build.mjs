@@ -426,7 +426,7 @@ ${featureTool()}
   <ul class="tools">
     <li>
       <a href="${TOOL_PATH}"><span class="tool-name">海外へ荷物を送る料金と、相手が払う税の計算機</span><span class="tool-url">kakuni-lab.com${TOOL_PATH}</span></a>
-      <p>日本郵便の5つの送り方の送料と、9か国・地域で受け取る人が払う税の目安を比べます。</p>
+      <p>日本郵便の5つの送り方の送料と届くまでの日数、${Object.keys(shippingData.countries).length}か国・地域で受け取る人が払う税の目安を比べます。</p>
     </li>
     <li>
       <a href="https://eki.kakuni-lab.com/"><span class="tool-name">住みやすさ駅前スコア</span><span class="tool-url">eki.kakuni-lab.com</span></a>
@@ -518,7 +518,7 @@ write(
   TOOL_PATH,
   layout({
     title: "海外へ荷物を送る料金と、相手が払う税の計算機",
-    description: "送り先・重さ・中身の値段を入れると、EMS・航空便・船便・小形包装物・国際エアパケットの送料と、受け取る人が払う税の目安を並べて比べます。アメリカの100ドル、EUの45ユーロなど、贈り物の免税枠も表示。9か国・地域に対応。",
+    description: "送り先・重さ・中身の値段を入れると、EMS・航空便・船便・小形包装物・国際エアパケットの送料と、受け取る人が払う税の目安を並べて比べます。アメリカの100ドル、EUの45ユーロなど、贈り物の免税枠も表示。中国・韓国・タイなど15か国・地域に対応。",
     path: TOOL_PATH,
     body: toolBody(shippingData),
     bodyClass: "tool-page",

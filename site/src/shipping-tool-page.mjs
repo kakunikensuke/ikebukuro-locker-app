@@ -14,6 +14,8 @@ const EXAMPLES = [
   { title: "イギリスへ、1万円・2kgの贈り物", input: { ...DEFAULT_INPUT, country: "GB", weightG: 2000, valueJpy: 10000 } },
   { title: "ドイツへ、5,000円・500gの贈り物（45ユーロ以下）", input: { ...DEFAULT_INPUT, country: "DE", weightG: 500, valueJpy: 5000 } },
   { title: "台湾へ、8,000円・3kgの贈り物", input: { ...DEFAULT_INPUT, country: "TW", weightG: 3000, valueJpy: 8000 } },
+  { title: "中国へ、1万円・2kgの服の贈り物", input: { ...DEFAULT_INPUT, country: "CN", weightG: 2000, valueJpy: 10000 } },
+  { title: "タイへ、5,000円・1kgの贈り物", input: { ...DEFAULT_INPUT, country: "TH" } },
 ];
 
 function exampleLine(data, ex) {
@@ -21,7 +23,7 @@ function exampleLine(data, ex) {
   const c = res.cheapest;
   const ems = res.rows.find((r) => r.id === "ems");
   const money = (lo, hi, open) => (lo === hi ? yen(lo) : `${yen(lo)}〜${yen(hi)}`) + (open ? "＋α" : "");
-  return `<li><strong>${esc(ex.title)}</strong>：合計がいちばん安いのは${esc(c.name)}で${money(c.totalLo, c.totalHi, c.tax.open)}（送料${yen(c.price)}、受け取る人の税${money(c.tax.lo, c.tax.hi, c.tax.open)}）。EMSなら${money(ems.totalLo, ems.totalHi, ems.tax.open)}。</li>`;
+  return `<li><strong>${esc(ex.title)}</strong>：合計がいちばん安いのは${esc(c.name)}で${money(c.totalLo, c.totalHi, c.tax.open)}（送料${yen(c.price)}、受け取る人の税${money(c.tax.lo, c.tax.hi, c.tax.open)}、${esc(c.days)}）。EMSなら${money(ems.totalLo, ems.totalHi, ems.tax.open)}で${esc(ems.days)}。</li>`;
 }
 
 // 写真の帯に重ねる見出し
@@ -29,7 +31,7 @@ export function toolHero(data) {
   return `<p class="crumbs"><a href="/">トップ</a> ／ 道具</p>
   <h1>海外へ荷物を送る料金と、<br />相手が払う税の計算機</h1>
   <p class="hero-lead">送り先・重さ・中身の値段を入れると、日本郵便の5つの送り方の送料と、受け取る人が払う税の目安を並べて比べます。相手の国の贈り物の免税枠や、2025〜2026年に変わった手続きもまとめて表示します。</p>
-  <p class="article-meta">日本郵便の5つの送り方 × 9か国・地域　料金と決まりの確認日 ${esc(data.meta.verifiedAt)}</p>`;
+  <p class="article-meta">日本郵便の5つの送り方 × ${Object.keys(data.countries).length}か国・地域　料金と決まりの確認日 ${esc(data.meta.verifiedAt)}</p>`;
 }
 
 export function toolBody(data) {
@@ -37,7 +39,7 @@ export function toolBody(data) {
   const opts = (obj, sel) => Object.entries(obj).map(([k, v]) => `<option value="${k}"${k === sel ? " selected" : ""}>${esc(v)}</option>`).join("");
   const countries = Object.fromEntries(Object.entries(data.countries).map(([k, c]) => [k, c.name]));
   const ruleRows = Object.entries(data.countries)
-    .map(([k, c]) => `<tr><th scope="row">${esc(c.name)}</th><td>${esc(RULES[k].gift)}</td><td>${esc(RULES[k].sale)}</td><td>${c.lithium === "prohibited" ? "日本郵便では送れない" : "機器に内蔵、1荷物2個まで"}</td></tr>`)
+    .map(([k, c]) => `<tr><th scope="row">${esc(c.name)}</th><td>${esc(RULES[k].gift)}</td><td>${esc(RULES[k].sale)}</td><td>${c.lithium.air && c.lithium.sea ? "航空便・船便とも可" : c.lithium.air ? "航空便・EMSは可、船便は不可" : c.lithium.sea ? "船便だけ可" : "日本郵便では送れない"}</td></tr>`)
     .join("");
   const methodRows = ["ems", "parcel_air", "airpacket", "small_packet", "parcel_sea"]
     .map((id) => {
@@ -85,10 +87,11 @@ ${resultHtml(data, DEFAULT_INPUT, res)}
     <ul>
       <li>送料は日本郵便の料金表の値です。郵便局の窓口で払う額と同じですが、割引は入れていません</li>
       <li>税は受け取る人が払う額の目安です。「＋α」は、品目ごとに決まる関税など、金額を出していない部分があることを表します</li>
-      <li>外国のお金への換算は、欧州中央銀行の参照レート（${esc(data.fx.asOf.ecb)}）と米連邦準備制度の発表（${esc(data.fx.asOf.fedH10)}）を使っています。免税枠の境目の近くでは、為替で結果が変わります</li>
+      <li>外国のお金への換算は、欧州中央銀行の参照レート（${esc(data.fx.asOf.ecb)}）、台湾ドルは米連邦準備制度の発表（${esc(data.fx.asOf.fedH10)}）、ベトナム・ドンはベトコムバンクのレート（${esc(data.fx.asOf.vcb)}）を使っています。免税枠の境目の近くでは、為替で結果が変わります</li>
+      <li>届くまでの日数は、日本郵便の料金計算で東京都から出す場合の標準日数です。土日・休日や検査、航空機の遅れがあると、さらにかかります</li>
       <li>運送会社や郵便局が税の立て替えに取る手数料は、カナダ郵便の9.95カナダドルを除いて入れていません</li>
       <li>アメリカの関税は、品物代だけにかけて計算しています。「おもちゃ・フィギュア・ゲーム機」は通常の関税が0%の品目として12.5%、「その他」は12.5%を最低として出しています</li>
-      <li>対象は9か国・地域だけです。ほかの国の料金は<a href="https://www.post.japanpost.jp/cgi-charge/index.php" rel="noopener">日本郵便の料金計算</a>で調べられます</li>
+      <li>対象は${Object.keys(data.countries).length}か国・地域だけです。ほかの国の料金は<a href="https://www.post.japanpost.jp/cgi-charge/index.php" rel="noopener">日本郵便の料金計算</a>で調べられます</li>
     </ul>
   </div>
 

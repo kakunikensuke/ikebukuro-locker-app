@@ -54,6 +54,42 @@ export const RULES = {
     duty: "",
     procedure: "",
   },
+  CN: {
+    gift: "個人の郵便物は、税額が50元以下なら免税。日本からは1回1,000元まで（分けられない1点の品は例外）",
+    sale: "個人の郵便物は、税額が50元以下なら免税。日本からは1回1,000元まで",
+    duty: "税率は品目で決まる：本・おもちゃ・食品などは13%、服などの繊維製品や電気製品は20%、化粧品・酒・たばこは50%",
+    procedure: "1,000元を超えると、送り返すか、貨物として通関する手続きが必要になる",
+  },
+  KR: {
+    gift: "自分で使う物として受け取る150米ドル以下の品は免税（海外の親族や友人からの郵便の贈り物を含む）",
+    sale: "150米ドル以下で自分で使う物は免税",
+    duty: "150米ドルを超えると、関税（品目による）と付加価値税10%",
+    procedure: "",
+  },
+  TH: {
+    gift: "2026年から、少額の輸入品の免税がなくなった（基準を1,500バーツから1バーツに引き下げ）",
+    sale: "2026年から、金額にかかわらず関税と付加価値税7%がかかる",
+    duty: "付加価値税7%に加え、関税（品目による）",
+    procedure: "",
+  },
+  VN: {
+    gift: "個人への贈り物は、200万ドン以下（または税額が20万ドン未満）なら免税。年4回まで",
+    sale: "2025年2月18日に、少額の輸入品の免税（100万ドン以下）が廃止された",
+    duty: "付加価値税と関税（品目による。この計算では金額を出さない）",
+    procedure: "",
+  },
+  PH: {
+    gift: "1万ペソ以下の品は関税も税もかからない",
+    sale: "1万ペソ以下の品は関税も税もかからない",
+    duty: "1万ペソを超えると、付加価値税12%と関税（品目による）",
+    procedure: "",
+  },
+  NZ: {
+    gift: "1,000ニュージーランドドル以下なら、税関は関税も消費税も集めない（酒・たばこを除く）",
+    sale: "1,000ニュージーランドドル以下なら、税関は関税も消費税も集めない（登録した海外の売り手は販売時に消費税を集める）",
+    duty: "1,000ニュージーランドドルを超えると、消費税15%と関税（品目による）。税関の手数料（Goods Management Levy）がかかることもある",
+    procedure: "",
+  },
   TW: {
     gift: "郵便小包は2,000台湾ドル以下なら免税",
     sale: "郵便小包は2,000台湾ドル以下なら免税",
@@ -144,6 +180,37 @@ function taxFor(code, input, data, shippingJpy) {
     }
     case "HK":
       return out(0, 0, "かからない");
+    case "CN": {
+      const [rLo, rHi] = input.item === "other" ? [0.13, 0.2] : [0.13, 0.13];
+      const ex = (r) => (local * r <= 50 ? 0 : v * r);
+      const lo = ex(rLo), hi = ex(rHi);
+      if (hi === 0) return out(0, 0, "かからない（税額50元以下）");
+      return out(lo, hi, input.item === "other" ? "輸入税13〜20%（化粧品は50%）" : "輸入税13%");
+    }
+    case "KR": {
+      const usd = v / fx.USD;
+      if (usd <= 150) return out(0, 0, "かからない（150米ドル以下）");
+      const t = (v + shippingJpy) * 0.1;
+      return { ...out(t, t, "付加価値税10%＋関税", "関税は品目による"), open: true };
+    }
+    case "TH": {
+      const t = (v + shippingJpy) * 0.07;
+      return { ...out(t, t, "付加価値税7%＋関税", "関税は品目による"), open: true };
+    }
+    case "VN": {
+      if (gift && local <= 2000000) return out(0, 0, "かからない（200万ドン以下の贈り物）");
+      return { ...out(0, 0, "付加価値税と関税", "品目による"), open: true, unknown: true };
+    }
+    case "PH": {
+      if (local <= 10000) return out(0, 0, "かからない（1万ペソ以下）");
+      const t = (v + shippingJpy) * 0.12;
+      return { ...out(t, t, "付加価値税12%＋関税", "関税は品目による"), open: true };
+    }
+    case "NZ": {
+      if (local <= 1000) return out(0, 0, "かからない（1,000NZドル以下）");
+      const t = (v + shippingJpy) * 0.15;
+      return { ...out(t, t, "消費税15%＋関税", "関税は品目による"), open: true };
+    }
     case "TW": {
       if (local <= 2000) return out(0, 0, "かからない（2,000台湾ドル以下）");
       const t = (v + shippingJpy) * 0.05;
@@ -157,24 +224,25 @@ export function calculate(data, input) {
   const c = data.countries[input.country];
   if (!c) throw new Error("unknown country");
   const notes = [];
-  const blockedByBattery = input.lithium && c.lithium === "prohibited";
+  const lith = c.lithium ?? { air: false, sea: false };
+  const batteryBlocks = (id) => input.lithium && (id === "parcel_sea" ? !lith.sea : !lith.air);
   if (input.lithium) {
-    notes.push(
-      blockedByBattery
-        ? `${c.name}へは、日本郵便では電池の入った物を送れません（日本郵便の受付一覧に入っていない国）。国際宅配便（DHL・FedExなど）を検討してください。`
-        : "電池は機器に入っている物に限り、1つの荷物に2個までです。電池だけやモバイルバッテリーは送れません。",
-    );
+    if (!lith.air && !lith.sea) notes.push(`${c.name}へは、日本郵便では電池の入った物を航空便でも船便でも送れません（日本郵便の受付一覧に入っていない国）。国際宅配便（DHL・FedExなど）を検討してください。`);
+    else if (!lith.air) notes.push(`${c.name}へは、電池の入った物は日本郵便の航空便・EMSでは送れず、船便だけ受け付けています。`);
+    else if (!lith.sea) notes.push(`${c.name}へは、電池の入った物は航空便・EMSなら送れますが、船便では送れません。`);
+    notes.push("電池は機器に入っている物に限ります。電池だけやモバイルバッテリーは送れません。");
   }
   const rows = METHOD_ORDER.map((id) => {
     const m = data.methods[id];
     const price = rateFor(m, c.zone, input.weightG);
     let reason = "";
-    if (blockedByBattery) reason = "電池入りは不可";
+    if (batteryBlocks(id)) reason = "電池入りは不可";
     else if (price == null) reason = input.weightG > m.maxG ? `${m.maxG / 1000}kgまで` : "料金なし";
     const available = !reason;
     const tax = available ? taxFor(input.country, input, data, price) : null;
     const cover = available ? coverFor(id, data, input.weightG, input.valueJpy) : null;
-    return { id, name: m.name, available, reason, price, days: m.days, tracking: m.tracking, note: m.note ?? "", tax, cover, totalLo: available ? price + tax.lo : null, totalHi: available ? price + tax.hi : null };
+    const std = data.standardDays?.byCountry?.[input.country]?.[id];
+    return { id, name: m.name, available, reason, price, days: std ? `標準${std}日` : m.days, tracking: m.tracking, note: m.note ?? "", tax, cover, totalLo: available ? price + tax.lo : null, totalHi: available ? price + tax.hi : null };
   });
   const usable = rows.filter((r) => r.available);
   const cheapest = usable.length ? usable.reduce((a, b) => (b.totalLo < a.totalLo ? b : a)) : null;
@@ -183,6 +251,7 @@ export function calculate(data, input) {
     if (usd > 2500) notes.push("2,500米ドルを超える物は、アメリカで正式な輸入申告が必要になります。");
     else if (!(input.kind === "gift" && usd <= 100)) notes.push(`${RULES.US.procedure}必要があります（日本郵便の国別条件表）。`);
   }
+  if (input.country === "CN" && input.valueJpy / data.fx.jpyPer.CNY > 1000) notes.push("中身が1,000元を超えています。中国は日本からの個人の郵便物を1回1,000元までとしていて、超えると送り返すか、貨物としての通関が必要になります（分けられない1点の品は例外）。");
   const r = RULES[input.country];
   return { country: c, rule: r, rows, cheapest, notes, valueLocal: input.valueJpy / data.fx.jpyPer[c.cur] };
 }
@@ -197,9 +266,11 @@ export function resultHtml(data, input, res) {
     .map((r) => {
       if (!r.available) return `<tr class="off"><th scope="row">${esc(r.name)}</th><td colspan="5" data-label="">使えない（${esc(r.reason)}）</td></tr>`;
       const best = res.cheapest && res.cheapest.id === r.id ? ' class="best"' : "";
-      const tax = `${money(r.tax.lo, r.tax.hi)}${r.tax.open ? "＋α" : ""}<span class="sub">${esc(r.tax.label)}${r.tax.extra ? `。${esc(r.tax.extra)}` : ""}</span>`;
+      const tax = r.tax.unknown
+        ? `品目による<span class="sub">${esc(r.tax.label)}</span>`
+        : `${money(r.tax.lo, r.tax.hi)}${r.tax.open ? "＋α" : ""}<span class="sub">${esc(r.tax.label)}${r.tax.extra ? `。${esc(r.tax.extra)}` : ""}</span>`;
       const cell = (cls, label, html) => `<td class="${cls}" data-label="${label}"><span class="val">${html}</span></td>`;
-      return `<tr${best}><th scope="row">${esc(r.name)}${best ? '<span class="tag">合計がいちばん安い</span>' : ""}</th>${cell("right", "送料（送る人）", yen(r.price))}${cell("right", "税の目安（受け取る人）", tax)}${cell("right total", "合計", `${money(r.totalLo, r.totalHi)}${r.tax.open ? "＋α" : ""}`)}${cell("", "届くまで", `${esc(r.days)}<span class="sub">追跡${r.tracking ? "あり" : "なし"}</span>`)}${cell("", "補償（何もしない場合）", `${esc(r.cover.text)}${r.cover.extraText ? `<span class="sub">${esc(r.cover.extraText)}</span>` : ""}`)}</tr>`;
+      return `<tr${best}><th scope="row">${esc(r.name)}${best ? '<span class="tag">合計がいちばん安い</span>' : ""}</th>${cell("right", "送料（送る人）", yen(r.price))}${cell("right", "税の目安（受け取る人）", tax)}${cell("right total", "合計", r.tax.unknown ? `${yen(r.price)}＋税` : `${money(r.totalLo, r.totalHi)}${r.tax.open ? "＋α" : ""}`)}${cell("", "届くまで", `${esc(r.days)}<span class="sub">追跡${r.tracking ? "あり" : "なし"}</span>`)}${cell("", "補償（何もしない場合）", `${esc(r.cover.text)}${r.cover.extraText ? `<span class="sub">${esc(r.cover.extraText)}</span>` : ""}`)}</tr>`;
     })
     .join("");
   const table = `<div class="table-wrap"><table class="calc-table"><thead><tr><th>送り方</th><th class="right">送料（送る人）</th><th class="right">税の目安（受け取る人）</th><th class="right">合計</th><th>届くまで</th><th>補償（何もしない場合）</th></tr></thead><tbody>${rows}</tbody></table></div>`;

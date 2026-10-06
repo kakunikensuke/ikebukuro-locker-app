@@ -92,24 +92,92 @@
     "為替：欧州中央銀行の参照レート・米連邦準備制度H.10",
     "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
     "2026-10-01"
+   ],
+   [
+    "日本郵便 リチウム電池の差出条件（国・地域別）",
+    "https://www.post.japanpost.jp/cgi-kokusai/p05-06.html",
+    "2026-10-06"
+   ],
+   [
+    "日本郵便 料金・日数を調べる（標準日数）",
+    "https://www.post.japanpost.jp/cgi-charge/index.php",
+    "2026-10-06"
+   ],
+   [
+    "中国財政部 国務院関税税則委員会 進境物品の輸入税率の調整（2019年）",
+    "https://gss.mof.gov.cn/gzdt/zhengcejiedu/201904/t20190408_3216191.htm",
+    "2026-10-06"
+   ],
+   [
+    "中国税関総署による個人の郵便物の管理措置の解説（深圳市政府）",
+    "https://ka.sz.gov.cn/xxgk/zcfggfxwj/zcjd/content/post_2288351.html",
+    "2026-10-06"
+   ],
+   [
+    "韓国関税庁 簡易通関手続き（国際郵便の贈り物）",
+    "https://www.customs.go.kr/kcs/cm/cntnts/cntntsView.do?mi=8457&cntntsId=2807",
+    "2026-10-06"
+   ],
+   [
+    "タイ税関局 2026年度の歳入確保策（少額輸入品の免税の基準を1バーツに）",
+    "https://www.customs.go.th/data_files/8342f73dce85665090d55bb44eb9a0e4.pdf",
+    "2026-10-06"
+   ],
+   [
+    "ベトナム政府 贈り物として輸入する品の税（政令134/2016号第8条）",
+    "https://xaydungchinhsach.chinhphu.vn/chinh-sach-thue-doi-voi-hang-hoa-nhap-khau-la-qua-bieu-tang-119230221182407015.htm",
+    "2026-10-06"
+   ],
+   [
+    "ベトナム財政省の機関紙 2025年2月18日から少額の輸入品の免税を廃止",
+    "https://thoibaotaichinhvietnam.vn/tu-1822025-bai-bo-quy-dinh-mien-thue-hang-nhap-khau-duoi-1-trieu-dong-gui-qua-chuyen-phat-nhanh-170600.html",
+    "2026-10-06"
+   ],
+   [
+    "フィリピン関税局 Guidelines on Importation（1万ペソ以下は関税・税なし）",
+    "https://customs.gov.ph/guidelines-on-importation/",
+    "2026-10-06"
+   ],
+   [
+    "ニュージーランド税関 Duty and allowances",
+    "https://www.customs.govt.nz/sending-and-receiving/duty-and-gst/duty-and-allowances",
+    "2026-10-06"
+   ],
+   [
+    "ニュージーランド税関 Importing goods for personal use（2026年4月改訂）",
+    "https://www.customs.govt.nz/media/drglbgr0/importing-goods-for-personal-use-1.pdf",
+    "2026-10-06"
+   ],
+   [
+    "ベトコムバンク 為替レート",
+    "https://portal.vietcombank.com.vn/Usercontrols/TVPortal.TyGia/pXML.aspx",
+    "2026-10-06"
    ]
   ]
  },
  "fx": {
   "asOf": {
-   "ecb": "2026-10-01",
-   "fedH10": "2026-09-25"
+   "ecb": "2026-10-05",
+   "fedH10": "2026-09-25",
+   "vcb": "2026-10-06"
   },
   "jpyPer": {
-   "EUR": 178.49,
-   "USD": 157.9837,
-   "CAD": 110.8978,
-   "GBP": 209.0708,
-   "AUD": 109.8062,
-   "SGD": 123.4371,
-   "HKD": 20.1324,
-   "TWD": 4.9397
-  }
+   "EUR": 177.28,
+   "USD": 158.2292,
+   "CAD": 111.0151,
+   "GBP": 209.254,
+   "AUD": 110.1323,
+   "SGD": 123.5917,
+   "HKD": 20.1626,
+   "TWD": 4.9397,
+   "CNY": 23.6002,
+   "KRW": 0.11773,
+   "THB": 4.6959,
+   "PHP": 2.5247,
+   "NZD": 88.4719,
+   "VND": 0.006259
+  },
+  "note": "台湾ドル以外は欧州中央銀行の参照レート（2026-10-05）から円に換算。台湾ドルは米連邦準備制度H.10（2026-09-25）、ベトナム・ドンはベトコムバンクの送金レート（2026-10-06）"
  },
  "methods": {
   "ems": {
@@ -1473,57 +1541,138 @@
    "name": "アメリカ",
    "zone": 4,
    "cur": "USD",
-   "lithium": "conditional"
+   "lithium": {
+    "air": true,
+    "sea": false
+   }
   },
   "CA": {
    "name": "カナダ",
    "zone": 3,
    "cur": "CAD",
-   "lithium": "conditional"
+   "lithium": {
+    "air": true,
+    "sea": true
+   }
   },
   "GB": {
    "name": "イギリス",
    "zone": 3,
    "cur": "GBP",
-   "lithium": "prohibited"
+   "lithium": {
+    "air": false,
+    "sea": true
+   }
   },
   "DE": {
    "name": "ドイツ",
    "zone": 3,
    "cur": "EUR",
-   "lithium": "prohibited",
+   "lithium": {
+    "air": false,
+    "sea": false
+   },
    "vat": 0.19
   },
   "FR": {
    "name": "フランス",
    "zone": 3,
    "cur": "EUR",
-   "lithium": "conditional",
+   "lithium": {
+    "air": true,
+    "sea": false
+   },
    "vat": 0.2
   },
   "AU": {
    "name": "オーストラリア",
    "zone": 3,
    "cur": "AUD",
-   "lithium": "conditional"
+   "lithium": {
+    "air": true,
+    "sea": false
+   }
   },
   "SG": {
    "name": "シンガポール",
    "zone": 2,
    "cur": "SGD",
-   "lithium": "conditional"
+   "lithium": {
+    "air": true,
+    "sea": true
+   }
   },
   "HK": {
    "name": "香港",
    "zone": 2,
    "cur": "HKD",
-   "lithium": "conditional"
+   "lithium": {
+    "air": true,
+    "sea": true
+   }
   },
   "TW": {
    "name": "台湾",
    "zone": 1,
    "cur": "TWD",
-   "lithium": "conditional"
+   "lithium": {
+    "air": true,
+    "sea": true
+   }
+  },
+  "CN": {
+   "name": "中国",
+   "zone": 1,
+   "cur": "CNY",
+   "lithium": {
+    "air": true,
+    "sea": true
+   }
+  },
+  "KR": {
+   "name": "韓国",
+   "zone": 1,
+   "cur": "KRW",
+   "lithium": {
+    "air": true,
+    "sea": true
+   }
+  },
+  "TH": {
+   "name": "タイ",
+   "zone": 2,
+   "cur": "THB",
+   "lithium": {
+    "air": false,
+    "sea": false
+   }
+  },
+  "VN": {
+   "name": "ベトナム",
+   "zone": 2,
+   "cur": "VND",
+   "lithium": {
+    "air": true,
+    "sea": true
+   }
+  },
+  "PH": {
+   "name": "フィリピン",
+   "zone": 2,
+   "cur": "PHP",
+   "lithium": {
+    "air": true,
+    "sea": true
+   }
+  },
+  "NZ": {
+   "name": "ニュージーランド",
+   "zone": 3,
+   "cur": "NZD",
+   "lithium": {
+    "air": true,
+    "sea": false
+   }
   }
  },
  "standardDays": {
@@ -1628,5 +1777,10 @@
     "parcel_air": 12
    }
   }
+ },
+ "lithiumSource": {
+  "url": "https://www.post.japanpost.jp/cgi-kokusai/p05-06.html",
+  "verifiedAt": "2026-10-06",
+  "note": "航空郵便物・EMSに包有するリチウム電池を受け付ける国の一覧と、船便郵便物の一覧は別。英国は船便だけ、ドイツとタイはどちらにも入っていない"
  }
 }
