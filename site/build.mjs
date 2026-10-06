@@ -24,18 +24,34 @@ const CATEGORIES = {
   towns: {
     name: "駅前の店と暮らし",
     lead: "全国1,882駅の徒歩圏にある店や施設を数えたデータから、地域ごとの違いを見ます。",
+    intro: [
+      "対象は、住みやすさ駅前スコアで扱っている全国1,882駅です。店や施設の場所はOpenStreetMap（2026年9月28日時点）から取り、駅の代表地点からの直線距離で数えています。駅の乗降客数と地価は国土数値情報、住んでいる人は国勢調査（2020年）、家賃の目安は住宅・土地統計調査（2023年）を使っています。",
+      "チェーン店は、地図に登録された名前とブランドの欄で見分けています。地図の登録には漏れがあり、駅ビルの中の店は数えられていないこともあります。そのため、どの記事も「全国で何軒」より「駅にいちばん近いのはどこか」「地域でどう違うか」を見るようにしています。",
+    ],
   },
   lockers: {
     name: "駅で荷物を預ける",
     lead: "全国のコインロッカーの設置場所・サイズ・料金を集めたデータから分かったことです。",
+    intro: [
+      "2026年7月から9月まで公開していたコインロッカー検索のために集めた、427駅・818か所のロッカーのデータ（2026年9月17日時点）を使っています。85%はJR東日本系のマルチエキューブのロッカーで、ほかに東京メトロ、東急、京王、西武などの公開情報があります。",
+      "スーツケースが入るかどうかは、サイズの名前ではなく、事業者が公開している内寸で判定しています。同じ「Lサイズ」でも事業者によって高さが倍近く違うためです。台数は事業者が公開している値をそのまま足したもので、実際の扉の数と一致するかは確かめられていないため、比率として読んでください。",
+    ],
   },
   shopping: {
     name: "日本の商品を海外へ送る",
     lead: "購入代行5社の料金表と各国の送料・関税の決まりを突き合わせて計算しています。",
+    intro: [
+      "海外から日本の商品を買う人向けの英語の計算機、Japan Proxy Cost Calculatorのデータを使っています。購入代行5社（Buyee、ZenMarket、Neokyo、FROM JAPAN、Doorzo）の料金表と規定、日本郵便の料金表、9か国・地域の税の決まりを、それぞれの公式の情報で確かめています。",
+      "日本から家族や友人に荷物を送る人、海外に住む人の買い物を手伝う人に向けて書いています。料金と税の決まりはよく変わるので、各記事の冒頭に、いつ確かめた数字かを書いています。",
+    ],
   },
   notes: {
     name: "作り方とデータの話",
     lead: "このサイトで使っている公開データの扱い方と、個人開発の記録です。",
+    intro: [
+      "ほかの記事の数字を出すときに使った公開データの特徴と、集計でつまずいたこと、閉じたツールの振り返りをまとめています。",
+      "同じデータで自分でも数えてみたい人や、個人で公開データを使ったツールを作ろうとしている人の参考になるように、うまくいかなかったことも書いています。",
+    ],
   },
 };
 
@@ -165,7 +181,7 @@ function loadArticles() {
     .map((f) => {
       const slug = f.replace(/\.md$/, "");
       const { meta, body } = parseFile(join(dir, f));
-      for (const key of ["title", "description", "category", "published", "dataAsOf", "sources"]) {
+      for (const key of ["title", "description", "finding", "category", "published", "dataAsOf", "sources"]) {
         if (!meta[key]) throw new Error(`${f}: ${key} がありません`);
       }
       if (!CATEGORIES[meta.category]) throw new Error(`${f}: 知らないカテゴリ ${meta.category}`);
@@ -192,7 +208,7 @@ function articlePage(a, all) {
     .join("");
   const body = `
 <article class="article">
-  <p class="crumbs"><a href="/articles/">記事一覧</a> ／ <a href="/articles/#${a.category}">${esc(cat.name)}</a></p>
+  <p class="crumbs"><a href="/articles/">記事一覧</a> ／ <a href="${topicPath(a.category)}">${esc(cat.name)}</a></p>
   <h1>${esc(a.title)}</h1>
   <p class="article-meta">公開 ${fmtDate(a.published)}${a.updated ? `（更新 ${fmtDate(a.updated)}）` : ""}　データの時点: ${esc(a.dataAsOf)}</p>
   <div class="prose">
@@ -232,12 +248,55 @@ function categorySections(articles, { headingLevel }) {
       const items = articles.filter((a) => a.category === key);
       if (!items.length) return "";
       return `<section class="category" id="${key}">
-  <h${headingLevel}>${esc(cat.name)}</h${headingLevel}>
+  <h${headingLevel}><a href="${topicPath(key)}">${esc(cat.name)}</a></h${headingLevel}>
   <p class="category-lead">${esc(cat.lead)}</p>
   <ul class="article-list">${items.map(articleItem).join("")}</ul>
 </section>`;
     })
     .join("\n");
+}
+
+const topicPath = (key) => `/topics/${key}/`;
+
+// 記事の「分かったこと」1行と、そこへのリンク
+function findingItem(a) {
+  return `<li><a href="${a.path}">${esc(a.finding)}</a></li>`;
+}
+
+// テーマごとのページ。テーマの説明、そのテーマで分かったことの一覧、使ったデータ、記事の一覧
+function topicPage(key, articles) {
+  const cat = CATEGORIES[key];
+  const items = articles.filter((a) => a.category === key);
+  const sources = [...new Map(items.flatMap((a) => a.sources).map((s) => {
+    const [label, url] = s.split(" | ");
+    return [label.replace(/（この記事の計算に使ったツール）$/, ""), url];
+  })).entries()];
+  const lastDate = items.map((a) => a.updated || a.published).sort().at(-1);
+  const body = `
+<article class="article topic">
+  <p class="crumbs"><a href="/articles/">記事一覧</a></p>
+  <h1>${esc(cat.name)}</h1>
+  <p class="article-meta">記事${items.length}本　最終更新 ${fmtDate(lastDate)}</p>
+  <div class="prose">
+    ${cat.intro.map((p) => `<p>${esc(p)}</p>`).join("")}
+    <h2>このテーマで分かったこと</h2>
+    <ul class="findings">${items.map(findingItem).join("")}</ul>
+  </div>
+  <section class="category">
+    <h2>記事</h2>
+    <ul class="article-list">${items.map(articleItem).join("")}</ul>
+  </section>
+  <aside class="sources">
+    <h2>このテーマで使ったデータ</h2>
+    <ul>${sources.map(([label, url]) => `<li>${url ? `<a href="${esc(url)}" rel="noopener">${esc(label)}</a>` : esc(label)}</li>`).join("")}</ul>
+  </aside>
+</article>`;
+  return layout({
+    title: cat.name,
+    description: `${cat.lead}${items.slice(0, 2).map((a) => a.finding).join("。")}。記事${items.length}本。`,
+    path: topicPath(key),
+    body,
+  });
 }
 
 function articlesIndex(articles) {
@@ -267,6 +326,16 @@ function homePage(articles) {
 </section>
 
 <section>
+  <h2>集計して分かったこと</h2>
+  <p>テーマごとに、新しい記事から2本ずつ。どの数字も、リンク先の記事に数え方と限界を書いています。</p>
+  ${Object.entries(CATEGORIES)
+    .filter(([key]) => key !== "notes" && articles.some((a) => a.category === key))
+    .map(([key, cat]) => `<h3><a href="${topicPath(key)}">${esc(cat.name)}</a></h3>
+  <ul class="findings">${articles.filter((a) => a.category === key).slice(0, 2).map(findingItem).join("")}</ul>`)
+    .join("")}
+</section>
+
+<section>
   <h2>新しい記事</h2>
   <ul class="article-list">${latest.map(articleItem).join("")}</ul>
   <p class="more"><a href="/articles/">記事一覧（${articles.length}本）を見る</a></p>
@@ -279,7 +348,7 @@ function homePage(articles) {
       .filter(([key]) => articles.some((a) => a.category === key))
       .map(
         ([key, cat]) =>
-          `<li><a href="/articles/#${key}"><span class="topic-name">${esc(cat.name)}</span><span class="topic-count">${articles.filter((a) => a.category === key).length}本</span></a><p>${esc(cat.lead)}</p></li>`,
+          `<li><a href="${topicPath(key)}"><span class="topic-name">${esc(cat.name)}</span><span class="topic-count">${articles.filter((a) => a.category === key).length}本</span></a><p>${esc(cat.lead)}</p></li>`,
       )
       .join("")}
   </ul>
@@ -354,11 +423,13 @@ cpSync(join(ROOT, "public"), DIST, { recursive: true });
 write("/", homePage(articles));
 write("/articles/", articlesIndex(articles));
 for (const a of articles) write(a.path, articlePage(a, articles));
+const topicKeys = Object.keys(CATEGORIES).filter((key) => articles.some((a) => a.category === key));
+for (const key of topicKeys) write(topicPath(key), topicPage(key, articles));
 write("/about/", staticPage("about", "/about/"));
 write("/privacy/", staticPage("privacy", "/privacy/"));
 write("/404.html", notFoundPage());
 
-const urls = ["/", "/articles/", "/about/", "/privacy/", ...articles.map((a) => a.path)];
+const urls = ["/", "/articles/", ...topicKeys.map(topicPath), "/about/", "/privacy/", ...articles.map((a) => a.path)];
 writeFileSync(
   join(DIST, "sitemap.xml"),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
