@@ -14,6 +14,7 @@ import { fileURLToPath } from "node:url";
 import { Marked } from "marked";
 import { toolBody, toolHero, TOOL_PATH, DEFAULT_INPUT } from "./src/shipping-tool-page.mjs";
 import { calculate, yen } from "./src/shipping-calc.mjs";
+import { renderTilemap } from "./src/tilemap.mjs";
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DIST = join(ROOT, "dist");
@@ -114,10 +115,17 @@ function renderBars(text) {
   return `<figure class="bars"><figcaption>${esc(caption)}</figcaption><ul>${items}</ul></figure>\n`;
 }
 
+// 都道府県ごとに1位のチェーン（記事のタイル地図に使う）
+const PREF_TOP = JSON.parse(readFileSync(join(ROOT, "data", "pref-top.json"), "utf8"));
+
 const md = new Marked({
   renderer: {
     code({ text, lang }) {
       if (lang === "bars") return renderBars(text);
+      if (lang === "tilemap") {
+        const [key, caption] = text.trim().split("|").map((x) => x.trim());
+        return renderTilemap(PREF_TOP, key, caption);
+      }
       return `<pre><code>${esc(text)}</code></pre>\n`;
     },
     table(token) {

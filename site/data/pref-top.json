@@ -1,0 +1,2170 @@
+{
+ "_meta": {
+  "note": "都道府県ごとに、駅にいちばん近いチェーンとして最も多く数えられたチェーン（同数は tie）。2026-10-06に OpenStreetMap（2026-09-28）を数え直した値。建物（way）として登録された店も含む",
+  "dataAsOf": "2026-09-28",
+  "countedAt": "2026-10-06"
+ },
+ "conv": {
+  "東京都": {
+   "stations": 509,
+   "found": 508,
+   "top": "ファミリーマート",
+   "tie": null,
+   "topCount": 179
+  },
+  "神奈川県": {
+   "stations": 209,
+   "found": 209,
+   "top": "ファミリーマート",
+   "tie": null,
+   "topCount": 69
+  },
+  "埼玉県": {
+   "stations": 123,
+   "found": 123,
+   "top": "ファミリーマート",
+   "tie": null,
+   "topCount": 54
+  },
+  "千葉県": {
+   "stations": 129,
+   "found": 129,
+   "top": "ファミリーマート",
+   "tie": null,
+   "topCount": 35
+  },
+  "宮城県": {
+   "stations": 13,
+   "found": 13,
+   "top": "ファミリーマート",
+   "tie": null,
+   "topCount": 6
+  },
+  "静岡県": {
+   "stations": 19,
+   "found": 19,
+   "top": "ファミリーマート",
+   "tie": null,
+   "topCount": 9
+  },
+  "栃木県": {
+   "stations": 7,
+   "found": 7,
+   "top": "セブン-イレブン",
+   "tie": null,
+   "topCount": 3
+  },
+  "山梨県": {
+   "stations": 6,
+   "found": 5,
+   "top": "NewDays・KIOSK",
+   "tie": null,
+   "topCount": 3
+  },
+  "大阪府": {
+   "stations": 266,
+   "found": 266,
+   "top": "ファミリーマート",
+   "tie": null,
+   "topCount": 101
+  },
+  "茨城県": {
+   "stations": 15,
+   "found": 15,
+   "top": "NewDays・KIOSK",
+   "tie": null,
+   "topCount": 6
+  },
+  "京都府": {
+   "stations": 64,
+   "found": 64,
+   "top": "ファミリーマート",
+   "tie": null,
+   "topCount": 22
+  },
+  "群馬県": {
+   "stations": 6,
+   "found": 6,
+   "top": "NewDays・KIOSK",
+   "tie": null,
+   "topCount": 3
+  },
+  "青森県": {
+   "stations": 5,
+   "found": 5,
+   "top": "NewDays・KIOSK",
+   "tie": null,
+   "topCount": 4
+  },
+  "福島県": {
+   "stations": 4,
+   "found": 4,
+   "top": "NewDays・KIOSK",
+   "tie": null,
+   "topCount": 4
+  },
+  "長野県": {
+   "stations": 5,
+   "found": 5,
+   "top": "セブン-イレブン",
+   "tie": null,
+   "topCount": 3
+  },
+  "福岡県": {
+   "stations": 69,
+   "found": 69,
+   "top": "ファミリーマート",
+   "tie": null,
+   "topCount": 30
+  },
+  "新潟県": {
+   "stations": 5,
+   "found": 5,
+   "top": "ローソン",
+   "tie": null,
+   "topCount": 2
+  },
+  "北海道": {
+   "stations": 57,
+   "found": 57,
+   "top": "ローソン",
+   "tie": null,
+   "topCount": 23
+  },
+  "岩手県": {
+   "stations": 4,
+   "found": 4,
+   "top": "NewDays・KIOSK",
+   "tie": null,
+   "topCount": 2
+  },
+  "山形県": {
+   "stations": 5,
+   "found": 4,
+   "top": "NewDays・KIOSK",
+   "tie": null,
+   "topCount": 4
+  },
+  "兵庫県": {
+   "stations": 105,
+   "found": 105,
+   "top": "セブン-イレブン",
+   "tie": null,
+   "topCount": 45
+  },
+  "秋田県": {
+   "stations": 3,
+   "found": 3,
+   "top": "NewDays・KIOSK",
+   "tie": null,
+   "topCount": 2
+  },
+  "愛知県": {
+   "stations": 120,
+   "found": 119,
+   "top": "ファミリーマート",
+   "tie": null,
+   "topCount": 61
+  },
+  "広島県": {
+   "stations": 19,
+   "found": 19,
+   "top": "セブン-イレブン",
+   "tie": null,
+   "topCount": 9
+  },
+  "岡山県": {
+   "stations": 4,
+   "found": 4,
+   "top": "セブン-イレブン",
+   "tie": null,
+   "topCount": 2
+  },
+  "岐阜県": {
+   "stations": 6,
+   "found": 6,
+   "top": "ファミリーマート",
+   "tie": null,
+   "topCount": 4
+  },
+  "滋賀県": {
+   "stations": 18,
+   "found": 18,
+   "top": "セブン-イレブン",
+   "tie": null,
+   "topCount": 15
+  },
+  "奈良県": {
+   "stations": 23,
+   "found": 23,
+   "top": "セブン-イレブン",
+   "tie": null,
+   "topCount": 10
+  },
+  "富山県": {
+   "stations": 3,
+   "found": 3,
+   "top": "セブン-イレブン",
+   "tie": null,
+   "topCount": 2
+  },
+  "三重県": {
+   "stations": 8,
+   "found": 8,
+   "top": "ファミリーマート",
+   "tie": null,
+   "topCount": 7
+  },
+  "石川県": {
+   "stations": 3,
+   "found": 3,
+   "top": "セブン-イレブン",
+   "tie": null,
+   "topCount": 3
+  },
+  "鹿児島県": {
+   "stations": 3,
+   "found": 3,
+   "top": "ファミリーマート",
+   "tie": null,
+   "topCount": 2
+  },
+  "大分県": {
+   "stations": 3,
+   "found": 3,
+   "top": "ファミリーマート",
+   "tie": null,
+   "topCount": 2
+  },
+  "和歌山県": {
+   "stations": 3,
+   "found": 3,
+   "top": null,
+   "tie": [
+    "セブン-イレブン",
+    "アンスリー",
+    "ファミリーマート"
+   ],
+   "topCount": 1
+  },
+  "熊本県": {
+   "stations": 3,
+   "found": 3,
+   "top": "セブン-イレブン",
+   "tie": null,
+   "topCount": 2
+  },
+  "福井県": {
+   "stations": 3,
+   "found": 3,
+   "top": "セブン-イレブン",
+   "tie": null,
+   "topCount": 2
+  },
+  "香川県": {
+   "stations": 3,
+   "found": 3,
+   "top": "セブン-イレブン",
+   "tie": null,
+   "topCount": 3
+  },
+  "愛媛県": {
+   "stations": 3,
+   "found": 3,
+   "top": "セブン-イレブン",
+   "tie": null,
+   "topCount": 2
+  },
+  "佐賀県": {
+   "stations": 3,
+   "found": 3,
+   "top": "ファミリーマート",
+   "tie": null,
+   "topCount": 2
+  },
+  "長崎県": {
+   "stations": 3,
+   "found": 3,
+   "top": "ファミリーマート",
+   "tie": null,
+   "topCount": 2
+  },
+  "山口県": {
+   "stations": 5,
+   "found": 5,
+   "top": "セブン-イレブン",
+   "tie": null,
+   "topCount": 4
+  },
+  "沖縄県": {
+   "stations": 3,
+   "found": 3,
+   "top": "ファミリーマート",
+   "tie": null,
+   "topCount": 3
+  },
+  "宮崎県": {
+   "stations": 3,
+   "found": 3,
+   "top": "ローソン",
+   "tie": null,
+   "topCount": 2
+  },
+  "徳島県": {
+   "stations": 3,
+   "found": 3,
+   "top": null,
+   "tie": [
+    "セブン-イレブン",
+    "ローソン",
+    "ファミリーマート"
+   ],
+   "topCount": 1
+  },
+  "鳥取県": {
+   "stations": 3,
+   "found": 3,
+   "top": "セブン-イレブン",
+   "tie": null,
+   "topCount": 2
+  },
+  "高知県": {
+   "stations": 3,
+   "found": 3,
+   "top": null,
+   "tie": [
+    "セブン-イレブン",
+    "ファミリーマート",
+    "ローソン"
+   ],
+   "topCount": 1
+  },
+  "島根県": {
+   "stations": 3,
+   "found": 3,
+   "top": "ローソン",
+   "tie": null,
+   "topCount": 2
+  }
+ },
+ "drug": {
+  "東京都": {
+   "stations": 509,
+   "found": 503,
+   "top": "マツモトキヨシ",
+   "tie": null,
+   "topCount": 87
+  },
+  "神奈川県": {
+   "stations": 209,
+   "found": 199,
+   "top": "クリエイトSD",
+   "tie": null,
+   "topCount": 52
+  },
+  "埼玉県": {
+   "stations": 123,
+   "found": 116,
+   "top": "マツモトキヨシ",
+   "tie": null,
+   "topCount": 36
+  },
+  "千葉県": {
+   "stations": 129,
+   "found": 123,
+   "top": "マツモトキヨシ",
+   "tie": null,
+   "topCount": 54
+  },
+  "宮城県": {
+   "stations": 13,
+   "found": 13,
+   "top": "ツルハドラッグ",
+   "tie": null,
+   "topCount": 5
+  },
+  "静岡県": {
+   "stations": 19,
+   "found": 16,
+   "top": "ウエルシア",
+   "tie": null,
+   "topCount": 7
+  },
+  "栃木県": {
+   "stations": 7,
+   "found": 6,
+   "top": "クスリのアオキ",
+   "tie": null,
+   "topCount": 2
+  },
+  "山梨県": {
+   "stations": 6,
+   "found": 4,
+   "top": "ウエルシア",
+   "tie": null,
+   "topCount": 3
+  },
+  "大阪府": {
+   "stations": 266,
+   "found": 261,
+   "top": "スギ薬局",
+   "tie": null,
+   "topCount": 62
+  },
+  "茨城県": {
+   "stations": 15,
+   "found": 12,
+   "top": "ツルハドラッグ",
+   "tie": null,
+   "topCount": 3
+  },
+  "京都府": {
+   "stations": 64,
+   "found": 62,
+   "top": "スギ薬局",
+   "tie": null,
+   "topCount": 14
+  },
+  "群馬県": {
+   "stations": 6,
+   "found": 6,
+   "top": "クスリのアオキ",
+   "tie": null,
+   "topCount": 3
+  },
+  "青森県": {
+   "stations": 5,
+   "found": 4,
+   "top": "ツルハドラッグ",
+   "tie": null,
+   "topCount": 2
+  },
+  "福島県": {
+   "stations": 4,
+   "found": 3,
+   "top": "マツモトキヨシ",
+   "tie": null,
+   "topCount": 2
+  },
+  "長野県": {
+   "stations": 5,
+   "found": 4,
+   "top": null,
+   "tie": [
+    "マツモトキヨシ",
+    "クスリのアオキ"
+   ],
+   "topCount": 2
+  },
+  "福岡県": {
+   "stations": 69,
+   "found": 59,
+   "top": "マツモトキヨシ",
+   "tie": null,
+   "topCount": 17
+  },
+  "新潟県": {
+   "stations": 5,
+   "found": 5,
+   "top": "ココカラファイン",
+   "tie": null,
+   "topCount": 2
+  },
+  "北海道": {
+   "stations": 57,
+   "found": 57,
+   "top": "ツルハドラッグ",
+   "tie": null,
+   "topCount": 29
+  },
+  "岩手県": {
+   "stations": 4,
+   "found": 4,
+   "top": null,
+   "tie": [
+    "ツルハドラッグ",
+    "薬王堂"
+   ],
+   "topCount": 2
+  },
+  "山形県": {
+   "stations": 5,
+   "found": 4,
+   "top": "ツルハドラッグ",
+   "tie": null,
+   "topCount": 2
+  },
+  "兵庫県": {
+   "stations": 105,
+   "found": 94,
+   "top": "スギ薬局",
+   "tie": null,
+   "topCount": 18
+  },
+  "秋田県": {
+   "stations": 3,
+   "found": 3,
+   "top": null,
+   "tie": [
+    "マツモトキヨシ",
+    "薬王堂",
+    "ツルハドラッグ"
+   ],
+   "topCount": 1
+  },
+  "愛知県": {
+   "stations": 120,
+   "found": 112,
+   "top": "スギ薬局",
+   "tie": null,
+   "topCount": 41
+  },
+  "広島県": {
+   "stations": 19,
+   "found": 17,
+   "top": "ウォンツ",
+   "tie": null,
+   "topCount": 8
+  },
+  "岡山県": {
+   "stations": 4,
+   "found": 2,
+   "top": "マツモトキヨシ",
+   "tie": null,
+   "topCount": 2
+  },
+  "岐阜県": {
+   "stations": 6,
+   "found": 5,
+   "top": "スギ薬局",
+   "tie": null,
+   "topCount": 2
+  },
+  "滋賀県": {
+   "stations": 18,
+   "found": 16,
+   "top": "スギ薬局",
+   "tie": null,
+   "topCount": 6
+  },
+  "奈良県": {
+   "stations": 23,
+   "found": 22,
+   "top": null,
+   "tie": [
+    "ウエルシア",
+    "スギ薬局"
+   ],
+   "topCount": 5
+  },
+  "富山県": {
+   "stations": 3,
+   "found": 3,
+   "top": "クスリのアオキ",
+   "tie": null,
+   "topCount": 2
+  },
+  "三重県": {
+   "stations": 8,
+   "found": 7,
+   "top": "スギ薬局",
+   "tie": null,
+   "topCount": 4
+  },
+  "石川県": {
+   "stations": 3,
+   "found": 3,
+   "top": null,
+   "tie": [
+    "マツモトキヨシ",
+    "ゲンキー",
+    "クスリのアオキ"
+   ],
+   "topCount": 1
+  },
+  "鹿児島県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "ドラッグイレブン",
+    "マツモトキヨシ"
+   ],
+   "topCount": 1
+  },
+  "大分県": {
+   "stations": 3,
+   "found": 1,
+   "top": "ドラッグイレブン",
+   "tie": null,
+   "topCount": 1
+  },
+  "和歌山県": {
+   "stations": 3,
+   "found": 3,
+   "top": null,
+   "tie": [
+    "コクミン",
+    "サンドラッグ",
+    "コスモス"
+   ],
+   "topCount": 1
+  },
+  "熊本県": {
+   "stations": 3,
+   "found": 2,
+   "top": "コスモス",
+   "tie": null,
+   "topCount": 2
+  },
+  "福井県": {
+   "stations": 3,
+   "found": 3,
+   "top": "スギ薬局",
+   "tie": null,
+   "topCount": 2
+  },
+  "香川県": {
+   "stations": 3,
+   "found": 3,
+   "top": "ココカラファイン",
+   "tie": null,
+   "topCount": 3
+  },
+  "愛媛県": {
+   "stations": 3,
+   "found": 3,
+   "top": "ココカラファイン",
+   "tie": null,
+   "topCount": 2
+  },
+  "佐賀県": {
+   "stations": 3,
+   "found": 0,
+   "top": null,
+   "tie": null,
+   "topCount": 0
+  },
+  "長崎県": {
+   "stations": 3,
+   "found": 0,
+   "top": null,
+   "tie": null,
+   "topCount": 0
+  },
+  "山口県": {
+   "stations": 5,
+   "found": 4,
+   "top": "コスモス",
+   "tie": null,
+   "topCount": 2
+  },
+  "沖縄県": {
+   "stations": 3,
+   "found": 2,
+   "top": "ダイコクドラッグ",
+   "tie": null,
+   "topCount": 2
+  },
+  "宮崎県": {
+   "stations": 3,
+   "found": 3,
+   "top": null,
+   "tie": [
+    "ドラッグイレブン",
+    "マツモトキヨシ",
+    "コスモス"
+   ],
+   "topCount": 1
+  },
+  "徳島県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "キリン堂",
+    "コスモス"
+   ],
+   "topCount": 1
+  },
+  "鳥取県": {
+   "stations": 3,
+   "found": 1,
+   "top": "コスモス",
+   "tie": null,
+   "topCount": 1
+  },
+  "高知県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "セイムス",
+    "ココカラファイン"
+   ],
+   "topCount": 1
+  },
+  "島根県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "コスモス",
+    "ココカラファイン"
+   ],
+   "topCount": 1
+  }
+ },
+ "variety": {
+  "東京都": {
+   "stations": 509,
+   "found": 460,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 226
+  },
+  "神奈川県": {
+   "stations": 209,
+   "found": 167,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 100
+  },
+  "埼玉県": {
+   "stations": 123,
+   "found": 101,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 60
+  },
+  "千葉県": {
+   "stations": 129,
+   "found": 94,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 64
+  },
+  "宮城県": {
+   "stations": 13,
+   "found": 13,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 7
+  },
+  "静岡県": {
+   "stations": 19,
+   "found": 15,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 7
+  },
+  "栃木県": {
+   "stations": 7,
+   "found": 4,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 2
+  },
+  "山梨県": {
+   "stations": 6,
+   "found": 4,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 2
+  },
+  "大阪府": {
+   "stations": 266,
+   "found": 249,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 116
+  },
+  "茨城県": {
+   "stations": 15,
+   "found": 7,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 6
+  },
+  "京都府": {
+   "stations": 64,
+   "found": 53,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 31
+  },
+  "群馬県": {
+   "stations": 6,
+   "found": 6,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 3
+  },
+  "青森県": {
+   "stations": 5,
+   "found": 4,
+   "top": null,
+   "tie": [
+    "セリア",
+    "ダイソー"
+   ],
+   "topCount": 2
+  },
+  "福島県": {
+   "stations": 4,
+   "found": 2,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 2
+  },
+  "長野県": {
+   "stations": 5,
+   "found": 4,
+   "top": null,
+   "tie": [
+    "セリア",
+    "ダイソー"
+   ],
+   "topCount": 2
+  },
+  "福岡県": {
+   "stations": 69,
+   "found": 52,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 22
+  },
+  "新潟県": {
+   "stations": 5,
+   "found": 3,
+   "top": null,
+   "tie": [
+    "キャンドゥ",
+    "セリア",
+    "ダイソー"
+   ],
+   "topCount": 1
+  },
+  "北海道": {
+   "stations": 57,
+   "found": 53,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 35
+  },
+  "岩手県": {
+   "stations": 4,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "ダイソー",
+    "キャンドゥ"
+   ],
+   "topCount": 1
+  },
+  "山形県": {
+   "stations": 5,
+   "found": 4,
+   "top": null,
+   "tie": [
+    "ダイソー",
+    "セリア"
+   ],
+   "topCount": 2
+  },
+  "兵庫県": {
+   "stations": 105,
+   "found": 82,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 37
+  },
+  "秋田県": {
+   "stations": 3,
+   "found": 3,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 2
+  },
+  "愛知県": {
+   "stations": 120,
+   "found": 81,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 57
+  },
+  "広島県": {
+   "stations": 19,
+   "found": 11,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 8
+  },
+  "岡山県": {
+   "stations": 4,
+   "found": 4,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 2
+  },
+  "岐阜県": {
+   "stations": 6,
+   "found": 3,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 2
+  },
+  "滋賀県": {
+   "stations": 18,
+   "found": 10,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 6
+  },
+  "奈良県": {
+   "stations": 23,
+   "found": 21,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 16
+  },
+  "富山県": {
+   "stations": 3,
+   "found": 1,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 1
+  },
+  "三重県": {
+   "stations": 8,
+   "found": 5,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 4
+  },
+  "石川県": {
+   "stations": 3,
+   "found": 3,
+   "top": null,
+   "tie": [
+    "キャンドゥ",
+    "ダイソー",
+    "セリア"
+   ],
+   "topCount": 1
+  },
+  "鹿児島県": {
+   "stations": 3,
+   "found": 2,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 2
+  },
+  "大分県": {
+   "stations": 3,
+   "found": 3,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 2
+  },
+  "和歌山県": {
+   "stations": 3,
+   "found": 3,
+   "top": "セリア",
+   "tie": null,
+   "topCount": 2
+  },
+  "熊本県": {
+   "stations": 3,
+   "found": 1,
+   "top": "キャンドゥ",
+   "tie": null,
+   "topCount": 1
+  },
+  "福井県": {
+   "stations": 3,
+   "found": 1,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 1
+  },
+  "香川県": {
+   "stations": 3,
+   "found": 3,
+   "top": "キャンドゥ",
+   "tie": null,
+   "topCount": 2
+  },
+  "愛媛県": {
+   "stations": 3,
+   "found": 3,
+   "top": null,
+   "tie": [
+    "セリア",
+    "ダイソー",
+    "キャンドゥ"
+   ],
+   "topCount": 1
+  },
+  "佐賀県": {
+   "stations": 3,
+   "found": 1,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 1
+  },
+  "長崎県": {
+   "stations": 3,
+   "found": 1,
+   "top": "キャンドゥ",
+   "tie": null,
+   "topCount": 1
+  },
+  "山口県": {
+   "stations": 5,
+   "found": 2,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 2
+  },
+  "沖縄県": {
+   "stations": 3,
+   "found": 2,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 2
+  },
+  "宮崎県": {
+   "stations": 3,
+   "found": 3,
+   "top": "セリア",
+   "tie": null,
+   "topCount": 2
+  },
+  "徳島県": {
+   "stations": 3,
+   "found": 2,
+   "top": "セリア",
+   "tie": null,
+   "topCount": 2
+  },
+  "鳥取県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "ダイソー",
+    "セリア"
+   ],
+   "topCount": 1
+  },
+  "高知県": {
+   "stations": 3,
+   "found": 0,
+   "top": null,
+   "tie": null,
+   "topCount": 0
+  },
+  "島根県": {
+   "stations": 3,
+   "found": 1,
+   "top": "ダイソー",
+   "tie": null,
+   "topCount": 1
+  }
+ },
+ "cafe": {
+  "東京都": {
+   "stations": 509,
+   "found": 492,
+   "top": "ドトール",
+   "tie": null,
+   "topCount": 174
+  },
+  "神奈川県": {
+   "stations": 209,
+   "found": 174,
+   "top": "ドトール",
+   "tie": null,
+   "topCount": 61
+  },
+  "埼玉県": {
+   "stations": 123,
+   "found": 98,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 35
+  },
+  "千葉県": {
+   "stations": 129,
+   "found": 98,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 24
+  },
+  "宮城県": {
+   "stations": 13,
+   "found": 10,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 5
+  },
+  "静岡県": {
+   "stations": 19,
+   "found": 15,
+   "top": "ドトール",
+   "tie": null,
+   "topCount": 5
+  },
+  "栃木県": {
+   "stations": 7,
+   "found": 3,
+   "top": null,
+   "tie": [
+    "BECK'S COFFEE SHOP",
+    "PRONTO",
+    "スターバックス"
+   ],
+   "topCount": 1
+  },
+  "山梨県": {
+   "stations": 6,
+   "found": 1,
+   "top": "タリーズ",
+   "tie": null,
+   "topCount": 1
+  },
+  "大阪府": {
+   "stations": 266,
+   "found": 230,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 63
+  },
+  "茨城県": {
+   "stations": 15,
+   "found": 7,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 4
+  },
+  "京都府": {
+   "stations": 64,
+   "found": 53,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 19
+  },
+  "群馬県": {
+   "stations": 6,
+   "found": 5,
+   "top": null,
+   "tie": [
+    "BECK'S COFFEE SHOP",
+    "PRONTO",
+    "タリーズ",
+    "スターバックス",
+    "コメダ珈琲店"
+   ],
+   "topCount": 1
+  },
+  "青森県": {
+   "stations": 5,
+   "found": 4,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 3
+  },
+  "福島県": {
+   "stations": 4,
+   "found": 3,
+   "top": "ドトール",
+   "tie": null,
+   "topCount": 2
+  },
+  "長野県": {
+   "stations": 5,
+   "found": 4,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 2
+  },
+  "福岡県": {
+   "stations": 69,
+   "found": 48,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 23
+  },
+  "新潟県": {
+   "stations": 5,
+   "found": 3,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 2
+  },
+  "北海道": {
+   "stations": 57,
+   "found": 43,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 19
+  },
+  "岩手県": {
+   "stations": 4,
+   "found": 1,
+   "top": "PRONTO",
+   "tie": null,
+   "topCount": 1
+  },
+  "山形県": {
+   "stations": 5,
+   "found": 3,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 2
+  },
+  "兵庫県": {
+   "stations": 105,
+   "found": 80,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 27
+  },
+  "秋田県": {
+   "stations": 3,
+   "found": 1,
+   "top": "ドトール",
+   "tie": null,
+   "topCount": 1
+  },
+  "愛知県": {
+   "stations": 120,
+   "found": 108,
+   "top": "コメダ珈琲店",
+   "tie": null,
+   "topCount": 62
+  },
+  "広島県": {
+   "stations": 19,
+   "found": 14,
+   "top": "タリーズ",
+   "tie": null,
+   "topCount": 7
+  },
+  "岡山県": {
+   "stations": 4,
+   "found": 3,
+   "top": "ドトール",
+   "tie": null,
+   "topCount": 2
+  },
+  "岐阜県": {
+   "stations": 6,
+   "found": 3,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 2
+  },
+  "滋賀県": {
+   "stations": 18,
+   "found": 13,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 7
+  },
+  "奈良県": {
+   "stations": 23,
+   "found": 15,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 8
+  },
+  "富山県": {
+   "stations": 3,
+   "found": 1,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 1
+  },
+  "三重県": {
+   "stations": 8,
+   "found": 6,
+   "top": "コメダ珈琲店",
+   "tie": null,
+   "topCount": 3
+  },
+  "石川県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "スターバックス",
+    "タリーズ"
+   ],
+   "topCount": 1
+  },
+  "鹿児島県": {
+   "stations": 3,
+   "found": 2,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 2
+  },
+  "大分県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "ドトール",
+    "スターバックス"
+   ],
+   "topCount": 1
+  },
+  "和歌山県": {
+   "stations": 3,
+   "found": 3,
+   "top": null,
+   "tie": [
+    "ドトール",
+    "PRONTO",
+    "タリーズ"
+   ],
+   "topCount": 1
+  },
+  "熊本県": {
+   "stations": 3,
+   "found": 2,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 2
+  },
+  "福井県": {
+   "stations": 3,
+   "found": 2,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 2
+  },
+  "香川県": {
+   "stations": 3,
+   "found": 3,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 2
+  },
+  "愛媛県": {
+   "stations": 3,
+   "found": 3,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 3
+  },
+  "佐賀県": {
+   "stations": 3,
+   "found": 0,
+   "top": null,
+   "tie": null,
+   "topCount": 0
+  },
+  "長崎県": {
+   "stations": 3,
+   "found": 2,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 2
+  },
+  "山口県": {
+   "stations": 5,
+   "found": 3,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 3
+  },
+  "沖縄県": {
+   "stations": 3,
+   "found": 3,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 3
+  },
+  "宮崎県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "スターバックス",
+    "ドトール"
+   ],
+   "topCount": 1
+  },
+  "徳島県": {
+   "stations": 3,
+   "found": 1,
+   "top": "スターバックス",
+   "tie": null,
+   "topCount": 1
+  },
+  "鳥取県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "スターバックス",
+    "コメダ珈琲店"
+   ],
+   "topCount": 1
+  },
+  "高知県": {
+   "stations": 3,
+   "found": 2,
+   "top": "ドトール",
+   "tie": null,
+   "topCount": 2
+  },
+  "島根県": {
+   "stations": 3,
+   "found": 3,
+   "top": "コメダ珈琲店",
+   "tie": null,
+   "topCount": 2
+  }
+ },
+ "gyudon": {
+  "東京都": {
+   "stations": 509,
+   "found": 499,
+   "top": "松屋",
+   "tie": null,
+   "topCount": 225
+  },
+  "神奈川県": {
+   "stations": 209,
+   "found": 178,
+   "top": "松屋",
+   "tie": null,
+   "topCount": 75
+  },
+  "埼玉県": {
+   "stations": 123,
+   "found": 104,
+   "top": "松屋",
+   "tie": null,
+   "topCount": 51
+  },
+  "千葉県": {
+   "stations": 129,
+   "found": 112,
+   "top": "すき家",
+   "tie": null,
+   "topCount": 43
+  },
+  "宮城県": {
+   "stations": 13,
+   "found": 12,
+   "top": "吉野家",
+   "tie": null,
+   "topCount": 5
+  },
+  "静岡県": {
+   "stations": 19,
+   "found": 14,
+   "top": "吉野家",
+   "tie": null,
+   "topCount": 8
+  },
+  "栃木県": {
+   "stations": 7,
+   "found": 4,
+   "top": "すき家",
+   "tie": null,
+   "topCount": 2
+  },
+  "山梨県": {
+   "stations": 6,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "すき家",
+    "吉野家"
+   ],
+   "topCount": 1
+  },
+  "大阪府": {
+   "stations": 266,
+   "found": 248,
+   "top": "松屋",
+   "tie": null,
+   "topCount": 84
+  },
+  "茨城県": {
+   "stations": 15,
+   "found": 9,
+   "top": "松屋",
+   "tie": null,
+   "topCount": 4
+  },
+  "京都府": {
+   "stations": 64,
+   "found": 56,
+   "top": "なか卯",
+   "tie": null,
+   "topCount": 17
+  },
+  "群馬県": {
+   "stations": 6,
+   "found": 5,
+   "top": "すき家",
+   "tie": null,
+   "topCount": 3
+  },
+  "青森県": {
+   "stations": 5,
+   "found": 3,
+   "top": "吉野家",
+   "tie": null,
+   "topCount": 2
+  },
+  "福島県": {
+   "stations": 4,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "松屋",
+    "すき家"
+   ],
+   "topCount": 1
+  },
+  "長野県": {
+   "stations": 5,
+   "found": 3,
+   "top": "松屋",
+   "tie": null,
+   "topCount": 2
+  },
+  "福岡県": {
+   "stations": 69,
+   "found": 51,
+   "top": "吉野家",
+   "tie": null,
+   "topCount": 24
+  },
+  "新潟県": {
+   "stations": 5,
+   "found": 1,
+   "top": "松屋",
+   "tie": null,
+   "topCount": 1
+  },
+  "北海道": {
+   "stations": 57,
+   "found": 47,
+   "top": "吉野家",
+   "tie": null,
+   "topCount": 15
+  },
+  "岩手県": {
+   "stations": 4,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "松屋",
+    "すき家"
+   ],
+   "topCount": 1
+  },
+  "山形県": {
+   "stations": 5,
+   "found": 3,
+   "top": "すき家",
+   "tie": null,
+   "topCount": 2
+  },
+  "兵庫県": {
+   "stations": 105,
+   "found": 83,
+   "top": null,
+   "tie": [
+    "すき家",
+    "吉野家"
+   ],
+   "topCount": 25
+  },
+  "秋田県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "すき家",
+    "吉野家"
+   ],
+   "topCount": 1
+  },
+  "愛知県": {
+   "stations": 120,
+   "found": 106,
+   "top": "吉野家",
+   "tie": null,
+   "topCount": 43
+  },
+  "広島県": {
+   "stations": 19,
+   "found": 13,
+   "top": "すき家",
+   "tie": null,
+   "topCount": 6
+  },
+  "岡山県": {
+   "stations": 4,
+   "found": 3,
+   "top": "すき家",
+   "tie": null,
+   "topCount": 2
+  },
+  "岐阜県": {
+   "stations": 6,
+   "found": 3,
+   "top": "すき家",
+   "tie": null,
+   "topCount": 2
+  },
+  "滋賀県": {
+   "stations": 18,
+   "found": 12,
+   "top": "すき家",
+   "tie": null,
+   "topCount": 6
+  },
+  "奈良県": {
+   "stations": 23,
+   "found": 14,
+   "top": "吉野家",
+   "tie": null,
+   "topCount": 6
+  },
+  "富山県": {
+   "stations": 3,
+   "found": 0,
+   "top": null,
+   "tie": null,
+   "topCount": 0
+  },
+  "三重県": {
+   "stations": 8,
+   "found": 7,
+   "top": "吉野家",
+   "tie": null,
+   "topCount": 3
+  },
+  "石川県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "吉野家",
+    "松屋"
+   ],
+   "topCount": 1
+  },
+  "鹿児島県": {
+   "stations": 3,
+   "found": 2,
+   "top": "すき家",
+   "tie": null,
+   "topCount": 2
+  },
+  "大分県": {
+   "stations": 3,
+   "found": 1,
+   "top": "吉野家",
+   "tie": null,
+   "topCount": 1
+  },
+  "和歌山県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "すき家",
+    "松屋"
+   ],
+   "topCount": 1
+  },
+  "熊本県": {
+   "stations": 3,
+   "found": 0,
+   "top": null,
+   "tie": null,
+   "topCount": 0
+  },
+  "福井県": {
+   "stations": 3,
+   "found": 2,
+   "top": "なか卯",
+   "tie": null,
+   "topCount": 2
+  },
+  "香川県": {
+   "stations": 3,
+   "found": 3,
+   "top": "すき家",
+   "tie": null,
+   "topCount": 2
+  },
+  "愛媛県": {
+   "stations": 3,
+   "found": 3,
+   "top": "すき家",
+   "tie": null,
+   "topCount": 2
+  },
+  "佐賀県": {
+   "stations": 3,
+   "found": 1,
+   "top": "すき家",
+   "tie": null,
+   "topCount": 1
+  },
+  "長崎県": {
+   "stations": 3,
+   "found": 1,
+   "top": "吉野家",
+   "tie": null,
+   "topCount": 1
+  },
+  "山口県": {
+   "stations": 5,
+   "found": 2,
+   "top": "吉野家",
+   "tie": null,
+   "topCount": 2
+  },
+  "沖縄県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "すき家",
+    "松屋"
+   ],
+   "topCount": 1
+  },
+  "宮崎県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "松屋",
+    "すき家"
+   ],
+   "topCount": 1
+  },
+  "徳島県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "松屋",
+    "すき家"
+   ],
+   "topCount": 1
+  },
+  "鳥取県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "すき家",
+    "吉野家"
+   ],
+   "topCount": 1
+  },
+  "高知県": {
+   "stations": 3,
+   "found": 2,
+   "top": "すき家",
+   "tie": null,
+   "topCount": 2
+  },
+  "島根県": {
+   "stations": 3,
+   "found": 1,
+   "top": "すき家",
+   "tie": null,
+   "topCount": 1
+  }
+ },
+ "burger": {
+  "東京都": {
+   "stations": 509,
+   "found": 497,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 251
+  },
+  "神奈川県": {
+   "stations": 209,
+   "found": 196,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 101
+  },
+  "埼玉県": {
+   "stations": 123,
+   "found": 112,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 63
+  },
+  "千葉県": {
+   "stations": 129,
+   "found": 113,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 68
+  },
+  "宮城県": {
+   "stations": 13,
+   "found": 13,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 7
+  },
+  "静岡県": {
+   "stations": 19,
+   "found": 15,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 12
+  },
+  "栃木県": {
+   "stations": 7,
+   "found": 5,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 4
+  },
+  "山梨県": {
+   "stations": 6,
+   "found": 3,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 2
+  },
+  "大阪府": {
+   "stations": 266,
+   "found": 258,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 162
+  },
+  "茨城県": {
+   "stations": 15,
+   "found": 14,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 7
+  },
+  "京都府": {
+   "stations": 64,
+   "found": 60,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 36
+  },
+  "群馬県": {
+   "stations": 6,
+   "found": 6,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 5
+  },
+  "青森県": {
+   "stations": 5,
+   "found": 4,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 3
+  },
+  "福島県": {
+   "stations": 4,
+   "found": 3,
+   "top": null,
+   "tie": [
+    "マクドナルド",
+    "モスバーガー",
+    "ケンタッキー"
+   ],
+   "topCount": 1
+  },
+  "長野県": {
+   "stations": 5,
+   "found": 4,
+   "top": "モスバーガー",
+   "tie": null,
+   "topCount": 2
+  },
+  "福岡県": {
+   "stations": 69,
+   "found": 59,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 26
+  },
+  "新潟県": {
+   "stations": 5,
+   "found": 3,
+   "top": null,
+   "tie": [
+    "マクドナルド",
+    "ケンタッキー",
+    "モスバーガー"
+   ],
+   "topCount": 1
+  },
+  "北海道": {
+   "stations": 57,
+   "found": 55,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 19
+  },
+  "岩手県": {
+   "stations": 4,
+   "found": 1,
+   "top": "ケンタッキー",
+   "tie": null,
+   "topCount": 1
+  },
+  "山形県": {
+   "stations": 5,
+   "found": 3,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 2
+  },
+  "兵庫県": {
+   "stations": 105,
+   "found": 92,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 63
+  },
+  "秋田県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "ロッテリア・ゼッテリア",
+    "モスバーガー"
+   ],
+   "topCount": 1
+  },
+  "愛知県": {
+   "stations": 120,
+   "found": 104,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 52
+  },
+  "広島県": {
+   "stations": 19,
+   "found": 19,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 9
+  },
+  "岡山県": {
+   "stations": 4,
+   "found": 4,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 2
+  },
+  "岐阜県": {
+   "stations": 6,
+   "found": 6,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 3
+  },
+  "滋賀県": {
+   "stations": 18,
+   "found": 14,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 10
+  },
+  "奈良県": {
+   "stations": 23,
+   "found": 21,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 14
+  },
+  "富山県": {
+   "stations": 3,
+   "found": 3,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 2
+  },
+  "三重県": {
+   "stations": 8,
+   "found": 4,
+   "top": null,
+   "tie": [
+    "マクドナルド",
+    "モスバーガー"
+   ],
+   "topCount": 2
+  },
+  "石川県": {
+   "stations": 3,
+   "found": 3,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 3
+  },
+  "鹿児島県": {
+   "stations": 3,
+   "found": 3,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 2
+  },
+  "大分県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "モスバーガー",
+    "ロッテリア・ゼッテリア"
+   ],
+   "topCount": 1
+  },
+  "和歌山県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "ロッテリア・ゼッテリア",
+    "モスバーガー"
+   ],
+   "topCount": 1
+  },
+  "熊本県": {
+   "stations": 3,
+   "found": 3,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 2
+  },
+  "福井県": {
+   "stations": 3,
+   "found": 3,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 2
+  },
+  "香川県": {
+   "stations": 3,
+   "found": 3,
+   "top": null,
+   "tie": [
+    "バーガーキング",
+    "マクドナルド",
+    "ロッテリア・ゼッテリア"
+   ],
+   "topCount": 1
+  },
+  "愛媛県": {
+   "stations": 3,
+   "found": 3,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 3
+  },
+  "佐賀県": {
+   "stations": 3,
+   "found": 1,
+   "top": "ロッテリア・ゼッテリア",
+   "tie": null,
+   "topCount": 1
+  },
+  "長崎県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "モスバーガー",
+    "ケンタッキー"
+   ],
+   "topCount": 1
+  },
+  "山口県": {
+   "stations": 5,
+   "found": 3,
+   "top": null,
+   "tie": [
+    "ロッテリア・ゼッテリア",
+    "マクドナルド",
+    "モスバーガー"
+   ],
+   "topCount": 1
+  },
+  "沖縄県": {
+   "stations": 3,
+   "found": 2,
+   "top": "ケンタッキー",
+   "tie": null,
+   "topCount": 2
+  },
+  "宮崎県": {
+   "stations": 3,
+   "found": 3,
+   "top": null,
+   "tie": [
+    "ケンタッキー",
+    "マクドナルド",
+    "モスバーガー"
+   ],
+   "topCount": 1
+  },
+  "徳島県": {
+   "stations": 3,
+   "found": 2,
+   "top": null,
+   "tie": [
+    "ロッテリア・ゼッテリア",
+    "モスバーガー"
+   ],
+   "topCount": 1
+  },
+  "鳥取県": {
+   "stations": 3,
+   "found": 3,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 2
+  },
+  "高知県": {
+   "stations": 3,
+   "found": 2,
+   "top": "マクドナルド",
+   "tie": null,
+   "topCount": 2
+  },
+  "島根県": {
+   "stations": 3,
+   "found": 3,
+   "top": null,
+   "tie": [
+    "マクドナルド",
+    "モスバーガー",
+    "ケンタッキー"
+   ],
+   "topCount": 1
+  }
+ }
+}
