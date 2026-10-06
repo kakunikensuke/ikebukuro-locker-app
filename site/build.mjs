@@ -12,7 +12,8 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, cpSync, ex
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Marked } from "marked";
-import { toolBody, TOOL_PATH } from "./src/shipping-tool-page.mjs";
+import { toolBody, TOOL_PATH, DEFAULT_INPUT } from "./src/shipping-tool-page.mjs";
+import { calculate, yen } from "./src/shipping-calc.mjs";
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DIST = join(ROOT, "dist");
@@ -142,6 +143,7 @@ ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script
   <div class="wrap header-inner">
     <a class="brand" href="/">kakuni-lab</a>
     <nav aria-label="サイト内">
+      <a href="${TOOL_PATH}">計算機</a>
       <a href="/articles/">記事一覧</a>
       <a href="/about/">運営者情報</a>
       <a href="/#contact">お問い合わせ</a>
@@ -154,6 +156,7 @@ ${body}
 <footer class="site-footer">
   <div class="wrap">
     <nav aria-label="フッター">
+      <a href="${TOOL_PATH}">海外発送の計算機</a>
       <a href="/articles/">記事一覧</a>
       <a href="/about/">運営者情報</a>
       <a href="/privacy/">プライバシーポリシー</a>
@@ -316,6 +319,20 @@ ${categorySections(articles, { headingLevel: 2 })}`;
 // ---- トップ ----
 
 const CONTACT_FORM = readFileSync(join(ROOT, "content", "contact-form.html"), "utf8");
+const shippingData = JSON.parse(readFileSync(join(ROOT, "data", "overseas-shipping.json"), "utf8"));
+
+// トップのいちばん上に置く計算機の案内。例の数字は計算機と同じ calculate() で出す
+function featureTool() {
+  const res = calculate(shippingData, DEFAULT_INPUT);
+  const ems = res.rows.find((r) => r.id === "ems");
+  const c = res.cheapest;
+  return `<section class="feature-tool">
+  <h2><a href="${TOOL_PATH}">海外へ荷物を送る料金と、相手が払う税の計算機</a></h2>
+  <p>送り先・重さ・中身の値段を入れると、日本郵便の5つの送り方の送料と、受け取る人が払う税の目安を並べて比べます。アメリカの100米ドル、EUの45ユーロといった贈り物の免税枠や、2025〜2026年に変わった手続きもまとめて表示します。</p>
+  <p class="feature-example">たとえばアメリカへ5,000円・1kgの贈り物なら、EMSは${yen(ems.totalLo)}、いちばん安い${esc(c.name)}は${yen(c.totalLo)}。</p>
+  <p><a class="button" href="${TOOL_PATH}">計算機を使う</a></p>
+</section>`;
+}
 
 function homePage(articles) {
   const latest = articles.slice(0, 6);
@@ -325,6 +342,8 @@ function homePage(articles) {
   <p>kakuni-labは、個人でWebツールを作っている開発者のサイトです。OpenStreetMapの店舗データや国の統計、鉄道会社や購入代行会社が公開している料金表を自分で集計し、分かったことを記事にしています。</p>
   <p>数字はどれも自分で数え直したもので、集計の仕方と限界も本文に書いています。</p>
 </section>
+
+${featureTool()}
 
 <section>
   <h2>集計して分かったこと</h2>
@@ -358,6 +377,10 @@ function homePage(articles) {
 <section>
   <h2>公開しているツール</h2>
   <ul class="tools">
+    <li>
+      <a href="${TOOL_PATH}"><span class="tool-name">海外へ荷物を送る料金と、相手が払う税の計算機</span><span class="tool-url">kakuni-lab.com${TOOL_PATH}</span></a>
+      <p>日本郵便の5つの送り方の送料と、9か国・地域で受け取る人が払う税の目安を比べます。</p>
+    </li>
     <li>
       <a href="https://eki.kakuni-lab.com/"><span class="tool-name">住みやすさ駅前スコア</span><span class="tool-url">eki.kakuni-lab.com</span></a>
       <p>駅を選ぶと、徒歩圏内のスーパー・コンビニ・病院・飲食店などの数が分かります。全国1,882駅を同じ基準で比べられます。「駅前の店と暮らし」の記事は、このツールのデータを使っています。</p>
@@ -426,7 +449,6 @@ write("/articles/", articlesIndex(articles));
 for (const a of articles) write(a.path, articlePage(a, articles));
 const topicKeys = Object.keys(CATEGORIES).filter((key) => articles.some((a) => a.category === key));
 for (const key of topicKeys) write(topicPath(key), topicPage(key, articles));
-const shippingData = JSON.parse(readFileSync(join(ROOT, "data", "overseas-shipping.json"), "utf8"));
 write(
   TOOL_PATH,
   layout({
