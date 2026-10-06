@@ -13,6 +13,7 @@
   - `npm run build` は本文2,000字未満の記事があると落ちる（AdSense審査で薄いページを出さないため）
   - 記事の frontmatter には `finding:`（その記事で分かったことを1行）が必須。テーマのページ `/topics/<category>/` とトップの「集計して分かったこと」に並ぶ（2026-10-06〜）
   - 購入代行の記事3本（送料・海外の税・送れない物）と海外発送の記事2本は japan-proxy-cost の data/ の値を手で写している。向こうのデータを直したらこちらも合わせる
+  - **海外発送の計算機 `/tools/overseas-shipping/`（2026-10-06〜、トップの最上部）**: 計算は `site/src/shipping-calc.mjs` だけ（ブラウザは `/js/shipping-calc.js` としてコピーを読み、ビルドは入力例の結果を静的HTMLに書く）。データは `site/data/overseas-shipping.json`（料金・補償・為替は japan-proxy-cost の data/ から写した値、国際エアパケットの料金と各国の贈り物の決まりは2026-10-06に公式で確認）。`npm run build` の前に `scripts/verify-shipping-calc.mjs` が手計算の値28件と照合する。日本郵便の料金改定・各国の税の変更があったら、データと照合スクリプトの両方を直す
   - お問い合わせフォームはトップ（`/#contact`）に置く。FormSubmitは送信元URLごとに有効化が要るので、別URLへ移さない
   - 集計に使ったスクリプトは残していない。記事を更新するときは、元データ（eki-facility-app の backend/data、
     このリポジトリの backend/data/lockers.json、japan-proxy-cost の data/）から集計し直す
