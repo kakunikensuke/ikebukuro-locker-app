@@ -31,7 +31,7 @@ const CATEGORIES = {
   },
   shopping: {
     name: "日本の商品を海外へ送る",
-    lead: "購入代行4社の料金表と各国の送料・関税の決まりを突き合わせて計算しています。",
+    lead: "購入代行5社の料金表と各国の送料・関税の決まりを突き合わせて計算しています。",
   },
   notes: {
     name: "作り方とデータの話",
@@ -294,7 +294,7 @@ function homePage(articles) {
     </li>
     <li>
       <a href="https://japanproxy.kakuni-lab.com/"><span class="tool-name">Japan Proxy Cost Calculator（英語）</span><span class="tool-url">japanproxy.kakuni-lab.com</span></a>
-      <p>海外から日本の商品を買うときの、購入代行4社の総額（手数料・送料・関税）を比べる計算機です。</p>
+      <p>海外から日本の商品を買うときの、購入代行5社の総額（手数料・送料・関税）を比べる計算機です。</p>
     </li>
   </ul>
   <p class="note">2026年9月まで公開していた「コインロッカー検索」は終了しました。集めたデータは「駅で荷物を預ける」の記事で使っています。</p>
