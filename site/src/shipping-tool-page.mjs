@@ -24,6 +24,14 @@ function exampleLine(data, ex) {
   return `<li><strong>${esc(ex.title)}</strong>：合計がいちばん安いのは${esc(c.name)}で${money(c.totalLo, c.totalHi, c.tax.open)}（送料${yen(c.price)}、受け取る人の税${money(c.tax.lo, c.tax.hi, c.tax.open)}）。EMSなら${money(ems.totalLo, ems.totalHi, ems.tax.open)}。</li>`;
 }
 
+// 写真の帯に重ねる見出し
+export function toolHero(data) {
+  return `<p class="crumbs"><a href="/">トップ</a> ／ 道具</p>
+  <h1>海外へ荷物を送る料金と、<br />相手が払う税の計算機</h1>
+  <p class="hero-lead">送り先・重さ・中身の値段を入れると、日本郵便の5つの送り方の送料と、受け取る人が払う税の目安を並べて比べます。相手の国の贈り物の免税枠や、2025〜2026年に変わった手続きもまとめて表示します。</p>
+  <p class="article-meta">日本郵便の5つの送り方 × 9か国・地域　料金と決まりの確認日 ${esc(data.meta.verifiedAt)}</p>`;
+}
+
 export function toolBody(data) {
   const res = calculate(data, DEFAULT_INPUT);
   const opts = (obj, sel) => Object.entries(obj).map(([k, v]) => `<option value="${k}"${k === sel ? " selected" : ""}>${esc(v)}</option>`).join("");
@@ -41,9 +49,6 @@ export function toolBody(data) {
   const sources = data.meta.sources.map(([label, url, date]) => `<li><a href="${esc(url)}" rel="noopener">${esc(label)}</a>（${esc(date)}に確認）</li>`).join("");
   return `
 <article class="article tool">
-  <h1>海外へ荷物を送る料金と、相手が払う税の計算機</h1>
-  <p class="article-meta">日本郵便の5つの送り方 × 9か国・地域　料金と決まりの確認日 ${esc(data.meta.verifiedAt)}</p>
-  <p class="tool-lead">送り先・重さ・中身の値段を入れると、日本郵便の5つの送り方の送料と、受け取る人が払う税の目安を並べて比べます。送料だけでなく、相手の国の贈り物の免税枠や、2025〜2026年に変わった手続きもまとめて表示します。</p>
 
   <form class="calc-form" id="calc-form" aria-describedby="calc-help">
     <label>送り先<select name="country">${opts(countries, DEFAULT_INPUT.country)}</select></label>

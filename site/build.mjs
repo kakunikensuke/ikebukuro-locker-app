@@ -12,7 +12,7 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, cpSync, ex
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Marked } from "marked";
-import { toolBody, TOOL_PATH, DEFAULT_INPUT } from "./src/shipping-tool-page.mjs";
+import { toolBody, toolHero, TOOL_PATH, DEFAULT_INPUT } from "./src/shipping-tool-page.mjs";
 import { calculate, yen } from "./src/shipping-calc.mjs";
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
@@ -57,8 +57,42 @@ const CATEGORIES = {
   },
 };
 
-const esc = (s) =>
-  String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+// 写真（Wikimedia Commons）。キーは public/img/<key>-800.webp / -1600.webp。クレジットは data/photo-credits.json
+const PHOTO_CREDITS = Object.fromEntries(
+  JSON.parse(readFileSync(join(ROOT, "data", "photo-credits.json"), "utf8")).map((c) => [c.key, c]),
+);
+const PHOTO_ALT = {
+  hero: "東京駅の駅舎と線路を高いところから見た景色",
+  towns: "横浜橋商店街のアーケードの入口",
+  lockers: "駅に並ぶコインロッカー",
+  shopping: "雪の積もった郵便ポスト",
+  notes: "夕方の池袋駅のホーム",
+  tool: "段ボール箱にテープを貼って荷物を送る準備をしているところ",
+};
+const PHOTO_SIZE = { hero: [1600, 1200], towns: [1600, 1200], lockers: [1600, 1061], shopping: [1600, 1065], notes: [1600, 1067], tool: [1600, 1067] };
+
+function photoImg(key, { cls = "", eager = false, sizes = "100vw" } = {}) {
+  const [w, h] = PHOTO_SIZE[key];
+  return `<img class="${cls}" src="/img/${key}-1600.webp" srcset="/img/${key}-800.webp 800w, /img/${key}-1600.webp 1600w" sizes="${sizes}" width="${w}" height="${h}" alt="${esc(PHOTO_ALT[key])}"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async" />`;
+}
+
+function photoCredit(key) {
+  const c = PHOTO_CREDITS[key];
+  return `<a class="photo-credit" href="${esc(c.page)}" rel="noopener">写真: ${esc(c.artist)}（${esc(c.license)}）</a>`;
+}
+
+// 写真の見出し帯。size は full（トップ）か band（そのほか）
+function heroHtml({ photo, size = "band", html }) {
+  return `<section class="hero hero--${size}">
+  ${photoImg(photo, { cls: "hero-photo", eager: true })}
+  <div class="wrap hero-inner">${html}</div>
+  ${photoCredit(photo)}
+</section>`;
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+}
 
 // ---- Markdown ----
 
@@ -115,7 +149,7 @@ function parseFile(path) {
 
 // ---- 共通の枠 ----
 
-function layout({ title, description, path, body, jsonLd, noindex = false }) {
+function layout({ title, description, path, body, jsonLd, noindex = false, hero = null, bodyClass = "" }) {
   const url = SITE + path;
   const fullTitle = path === "/" ? title : `${title}｜${SITE_NAME}`;
   return `<!doctype html>
@@ -133,12 +167,12 @@ ${noindex ? '<meta name="robots" content="noindex" />' : `<link rel="canonical" 
 <meta property="og:site_name" content="${SITE_NAME}" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Shippori+Mincho+B1:wght@700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/style.css" />
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}" crossorigin="anonymous"></script>
 ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : ""}
 </head>
-<body>
+<body class="${bodyClass}">
 <header class="site-header">
   <div class="wrap header-inner">
     <a class="brand" href="/">kakuni-lab</a>
@@ -150,6 +184,7 @@ ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script
     </nav>
   </div>
 </header>
+${hero ? heroHtml(hero) : ""}
 <main class="wrap">
 ${body}
 </main>
@@ -162,7 +197,7 @@ ${body}
       <a href="/privacy/">プライバシーポリシー</a>
       <a href="/#contact">お問い合わせ</a>
     </nav>
-    <p>公開データを自分で集計して書いている個人のサイトです。&copy; kakuni-lab</p>
+    <p>公開データを自分で集計して書いている個人のサイトです。写真はWikimedia Commonsのもので、作者とライセンスは<a href="/about/#photo-credits">運営者情報</a>に書いています。&copy; kakuni-lab</p>
   </div>
 </footer>
 </body>
@@ -212,9 +247,6 @@ function articlePage(a, all) {
     .join("");
   const body = `
 <article class="article">
-  <p class="crumbs"><a href="/articles/">記事一覧</a> ／ <a href="${topicPath(a.category)}">${esc(cat.name)}</a></p>
-  <h1>${esc(a.title)}</h1>
-  <p class="article-meta">公開 ${fmtDate(a.published)}${a.updated ? `（更新 ${fmtDate(a.updated)}）` : ""}　データの時点: ${esc(a.dataAsOf)}</p>
   <div class="prose">
 ${a.html}
   </div>
@@ -232,6 +264,12 @@ ${a.html}
     description: a.description,
     path: a.path,
     body,
+    hero: {
+      photo: a.category,
+      html: `<p class="crumbs"><a href="/articles/">記事一覧</a> ／ <a href="${topicPath(a.category)}">${esc(cat.name)}</a></p>
+  <h1>${esc(a.title)}</h1>
+  <p class="article-meta">公開 ${fmtDate(a.published)}${a.updated ? `（更新 ${fmtDate(a.updated)}）` : ""}　データの時点: ${esc(a.dataAsOf)}</p>`,
+    },
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "Article",
@@ -252,7 +290,7 @@ function categorySections(articles, { headingLevel }) {
       const items = articles.filter((a) => a.category === key);
       if (!items.length) return "";
       return `<section class="category" id="${key}">
-  <h${headingLevel}><a href="${topicPath(key)}">${esc(cat.name)}</a></h${headingLevel}>
+  <a class="category-banner" href="${topicPath(key)}">${photoImg(key, { sizes: "(min-width: 760px) 720px, 100vw" })}<span class="category-banner-text"><h${headingLevel}>${esc(cat.name)}</h${headingLevel}><span class="category-count">${items.length}本の記事</span></span></a>
   <p class="category-lead">${esc(cat.lead)}</p>
   <ul class="article-list">${items.map(articleItem).join("")}</ul>
 </section>`;
@@ -278,9 +316,6 @@ function topicPage(key, articles) {
   const lastDate = items.map((a) => a.updated || a.published).sort().at(-1);
   const body = `
 <article class="article topic">
-  <p class="crumbs"><a href="/articles/">記事一覧</a></p>
-  <h1>${esc(cat.name)}</h1>
-  <p class="article-meta">記事${items.length}本　最終更新 ${fmtDate(lastDate)}</p>
   <div class="prose">
     ${cat.intro.map((p) => `<p>${esc(p)}</p>`).join("")}
     <h2>このテーマで分かったこと</h2>
@@ -300,19 +335,29 @@ function topicPage(key, articles) {
     description: `${cat.lead}${items.slice(0, 2).map((a) => a.finding).join("。")}。記事${items.length}本。`,
     path: topicPath(key),
     body,
+    hero: {
+      photo: key,
+      html: `<p class="crumbs"><a href="/articles/">記事一覧</a> ／ テーマ</p>
+  <h1>${esc(cat.name)}</h1>
+  <p class="hero-lead">${esc(cat.lead)}</p>
+  <p class="article-meta">記事${items.length}本　最終更新 ${fmtDate(lastDate)}</p>`,
+    },
   });
 }
 
 function articlesIndex(articles) {
   const body = `
-<h1 class="page-title">記事一覧</h1>
-<p class="page-lead">公開データを自分で集計して分かったことを書いた記事です。全${articles.length}本。</p>
 ${categorySections(articles, { headingLevel: 2 })}`;
   return layout({
     title: "記事一覧",
     description: `駅前の店の地域差、コインロッカーの大きさと料金、日本の商品を海外へ送る費用など、公開データを集計して書いた記事${articles.length}本の一覧です。`,
     path: "/articles/",
     body,
+    hero: {
+      photo: "notes",
+      html: `<h1>記事一覧</h1>
+  <p class="hero-lead">公開データを自分で集計して分かったことを書いた記事です。全${articles.length}本。</p>`,
+    },
   });
 }
 
@@ -337,12 +382,6 @@ function featureTool() {
 function homePage(articles) {
   const latest = articles.slice(0, 6);
   const body = `
-<section class="intro">
-  <h1>駅と暮らしを、公開データで数える</h1>
-  <p>kakuni-labは、個人でWebツールを作っている開発者のサイトです。OpenStreetMapの店舗データや国の統計、鉄道会社や購入代行会社が公開している料金表を自分で集計し、分かったことを記事にしています。</p>
-  <p>数字はどれも自分で数え直したもので、集計の仕方と限界も本文に書いています。</p>
-</section>
-
 ${featureTool()}
 
 <section>
@@ -368,7 +407,7 @@ ${featureTool()}
       .filter(([key]) => articles.some((a) => a.category === key))
       .map(
         ([key, cat]) =>
-          `<li><a href="${topicPath(key)}"><span class="topic-name">${esc(cat.name)}</span><span class="topic-count">${articles.filter((a) => a.category === key).length}本</span></a><p>${esc(cat.lead)}</p></li>`,
+          `<li><a href="${topicPath(key)}">${photoImg(key, { sizes: "(min-width: 760px) 360px, 100vw" })}<span class="topic-text"><span class="topic-name">${esc(cat.name)}</span><span class="topic-count">${articles.filter((a) => a.category === key).length}本の記事</span><span class="topic-lead">${esc(cat.lead)}</span></span></a></li>`,
       )
       .join("")}
   </ul>
@@ -404,11 +443,28 @@ ${featureTool()}
       "個人開発者kakuni-labのサイトです。OpenStreetMapや国の統計を自分で集計し、駅前の店の地域差、コインロッカーの大きさと料金、日本の商品を海外へ送る費用などを記事にしています。",
     path: "/",
     body,
+    bodyClass: "home",
+    hero: {
+      photo: "hero",
+      size: "full",
+      html: `<p class="hero-kicker">駅・コインロッカー・海外発送のデータ</p>
+  <h1>駅と暮らしを、<br />公開データで数える</h1>
+  <p class="hero-lead">OpenStreetMapの店舗データや国の統計、鉄道会社や日本郵便が公開している料金表を自分で集計し、分かったことを記事と道具にしています。数え方と限界も、すべて本文に書いています。</p>
+  <p class="hero-actions"><a class="button button--accent" href="${TOOL_PATH}">海外発送の計算機を使う</a><a class="button button--ghost" href="/articles/">記事を読む（${articles.length}本）</a></p>`,
+    },
     jsonLd: { "@context": "https://schema.org", "@type": "WebSite", name: SITE_NAME, url: SITE + "/" },
   });
 }
 
 // ---- 固定ページ ----
+
+// 写真のクレジット（運営者情報の最後に載せる）
+function photoCreditsSection() {
+  const rows = Object.values(PHOTO_CREDITS)
+    .map((c) => `<li><a href="${esc(c.page)}" rel="noopener">${esc(c.title)}</a> — ${esc(c.artist)}、<a href="${esc(c.licenseUrl)}" rel="noopener license">${esc(c.license)}</a>（${esc(PHOTO_ALT[c.key])}）</li>`)
+    .join("");
+  return `<h2 id="photo-credits">写真のクレジット</h2><p>このサイトの写真は、Wikimedia Commonsで自由な利用が認められているものを、大きさを変えて使っています。</p><ul>${rows}</ul>`;
+}
 
 function staticPage(name, path) {
   const { meta, body } = parseFile(join(ROOT, "content", "pages", `${name}.md`));
@@ -416,7 +472,8 @@ function staticPage(name, path) {
     title: meta.title,
     description: meta.description,
     path,
-    body: `<article class="article"><h1>${esc(meta.title)}</h1><p class="article-meta">最終更新 ${fmtDate(meta.updated)}</p><div class="prose">${md.parse(body)}</div></article>`,
+    body: `<article class="article"><div class="prose">${md.parse(body)}${name === "about" ? photoCreditsSection() : ""}</div></article>`,
+    hero: { photo: "hero", html: `<h1>${esc(meta.title)}</h1><p class="article-meta">最終更新 ${fmtDate(meta.updated)}</p>` },
   });
 }
 
@@ -456,6 +513,8 @@ write(
     description: "送り先・重さ・中身の値段を入れると、EMS・航空便・船便・小形包装物・国際エアパケットの送料と、受け取る人が払う税の目安を並べて比べます。アメリカの100ドル、EUの45ユーロなど、贈り物の免税枠も表示。9か国・地域に対応。",
     path: TOOL_PATH,
     body: toolBody(shippingData),
+    bodyClass: "tool-page",
+    hero: { photo: "tool", html: toolHero(shippingData) },
     jsonLd: { "@context": "https://schema.org", "@type": "WebApplication", name: "海外へ荷物を送る料金と、相手が払う税の計算機", url: SITE + TOOL_PATH, applicationCategory: "UtilitiesApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "JPY" } },
   }),
 );

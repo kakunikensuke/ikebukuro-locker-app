@@ -1,36 +1,63 @@
-/* kakuni-lab.com
-   読み物のサイト。装飾は減らし、目を引くのは記事中の表と横棒グラフだけにする。
-   色は下のトークンだけを使う（アクセントは地図の青1色） */
+/* kakuni-lab.com（2026-10-06 作り直し）
+   写真を主役にした読み物のサイト。見出しは明朝、本文はゴシック。
+   色は藍（--indigo）を土台に、目立たせるのは山吹（--yamabuki）の1色だけ。新しい色を足さない */
 
 :root {
-  --bg: #f5f6f3;
+  --bg: #f3f5f7;
   --surface: #ffffff;
-  --ink: #1a1e1c;
-  --muted: #59625d;
-  --line: #d9dfda;
-  --accent: #1c5b8e;
-  --accent-soft: #e3edf5;
-  --bar: #1c5b8e;
-  --track: #e8ebe8;
+  --ink: #141c26;
+  --muted: #5b6672;
+  --line: #dfe4ea;
+  --indigo: #1f3a5f;
+  --indigo-deep: #142844;
+  --link: #1d5a96;
+  --yamabuki: #e9a92c;
+  --yamabuki-soft: #fdf2d8;
+  --bar: #1f3a5f;
+  --track: #e6eaee;
   --ok: #1f6b3b;
   --err: #b3261e;
-  --measure: 42rem;
+  --on-photo: #ffffff;
+  --measure: 44rem;
+  --serif: "Shippori Mincho B1", "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
+  --sans: "BIZ UDPGothic", -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP",
+    "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #151816;
-    --surface: #1d211f;
-    --ink: #e7ebe8;
-    --muted: #a3aca7;
-    --line: #333a36;
-    --accent: #7fb3de;
-    --accent-soft: #1f2d38;
-    --bar: #6fa6d4;
-    --track: #2a302d;
+    --bg: #10151b;
+    --surface: #171e26;
+    --ink: #e8edf2;
+    --muted: #9aa6b2;
+    --line: #2a333d;
+    --indigo: #0f2036;
+    --indigo-deep: #0a1626;
+    --link: #8cbcf0;
+    --yamabuki: #f0b94a;
+    --yamabuki-soft: #3a2f17;
+    --bar: #7fb0e0;
+    --track: #26303a;
     --ok: #7cc79a;
     --err: #f2a29c;
   }
+}
+
+:root[data-theme="dark"] {
+  --bg: #10151b;
+  --surface: #171e26;
+  --ink: #e8edf2;
+  --muted: #9aa6b2;
+  --line: #2a333d;
+  --indigo: #0f2036;
+  --indigo-deep: #0a1626;
+  --link: #8cbcf0;
+  --yamabuki: #f0b94a;
+  --yamabuki-soft: #3a2f17;
+  --bar: #7fb0e0;
+  --track: #26303a;
+  --ok: #7cc79a;
+  --err: #f2a29c;
 }
 
 * {
@@ -45,28 +72,22 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP",
-    "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
+  font-family: var(--sans);
   font-size: 1rem;
   line-height: 1.9;
-  font-feature-settings: "palt" 0;
 }
 
 h1,
 h2,
-h3,
-.brand,
-.article-title,
-.topic-name,
-.tool-name {
-  font-family: "BIZ UDPGothic", "Hiragino Sans", "Noto Sans JP", sans-serif;
+h3 {
+  font-family: var(--serif);
   font-weight: 700;
-  line-height: 1.5;
-  letter-spacing: 0.01em;
+  line-height: 1.45;
+  letter-spacing: 0.02em;
 }
 
 a {
-  color: var(--accent);
+  color: var(--link);
   text-underline-offset: 0.2em;
 }
 
@@ -75,8 +96,12 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 3px solid var(--accent);
+  outline: 3px solid var(--yamabuki);
   outline-offset: 2px;
+}
+
+img {
+  max-width: 100%;
 }
 
 .wrap {
@@ -88,24 +113,27 @@ textarea:focus-visible {
 /* ---- ヘッダー・フッター ---- */
 
 .site-header {
-  border-bottom: 1px solid var(--line);
-  background: var(--surface);
+  background: var(--indigo);
+  color: var(--on-photo);
 }
 
 .header-inner {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 4px 20px;
-  padding-top: 14px;
+  padding-top: 12px;
   padding-bottom: 12px;
 }
 
 .brand {
-  color: var(--ink);
+  color: var(--on-photo);
   text-decoration: none;
-  font-size: 1.15rem;
+  font-family: var(--serif);
+  font-weight: 800;
+  font-size: 1.2rem;
+  letter-spacing: 0.04em;
 }
 
 .site-header nav,
@@ -113,58 +141,258 @@ textarea:focus-visible {
   display: flex;
   flex-wrap: wrap;
   gap: 4px 18px;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
 }
 
 .site-header nav a {
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
 }
 
 .site-header nav a:hover {
-  color: var(--accent);
-  text-decoration: underline;
+  color: var(--yamabuki);
 }
 
 main.wrap {
-  padding-bottom: 64px;
+  padding-bottom: 72px;
 }
 
 .site-footer {
-  border-top: 1px solid var(--line);
-  padding: 24px 0 40px;
-  color: var(--muted);
+  background: var(--indigo-deep);
+  color: rgba(255, 255, 255, 0.75);
+  padding: 32px 0 44px;
   font-size: 0.85rem;
 }
 
+.site-footer a {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.site-footer nav a {
+  text-decoration: none;
+}
+
+.site-footer nav a:hover {
+  color: var(--yamabuki);
+}
+
 .site-footer p {
-  margin: 12px 0 0;
+  margin: 14px 0 0;
+}
+
+/* ---- 写真の見出し帯 ---- */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  color: var(--on-photo);
+  background: var(--indigo-deep);
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: photo-in 0.9s ease-out both;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10, 18, 30, 0.35) 0%, rgba(10, 18, 30, 0.55) 45%, rgba(10, 18, 30, 0.88) 100%);
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.hero--full {
+  min-height: min(82vh, 720px);
+}
+
+.hero--full .hero-inner {
+  padding-top: 96px;
+  padding-bottom: 64px;
+}
+
+.hero--band {
+  min-height: 280px;
+}
+
+.hero--band .hero-inner {
+  padding-top: 72px;
+  padding-bottom: 32px;
+}
+
+.hero--band::after {
+  background: linear-gradient(180deg, rgba(10, 18, 30, 0.55) 0%, rgba(10, 18, 30, 0.72) 45%, rgba(10, 18, 30, 0.92) 100%);
+}
+
+/* 入力欄のカードが帯に重なるぶん、帯の下に余白をとる */
+.tool-page .hero--band .hero-inner {
+  padding-bottom: 72px;
+}
+
+.hero h1 {
+  margin: 0 0 12px;
+  color: var(--on-photo);
+  font-size: clamp(1.55rem, 4.2vw, 2.3rem);
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+.hero--full h1 {
+  font-weight: 800;
+  font-size: clamp(2.2rem, 7vw, 3.6rem);
+  line-height: 1.25;
+  margin-bottom: 18px;
+}
+
+.hero-kicker {
+  margin: 0 0 10px;
+  font-family: var(--serif);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--yamabuki);
+}
+
+.hero-lead {
+  margin: 0 0 12px;
+  max-width: 36em;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.hero .crumbs,
+.hero .article-meta {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.82rem;
+  margin: 0 0 6px;
+}
+
+.hero .crumbs a {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+  margin: 22px 0 0;
+}
+
+.photo-credit {
+  position: absolute;
+  z-index: 1;
+  right: 8px;
+  top: 6px;
+  padding: 1px 6px;
+  font-size: 0.66rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+  background: rgba(0, 0, 0, 0.3);
+  text-decoration: none;
+}
+
+.photo-credit:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+@keyframes photo-in {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-photo {
+    animation: none;
+  }
+}
+
+/* ---- ボタン ---- */
+
+.button {
+  display: inline-block;
+  padding: 11px 22px;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  line-height: 1.5;
+}
+
+.button--accent,
+.button:not(.button--ghost) {
+  background: var(--yamabuki);
+  color: #1b1405;
+}
+
+.button--accent:hover,
+.button:not(.button--ghost):hover {
+  filter: brightness(1.06);
+}
+
+.button--ghost {
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  color: #fff;
+}
+
+.button--ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
 }
 
 /* ---- トップ ---- */
 
-.intro {
-  padding: 48px 0 8px;
+main h2 {
+  margin: 56px 0 14px;
+  font-size: 1.45rem;
 }
 
-.intro h1 {
-  margin: 0 0 16px;
-  font-size: clamp(1.6rem, 5vw, 2.2rem);
-  line-height: 1.35;
-}
-
-.intro p {
-  margin: 0 0 12px;
+.home main > section:not(.feature-tool) > p {
   color: var(--muted);
 }
 
-main h2 {
-  margin: 48px 0 12px;
-  font-size: 1.25rem;
+.feature-tool {
+  position: relative;
+  margin: -40px 0 8px;
+  padding: 22px 22px 10px;
+  background: var(--surface);
+  border-top: 4px solid var(--yamabuki);
+  box-shadow: 0 14px 34px rgba(15, 25, 40, 0.14);
+}
+
+.feature-tool h2 {
+  margin: 0 0 8px;
+  font-size: 1.3rem;
+}
+
+.feature-tool h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.feature-tool h2 a:hover {
+  text-decoration: underline;
+}
+
+.feature-example {
+  font-weight: 700;
 }
 
 .more {
-  margin: 12px 0 0;
+  margin: 14px 0 0;
 }
 
 .note {
@@ -172,25 +400,92 @@ main h2 {
   font-size: 0.9rem;
 }
 
-.topics,
+/* テーマ: 写真のタイル */
+.topics {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.topics a {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--indigo-deep);
+  color: #fff;
+  text-decoration: none;
+}
+
+.topics img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.topics a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10, 18, 30, 0.05) 30%, rgba(10, 18, 30, 0.85) 100%);
+}
+
+.topics a:hover img {
+  transform: scale(1.04);
+}
+
+.topic-text {
+  position: absolute;
+  z-index: 1;
+  left: 14px;
+  right: 14px;
+  bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.topic-name {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1.15rem;
+  line-height: 1.4;
+}
+
+.topic-count {
+  font-size: 0.78rem;
+  color: var(--yamabuki);
+  font-weight: 700;
+}
+
+.topic-lead {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* 公開しているツール */
 .tools {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.topics li,
 .tools li {
-  padding: 14px 0;
+  padding: 16px 0;
   border-top: 1px solid var(--line);
 }
 
-.topics li:last-child,
 .tools li:last-child {
   border-bottom: 1px solid var(--line);
 }
 
-.topics a,
 .tools a {
   display: flex;
   flex-wrap: wrap;
@@ -200,23 +495,21 @@ main h2 {
   text-decoration: none;
 }
 
-.topic-name,
 .tool-name {
-  font-size: 1.05rem;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1.08rem;
 }
 
-.topics a:hover .topic-name,
 .tools a:hover .tool-name {
   text-decoration: underline;
 }
 
-.topic-count,
 .tool-url {
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
 }
 
-.topics p,
 .tools p {
   margin: 4px 0 0;
   color: var(--muted);
@@ -225,23 +518,60 @@ main h2 {
 
 /* ---- 記事の一覧 ---- */
 
-.page-title {
-  margin: 40px 0 8px;
-  font-size: 1.7rem;
-}
-
-.page-lead,
-.category-lead {
-  margin: 0 0 12px;
-  color: var(--muted);
-}
-
 .category {
-  margin-top: 40px;
+  margin-top: 44px;
 }
 
-.category h2 {
-  margin: 0 0 4px;
+.category-banner {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 5;
+  min-height: 120px;
+  margin: 0 0 12px;
+  background: var(--indigo-deep);
+  color: #fff;
+  text-decoration: none;
+}
+
+.category-banner img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.category-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(10, 18, 30, 0.82) 0%, rgba(10, 18, 30, 0.35) 70%);
+}
+
+.category-banner-text {
+  position: absolute;
+  z-index: 1;
+  left: 18px;
+  bottom: 14px;
+}
+
+.category-banner h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.4rem;
+}
+
+.category-count {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--yamabuki);
+}
+
+.category-lead {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 0.92rem;
 }
 
 .article-list {
@@ -252,47 +582,86 @@ main h2 {
 
 .article-item a {
   display: block;
-  padding: 14px 0 14px 16px;
-  border-left: 3px solid var(--line);
+  padding: 16px 18px;
   margin: 10px 0;
+  background: var(--surface);
+  border-left: 3px solid var(--line);
   text-decoration: none;
   color: inherit;
+  transition: border-color 0.2s ease;
 }
 
 .article-item a:hover {
-  border-left-color: var(--accent);
+  border-left-color: var(--yamabuki);
 }
 
 .article-item a:hover .article-title {
-  color: var(--accent);
   text-decoration: underline;
 }
 
 .article-title {
   display: block;
-  font-size: 1.05rem;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1.06rem;
+  line-height: 1.55;
 }
 
 .article-desc {
   display: block;
-  margin-top: 4px;
+  margin-top: 6px;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   line-height: 1.75;
+}
+
+/* ---- 集計して分かったこと ---- */
+
+.findings {
+  list-style: none;
+  margin: 0 0 1.4em;
+  padding: 0;
+}
+
+.findings li {
+  margin: 0 0 8px;
+  padding: 11px 14px 11px 16px;
+  border-left: 3px solid var(--yamabuki);
+  background: var(--surface);
+}
+
+.findings a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.findings a:hover {
+  color: var(--link);
+  text-decoration: underline;
+}
+
+.home main h3 {
+  margin: 24px 0 8px;
+  font-size: 1.05rem;
+}
+
+.home main h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.home main h3 a:hover {
+  text-decoration: underline;
+}
+
+.prose .findings {
+  padding-left: 0;
 }
 
 /* ---- 記事 ---- */
 
-.crumbs {
-  margin: 28px 0 0;
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-.article h1 {
-  margin: 8px 0 8px;
-  font-size: clamp(1.45rem, 4.4vw, 1.95rem);
-  line-height: 1.45;
+.article {
+  padding-top: 32px;
 }
 
 .article-meta {
@@ -302,24 +671,24 @@ main h2 {
 }
 
 .prose h2 {
-  margin: 48px 0 12px;
-  padding-top: 16px;
+  margin: 52px 0 14px;
+  padding-top: 18px;
   border-top: 1px solid var(--line);
-  font-size: 1.3rem;
+  font-size: 1.4rem;
 }
 
 .prose h3 {
-  margin: 32px 0 8px;
-  font-size: 1.08rem;
+  margin: 34px 0 8px;
+  font-size: 1.12rem;
 }
 
 .prose p {
-  margin: 0 0 1.1em;
+  margin: 0 0 1.15em;
 }
 
 .prose ul,
 .prose ol {
-  margin: 0 0 1.1em;
+  margin: 0 0 1.15em;
   padding-left: 1.4em;
 }
 
@@ -328,14 +697,19 @@ main h2 {
 }
 
 .prose strong {
-  background: linear-gradient(transparent 62%, var(--accent-soft) 62%);
+  background: linear-gradient(transparent 62%, var(--yamabuki-soft) 62%);
 }
 
 .prose blockquote {
-  margin: 0 0 1.1em;
-  padding: 4px 0 4px 16px;
-  border-left: 3px solid var(--accent);
-  color: var(--muted);
+  margin: 0 0 1.4em;
+  padding: 12px 16px;
+  border-left: 3px solid var(--yamabuki);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.prose blockquote p {
+  margin: 0;
 }
 
 /* 表: 数字の列は右寄せ（Markdownの ---: で指定） */
@@ -351,11 +725,12 @@ table {
   font-size: 0.9rem;
   line-height: 1.6;
   font-variant-numeric: tabular-nums;
+  background: var(--surface);
 }
 
 th,
 td {
-  padding: 8px 10px;
+  padding: 9px 10px;
   border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: top;
@@ -364,10 +739,14 @@ td {
   overflow-wrap: normal;
 }
 
-th {
-  border-bottom: 2px solid var(--ink);
+thead th {
+  border-bottom: 2px solid var(--indigo);
   font-weight: 700;
   white-space: nowrap;
+}
+
+tbody th {
+  font-weight: 700;
 }
 
 td.right,
@@ -386,7 +765,7 @@ th.center {
   margin: 0 0 1.6em;
   padding: 16px 16px 12px;
   background: var(--surface);
-  border: 1px solid var(--line);
+  border-top: 3px solid var(--indigo);
 }
 
 .bars figcaption {
@@ -427,6 +806,10 @@ th.center {
   background: var(--bar);
 }
 
+.bars li:first-child .bar-fill {
+  background: var(--yamabuki);
+}
+
 .bar-value {
   min-width: 4em;
   text-align: right;
@@ -436,10 +819,9 @@ th.center {
 
 .sources,
 .author {
-  margin-top: 40px;
-  padding: 16px 18px;
+  margin-top: 44px;
+  padding: 18px 20px;
   background: var(--surface);
-  border: 1px solid var(--line);
   font-size: 0.88rem;
   line-height: 1.8;
 }
@@ -447,7 +829,7 @@ th.center {
 .sources h2,
 .related h2 {
   margin: 0 0 8px;
-  font-size: 1rem;
+  font-size: 1.05rem;
 }
 
 .sources ul {
@@ -457,6 +839,7 @@ th.center {
 
 .author {
   margin-top: 12px;
+  border-left: 3px solid var(--indigo);
 }
 
 .author p {
@@ -464,7 +847,7 @@ th.center {
 }
 
 .related {
-  margin-top: 40px;
+  margin-top: 44px;
 }
 
 /* ---- お問い合わせ ---- */
@@ -474,6 +857,8 @@ th.center {
   flex-direction: column;
   gap: 14px;
   margin-top: 14px;
+  padding: 20px;
+  background: var(--surface);
 }
 
 .contact-form label {
@@ -495,10 +880,10 @@ th.center {
 .contact-form textarea {
   font: inherit;
   font-weight: 400;
-  padding: 9px 10px;
+  padding: 10px 12px;
   border: 1px solid var(--line);
-  border-radius: 4px;
-  background: var(--surface);
+  border-radius: 6px;
+  background: var(--bg);
   color: var(--ink);
 }
 
@@ -510,10 +895,10 @@ th.center {
   align-self: flex-start;
   font: inherit;
   font-weight: 700;
-  padding: 10px 28px;
+  padding: 11px 30px;
   border: 0;
-  border-radius: 4px;
-  background: var(--accent);
+  border-radius: 999px;
+  background: var(--indigo);
   color: #fff;
   cursor: pointer;
 }
@@ -536,73 +921,32 @@ th.center {
   color: var(--ok);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .contact-form button {
-    color: #0f1a24;
-  }
-}
-
-/* ---- 集計して分かったこと（トップとテーマのページ） ---- */
-
-.findings {
-  list-style: none;
-  margin: 0 0 1.4em;
-  padding: 0;
-}
-
-.findings li {
-  margin: 0;
-  padding: 10px 0 10px 16px;
-  border-left: 3px solid var(--accent);
-  background: var(--surface);
-  margin-bottom: 8px;
-}
-
-.findings a {
-  color: var(--ink);
-  text-decoration: none;
-}
-
-.findings a:hover {
-  color: var(--accent);
-  text-decoration: underline;
-}
-
-.category h2 a,
-.intro ~ section h3 a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.category h2 a:hover,
-.intro ~ section h3 a:hover {
-  color: var(--accent);
-  text-decoration: underline;
-}
-
-.prose .findings {
-  padding-left: 0;
-}
-
-.prose .findings li {
-  margin: 0 0 8px;
-}
-
 /* ---- 海外発送の計算機（/tools/overseas-shipping/） ----
-   このサイトでいちばん目立たせる場所。入力欄は地図の青の帯で囲み、結果の表は「合計」の列を太くする */
+   入力欄は写真の帯に重なるカード。結果は「合計がいちばん安い」行を山吹で示す */
 
-.tool-lead {
-  margin: 0 0 20px;
+body.tool-page .wrap {
+  max-width: 62rem;
+}
+
+.tool > .prose,
+.tool > .sources {
+  max-width: var(--measure);
+}
+
+.tool-page .article {
+  padding-top: 0;
 }
 
 .calc-form {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px 18px;
-  padding: 18px;
-  border-top: 4px solid var(--accent);
+  margin: -44px 0 28px;
+  padding: 22px;
   background: var(--surface);
-  margin: 0 0 24px;
+  border-top: 4px solid var(--yamabuki);
+  box-shadow: 0 14px 34px rgba(15, 25, 40, 0.14);
 }
 
 .calc-form label,
@@ -645,9 +989,9 @@ th.center {
 .calc-form input[type="number"] {
   font: inherit;
   font-weight: 400;
-  padding: 9px 10px;
+  padding: 10px 12px;
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: 6px;
   background: var(--bg);
   color: var(--ink);
   width: 100%;
@@ -658,7 +1002,7 @@ th.center {
 .calc-form input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  accent-color: var(--accent);
+  accent-color: var(--indigo);
 }
 
 .with-unit {
@@ -676,33 +1020,47 @@ th.center {
 }
 
 .calc-summary {
-  margin: 0 0 10px;
+  margin: 0 0 12px;
+  font-family: var(--serif);
   font-weight: 700;
+  font-size: 1.12rem;
 }
 
 .calc-table .sub {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--muted);
   white-space: normal;
 }
 
 .calc-table td.total {
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.05rem;
+}
+
+.calc-table tbody th {
+  border-bottom: 1px solid var(--line);
+  white-space: normal;
 }
 
 .calc-table tr.best th,
 .calc-table tr.best td {
-  background: var(--accent-soft);
+  background: var(--yamabuki-soft);
+}
+
+.calc-table tr.best th {
+  box-shadow: inset 4px 0 0 var(--yamabuki);
 }
 
 .calc-table .tag {
-  display: block;
-  margin-top: 2px;
-  font-size: 0.75rem;
+  display: inline-block;
+  margin-top: 4px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--yamabuki);
+  color: #1b1405;
+  font-size: 0.72rem;
   font-weight: 700;
-  color: var(--accent);
 }
 
 .calc-table tr.off th,
@@ -711,8 +1069,8 @@ th.center {
 }
 
 .calc-result h3 {
-  margin: 20px 0 6px;
-  font-size: 1rem;
+  margin: 22px 0 6px;
+  font-size: 1.05rem;
 }
 
 .calc-rules {
@@ -725,10 +1083,44 @@ th.center {
   margin: 0.25em 0;
 }
 
+@media (min-width: 641px) {
+  .calc-table td:nth-child(5),
+  .calc-table td:nth-child(6) {
+    white-space: nowrap;
+  }
+}
+
+/* ---- スマホ ---- */
+
 @media (max-width: 640px) {
+  .hero--full {
+    min-height: 88vh;
+  }
+
+  .tool-page .hero--band .hero-inner {
+    padding-bottom: 52px;
+  }
+
+  .hero--band {
+    min-height: 240px;
+  }
+
+  .topics {
+    grid-template-columns: 1fr;
+  }
+
+  .topics a {
+    aspect-ratio: 16 / 10;
+  }
+
+  .category-banner {
+    aspect-ratio: 16 / 7;
+  }
+
   .calc-form {
     grid-template-columns: 1fr;
-    padding: 14px;
+    padding: 16px;
+    margin-top: -28px;
   }
 
   /* 結果の表は、スマホでは送り方ごとのカードにする */
@@ -745,15 +1137,21 @@ th.center {
     width: 100%;
   }
 
+  .calc-table {
+    background: transparent;
+  }
+
   .calc-table tr {
-    border: 1px solid var(--line);
-    margin: 0 0 10px;
+    margin: 0 0 12px;
     background: var(--surface);
+    box-shadow: 0 1px 0 var(--line);
   }
 
   .calc-table th {
     border-bottom: 1px solid var(--line);
     white-space: normal;
+    font-family: var(--serif);
+    font-size: 1.02rem;
   }
 
   .calc-table td {
@@ -761,7 +1159,7 @@ th.center {
     justify-content: space-between;
     gap: 12px;
     border-bottom: 0;
-    padding: 6px 10px;
+    padding: 6px 12px;
     text-align: right;
   }
 
@@ -780,77 +1178,5 @@ th.center {
 
   .calc-table tr.off td {
     text-align: left;
-  }
-}
-
-/* 計算機のページだけ横幅を広げる（結果の表が6列あるため）。文章は読みやすい幅のまま */
-body:has(.tool) .wrap {
-  max-width: 62rem;
-}
-
-.tool > h1,
-.tool > .article-meta,
-.tool .tool-lead,
-.tool .prose,
-.tool .sources {
-  max-width: var(--measure);
-}
-
-.calc-table tbody th {
-  border-bottom: 1px solid var(--line);
-  white-space: normal;
-}
-
-@media (min-width: 641px) {
-  .calc-table td:nth-child(5),
-  .calc-table td:nth-child(6) {
-    white-space: nowrap;
-  }
-}
-
-/* トップの計算機の案内 */
-.feature-tool {
-  margin: 28px 0 8px;
-  padding: 18px 18px 6px;
-  border-top: 4px solid var(--accent);
-  background: var(--surface);
-}
-
-.feature-tool h2 {
-  margin: 0 0 8px;
-  font-size: 1.25rem;
-}
-
-.feature-tool h2 a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.feature-tool h2 a:hover {
-  color: var(--accent);
-  text-decoration: underline;
-}
-
-.feature-example {
-  font-weight: 700;
-}
-
-.button {
-  display: inline-block;
-  padding: 10px 24px;
-  border-radius: 4px;
-  background: var(--accent);
-  color: #fff;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.button:hover {
-  filter: brightness(1.1);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .button {
-    color: #0f1a24;
   }
 }
