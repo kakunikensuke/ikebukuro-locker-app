@@ -12,7 +12,7 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, cpSync, ex
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Marked } from "marked";
-import { toolBody, toolHero, TOOL_PATH, DEFAULT_INPUT } from "./src/shipping-tool-page.mjs";
+import { toolBody, toolHero, TOOL_PATH, DEFAULT_INPUT, countryBody, countryHero, countryLead, countryPath } from "./src/shipping-tool-page.mjs";
 import { calculate, yen } from "./src/shipping-calc.mjs";
 import { renderTilemap } from "./src/tilemap.mjs";
 
@@ -526,13 +526,28 @@ write(
     jsonLd: { "@context": "https://schema.org", "@type": "WebApplication", name: "海外へ荷物を送る料金と、相手が払う税の計算機", url: SITE + TOOL_PATH, applicationCategory: "UtilitiesApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "JPY" } },
   }),
 );
+const countryCodes = Object.keys(shippingData.countries);
+for (const code of countryCodes) {
+  const c = shippingData.countries[code];
+  write(
+    countryPath(code),
+    layout({
+      title: `${c.name}へ荷物を送る料金と、相手が払う税｜EMS・船便・エアパケットの送料と日数`,
+      description: countryLead(shippingData, code),
+      path: countryPath(code),
+      body: countryBody(shippingData, code),
+      bodyClass: "tool-page",
+      hero: { photo: "tool", html: countryHero(shippingData, code) },
+    }),
+  );
+}
 mkdirSync(join(DIST, "js"), { recursive: true });
 cpSync(join(ROOT, "src", "shipping-calc.mjs"), join(DIST, "js", "shipping-calc.js"));
 write("/about/", staticPage("about", "/about/"));
 write("/privacy/", staticPage("privacy", "/privacy/"));
 write("/404.html", notFoundPage());
 
-const urls = ["/", TOOL_PATH, "/articles/", ...topicKeys.map(topicPath), "/about/", "/privacy/", ...articles.map((a) => a.path)];
+const urls = ["/", TOOL_PATH, ...countryCodes.map(countryPath), "/articles/", ...topicKeys.map(topicPath), "/about/", "/privacy/", ...articles.map((a) => a.path)];
 writeFileSync(
   join(DIST, "sitemap.xml"),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls

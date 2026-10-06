@@ -930,7 +930,7 @@ body.tool-page .wrap {
 
 .tool > .prose,
 .tool > .sources {
-  max-width: var(--measure);
+  max-width: 50rem;
 }
 
 .tool-page .article {
@@ -1233,4 +1233,11 @@ body.tool-page .wrap {
   margin: 8px 0 0 !important;
   font-size: 0.78rem;
   color: var(--muted);
+}
+
+.rate-table .sub {
+  display: block;
+  font-size: 0.76rem;
+  color: var(--muted);
+  white-space: nowrap;
 }
