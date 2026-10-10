@@ -175,10 +175,10 @@ ${noindex ? '<meta name="robots" content="noindex" />' : `<link rel="canonical" 
 <meta property="og:site_name" content="${SITE_NAME}" />
 <link rel="icon" type="image/svg+xml" href="${bodyClass === "tool-page" ? "/img/icon-tool.svg" : "/favicon.svg"}" />
 <link rel="apple-touch-icon" href="${bodyClass === "tool-page" ? "/img/icon-tool-180.png" : "/apple-touch-icon.png"}" />
-<meta name="theme-color" content="#1f3a5f" />
+<meta name="theme-color" content="#0b0d10" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Shippori+Mincho+B1:wght@700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Shippori+Mincho+B1:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/style.css" />
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}" crossorigin="anonymous"></script>
 ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : ""}
@@ -200,16 +200,29 @@ ${hero ? heroHtml(hero) : ""}
 ${body}
 </main>
 <footer class="site-footer">
-  <div class="wrap">
-    <nav aria-label="フッター">
-      <a href="${TOOL_PATH}">海外発送の計算機</a>
-      <a href="/articles/">記事一覧</a>
-      <a href="/about/">運営者情報</a>
-      <a href="/privacy/">プライバシーポリシー</a>
-      <a href="/#contact">お問い合わせ</a>
-    </nav>
-    <p>公開データを自分で集計して書いている個人のサイトです。写真はWikimedia Commonsのもので、作者とライセンスは<a href="/about/#photo-credits">運営者情報</a>に書いています。&copy; kakuni-lab</p>
+  <div class="wrap footer-top">
+    <p class="footer-lead">公開データを、自分で数え直す。</p>
+    <div class="footer-cols">
+      <nav aria-label="道具"><p class="footer-head">TOOLS</p>
+        <a href="${TOOL_PATH}">海外発送の計算機</a>
+        <a href="https://eki.kakuni-lab.com/">住みやすさ駅前スコア</a>
+        <a href="https://japanproxy.kakuni-lab.com/">Japan Proxy Cost Calculator</a>
+      </nav>
+      <nav aria-label="記事"><p class="footer-head">ARTICLES</p>
+        <a href="/topics/towns/">駅前の店と暮らし</a>
+        <a href="/topics/lockers/">駅で荷物を預ける</a>
+        <a href="/topics/shopping/">日本の商品を海外へ送る</a>
+        <a href="/articles/">記事一覧</a>
+      </nav>
+      <nav aria-label="このサイト"><p class="footer-head">ABOUT</p>
+        <a href="/about/">運営者情報</a>
+        <a href="/privacy/">プライバシーポリシー</a>
+        <a href="/#contact">お問い合わせ</a>
+      </nav>
+    </div>
+    <p class="footer-note">写真はWikimedia Commonsのもので、作者とライセンスは<a href="/about/#photo-credits">運営者情報</a>に書いています。&copy; 2026 kakuni-lab</p>
   </div>
+  <p class="footer-mark" aria-hidden="true">kakuni-lab</p>
 </footer>
 </body>
 </html>
@@ -301,7 +314,7 @@ function categorySections(articles, { headingLevel }) {
       const items = articles.filter((a) => a.category === key);
       if (!items.length) return "";
       return `<section class="category" id="${key}">
-  <a class="category-banner" href="${topicPath(key)}">${photoImg(key, { sizes: "(min-width: 760px) 720px, 100vw" })}<span class="category-banner-text"><h${headingLevel}>${esc(cat.name)}</h${headingLevel}><span class="category-count">${items.length}本の記事</span></span></a>
+  <a class="category-banner" href="${topicPath(key)}">${photoImg(key, { sizes: "(min-width: 760px) 720px, 100vw" })}<span class="tag">${TOPIC_TAG[key]}</span><span class="category-banner-text"><h${headingLevel}>${esc(cat.name)}</h${headingLevel}><span class="category-count">${items.length}本の記事</span></span></a>
   <p class="category-lead">${esc(cat.lead)}</p>
   <ul class="article-list">${items.map(articleItem).join("")}</ul>
 </section>`;
@@ -310,6 +323,8 @@ function categorySections(articles, { headingLevel }) {
 }
 
 const topicPath = (key) => `/topics/${key}/`;
+// 写真のカードに貼る札（等幅の英字）。テーマごとに1つ
+const TOPIC_TAG = { towns: "STATION AREA", lockers: "COIN LOCKERS", shopping: "SHIPPING ABROAD", notes: "DATA NOTES" };
 
 // 記事の「分かったこと」1行と、そこへのリンク
 function findingItem(a) {
@@ -382,17 +397,45 @@ function featureTool() {
   const res = calculate(shippingData, DEFAULT_INPUT);
   const ems = res.rows.find((r) => r.id === "ems");
   const c = res.cheapest;
-  return `<section class="feature-tool">
-  <h2><a href="${TOOL_PATH}">海外へ荷物を送る料金と、相手が払う税の計算機</a></h2>
-  <p>送り先・重さ・中身の値段を入れると、日本郵便の5つの送り方の送料と、受け取る人が払う税の目安を並べて比べます。アメリカの100米ドル、EUの45ユーロといった贈り物の免税枠や、2025〜2026年に変わった手続きもまとめて表示します。</p>
-  <p class="feature-example">たとえばアメリカへ5,000円・1kgの贈り物なら、EMSは${yen(ems.totalLo)}、いちばん安い${esc(c.name)}は${yen(c.totalLo)}。</p>
-  <p><a class="button" href="${TOOL_PATH}">計算機を使う</a></p>
+  return `<section class="feature-tool bleed">
+  <a class="feature-photo" href="${TOOL_PATH}">${photoImg("tool", { sizes: "(min-width: 900px) 50vw, 100vw" })}<span class="tag">TOOL</span></a>
+  <div class="feature-text">
+    <h2><a href="${TOOL_PATH}">海外へ荷物を送る料金と、相手が払う税の計算機</a></h2>
+    <p>送り先・重さ・中身の値段を入れると、日本郵便の5つの送り方の送料と、受け取る人が払う税の目安を並べて比べます。アメリカの100米ドル、EUの45ユーロといった贈り物の免税枠や、2025〜2026年に変わった手続きもまとめて表示します。</p>
+    <p class="feature-example">アメリカへ5,000円・1kgの贈り物なら、EMSは${yen(ems.totalLo)}、いちばん安い${esc(c.name)}は${yen(c.totalLo)}。</p>
+    <p><a class="button" href="${TOOL_PATH}">計算機を使う<span class="arrow" aria-hidden="true">↗</span></a></p>
+  </div>
+</section>`;
+}
+
+// 紺の数字の帯。数はどれもデータから
+function dataBand(articles) {
+  const n = Object.keys(shippingData.countries).length;
+  const stats = [
+    ["1,882", "駅", "駅前の店と施設を数えた駅"],
+    ["818", "か所", "内寸と料金を集めたコインロッカー"],
+    [String(n), "か国・地域", "送料と税を計算できる送り先"],
+    [String(articles.length), "本", "集計して書いた記事"],
+  ];
+  return `<section class="data-band bleed" aria-label="このサイトで扱っているデータ">
+  <div class="wrap data-band-inner">
+    <p class="tag tag--dark">THE NUMBERS</p>
+    <h2>数えたもの</h2>
+    <ul class="stats">${stats.map(([v, u, l]) => `<li><span class="stat-value">${v}<span class="stat-unit">${u}</span></span><span class="stat-label">${l}</span></li>`).join("")}</ul>
+    <p class="mono-note">OPENSTREETMAP 2026-09-28 / MULTIECUBE ほか 2026-09-17 / JAPAN POST 2026-10-06</p>
+  </div>
 </section>`;
 }
 
 function homePage(articles) {
   const latest = articles.slice(0, 6);
   const body = `
+<section class="statement">
+  <p>全国1,882駅のまわりの店、818か所のコインロッカー、${Object.keys(shippingData.countries).length}か国・地域あての送料と税。公開されているデータを自分で数え直して、記事と道具にしています。</p>
+</section>
+
+${dataBand(articles)}
+
 ${featureTool()}
 
 <section>
@@ -418,7 +461,7 @@ ${featureTool()}
       .filter(([key]) => articles.some((a) => a.category === key))
       .map(
         ([key, cat]) =>
-          `<li><a href="${topicPath(key)}">${photoImg(key, { sizes: "(min-width: 760px) 360px, 100vw" })}<span class="topic-text"><span class="topic-name">${esc(cat.name)}</span><span class="topic-count">${articles.filter((a) => a.category === key).length}本の記事</span><span class="topic-lead">${esc(cat.lead)}</span></span></a></li>`,
+          `<li><a href="${topicPath(key)}">${photoImg(key, { sizes: "(min-width: 760px) 360px, 100vw" })}<span class="tag">${TOPIC_TAG[key]}</span><span class="topic-text"><span class="topic-name">${esc(cat.name)}</span><span class="topic-count">${articles.filter((a) => a.category === key).length}本の記事</span></span></a><p class="topic-lead">${esc(cat.lead)}</p></li>`,
       )
       .join("")}
   </ul>
@@ -458,10 +501,8 @@ ${featureTool()}
     hero: {
       photo: "hero",
       size: "full",
-      html: `<p class="hero-kicker">駅・コインロッカー・海外発送のデータ</p>
-  <h1>駅と暮らしを、<br />公開データで数える</h1>
-  <p class="hero-lead">OpenStreetMapの店舗データや国の統計、鉄道会社や日本郵便が公開している料金表を自分で集計し、分かったことを記事と道具にしています。数え方と限界も、すべて本文に書いています。</p>
-  <p class="hero-actions"><a class="button button--accent" href="${TOOL_PATH}">海外発送の計算機を使う</a><a class="button button--ghost" href="/articles/">記事を読む（${articles.length}本）</a></p>`,
+      html: `<h1>駅と暮らしを、<br />公開データで数える。</h1>
+  <p class="hero-actions"><a class="button button--light" href="${TOOL_PATH}">海外発送の計算機<span class="arrow" aria-hidden="true">↗</span></a><a class="button button--light" href="/articles/">記事を読む（${articles.length}本）<span class="arrow" aria-hidden="true">↗</span></a></p>`,
     },
     jsonLd: { "@context": "https://schema.org", "@type": "WebSite", name: SITE_NAME, url: SITE + "/" },
   });
