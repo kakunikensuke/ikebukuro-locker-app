@@ -35,7 +35,6 @@ export function toolHero(data) {
 }
 
 export const COUNTRY_SLUG = { US: "us", CA: "ca", GB: "gb", DE: "de", FR: "fr", AU: "au", SG: "sg", HK: "hk", TW: "tw", CN: "cn", KR: "kr", TH: "th", VN: "vn", PH: "ph", NZ: "nz" };
-export const countryPath = (code) => `${TOOL_PATH}${COUNTRY_SLUG[code]}/`;
 
 const opts = (obj, sel) => Object.entries(obj).map(([k, v]) => `<option value="${k}"${k === sel ? " selected" : ""}>${esc(v)}</option>`).join("");
 
@@ -98,7 +97,7 @@ function sourcesHtml(list) {
 
 export function toolBody(data) {
   const ruleRows = Object.entries(data.countries)
-    .map(([k, c]) => `<tr><th scope="row"><a href="${countryPath(k)}">${esc(c.name)}</a></th><td>${esc(RULES[k].gift)}</td><td>${esc(RULES[k].sale)}</td><td>${lithiumText(c)}</td></tr>`)
+    .map(([k, c]) => `<tr><th scope="row">${esc(c.name)}</th><td>${esc(RULES[k].gift)}</td><td>${esc(RULES[k].sale)}</td><td>${lithiumText(c)}</td></tr>`)
     .join("");
   const methodRows = ["ems", "parcel_air", "airpacket", "small_packet", "parcel_sea"]
     .map((id) => {
@@ -149,131 +148,6 @@ function limitsHtml(data) {
     </ul>`;
 }
 
-// ---- 国ごとのページ ----
-
-// その国の公式の出典を選ぶ（データの meta.sources のラベルで見分ける）
-const SOURCE_KEYS = {
-  US: ["米国", "アメリカ"], CA: ["カナダ"], GB: ["英国"], DE: ["欧州委員会", "EUの"], FR: ["欧州委員会", "EUの"], AU: ["オーストラリア"], SG: ["シンガポール"],
-  HK: ["香港"], TW: ["台湾"], CN: ["中国"], KR: ["韓国"], TH: ["タイ"], VN: ["ベトナム", "ベトコム"], PH: ["フィリピン"], NZ: ["ニュージーランド"],
-};
-
-const SHORT_NAME = { ems: "EMS", parcel_air: "航空小包", airpacket: "エアパケット", small_packet: "小形包装物", parcel_sea: "船便" };
-
-const WEEK = "日月火水木金土";
-function deadline(days) {
-  // 12月24日（2026年）に届くよう、標準日数にさらに7日の余裕。土日なら前の金曜日
-  const d = new Date(Date.UTC(2026, 11, 24));
-  d.setUTCDate(d.getUTCDate() - days - 7);
-  while (d.getUTCDay() === 0 || d.getUTCDay() === 6) d.setUTCDate(d.getUTCDate() - 1);
-  return `${d.getUTCMonth() + 1}月${d.getUTCDate()}日（${WEEK[d.getUTCDay()]}）`;
-}
-
-export function countryHero(data, code) {
-  const c = data.countries[code];
-  return `<p class="crumbs"><a href="/">トップ</a> ／ <a href="${TOOL_PATH}">海外発送の計算機</a> ／ ${esc(c.name)}</p>
-  <h1>${esc(c.name)}へ荷物を送る料金と、<br />相手が払う税</h1>
-  <p class="hero-lead">${esc(countryLead(data, code))}</p>
-  <p class="article-meta">日本郵便の5つの送り方の料金・標準日数と、${esc(c.name)}の税の決まり　確認日 ${esc(data.meta.verifiedAt)}</p>`;
-}
-
-export function countryLead(data, code) {
-  const c = data.countries[code];
-  const res = calculate(data, { ...DEFAULT_INPUT, country: code });
-  const ems = res.rows.find((r) => r.id === "ems");
-  const best = res.cheapest;
-  return `日本から${c.name}へ1kgの荷物を送ると、EMSは${yen(ems.price)}で${ems.days}、いちばん安い${best.name}は${yen(best.price)}です。${RULES[code].gift}。`;
-}
-
-export function countryBody(data, code) {
-  const c = data.countries[code];
-  const rule = RULES[code];
-  const input = { ...DEFAULT_INPUT, country: code };
-  const ids = ["ems", "parcel_air", "airpacket", "small_packet", "parcel_sea"];
-  // 重さごとの送料
-  const weights = [500, 1000, 2000, 5000, 10000];
-  const rateRows = weights
-    .map((w) => {
-      const r = calculate(data, { ...input, weightG: w, valueJpy: 10000 }).rows;
-      const cell = (x) => {
-        if (!x.available) return `<td class="right">―</td>`;
-        const t = x.tax;
-        const total = t.unknown ? "税は品目による" : `税込み${t.lo === t.hi ? yen(x.totalLo) : `${yen(x.totalLo)}〜${yen(x.totalHi)}`}${t.open ? "＋α" : ""}`;
-        return `<td class="right">${yen(x.price)}<span class="sub">${total}</span></td>`;
-      };
-      return `<tr><th scope="row">${w >= 1000 ? `${w / 1000}kg` : `${w}g`}</th>${ids.map((id) => cell(r.find((y) => y.id === id))).join("")}</tr>`;
-    })
-    .join("");
-  // 中身の値段ごとの税（1kg・EMS）
-  const values = [5000, 10000, 20000, 50000, 100000];
-  const fx = data.fx.jpyPer[c.cur];
-  const taxRows = (kind) =>
-    values
-      .map((v) => {
-        const row = calculate(data, { ...input, valueJpy: v, kind }).rows.find((x) => x.id === "ems");
-        const t = row.tax;
-        const amount = t.unknown ? "品目による" : `${t.lo === t.hi ? yen(t.lo) : `${yen(t.lo)}〜${yen(t.hi)}`}${t.open ? "＋α" : ""}`;
-        return `<tr><th scope="row">${yen(v)}</th><td class="right">約${Math.round(v / fx).toLocaleString("ja-JP")} ${esc(c.cur)}</td><td class="right">${amount}</td><td>${esc(t.label)}</td></tr>`;
-      })
-      .join("");
-  // 日数とクリスマスの締切
-  const std = data.standardDays.byCountry[code];
-  const dayRows = ["ems", "parcel_air", "airpacket", "small_packet"]
-    .map((id) => `<tr><th scope="row">${esc(data.methods[id].name)}</th><td class="right">${std[id]}日</td><td>${deadline(std[id])}</td></tr>`)
-    .join("");
-  const others = Object.entries(data.countries).filter(([k]) => k !== code).map(([k, x]) => `<a href="${countryPath(k)}">${esc(x.name)}</a>`).join("・");
-  const keys = SOURCE_KEYS[code];
-  const sources = data.meta.sources.filter(([label]) => label.startsWith("日本郵便") || keys.some((k) => label.includes(k)) || label.startsWith("為替"));
-  const lith = c.lithium;
-  const lithText = lith.air && lith.sea
-    ? `${c.name}へは、機器に内蔵されたリチウム電池なら、航空便・EMSでも船便でも送れます（1つの荷物に2個まで）。`
-    : lith.air
-      ? `${c.name}へは、機器に内蔵されたリチウム電池なら航空便・EMSで送れますが、船便では送れません（日本郵便の船便の受付一覧に入っていないため）。`
-      : lith.sea
-        ? `${c.name}へは、電池の入った物を日本郵便の航空便・EMSでは送れません。船便の受付一覧には入っているので、急がない物なら船便で送れます。`
-        : `${c.name}へは、電池の入った物を日本郵便の航空便でも船便でも送れません。国際宅配便（DHL・FedExなど）を検討してください。`;
-  return `
-<article class="article tool">
-${calcWidget(data, input)}
-
-  <div class="prose">
-    <h2>${esc(c.name)}あての税の決まり</h2>
-    <ul>
-      <li><strong>贈り物：</strong>${esc(rule.gift)}</li>
-      <li><strong>売った物：</strong>${esc(rule.sale)}</li>
-      ${rule.duty ? `<li>${esc(rule.duty)}</li>` : ""}
-      ${rule.procedure ? `<li>${esc(rule.procedure)}</li>` : ""}
-    </ul>
-
-    <h2>中身の値段ごとの税の目安</h2>
-    <p>1kgの荷物をEMSで送る場合に、受け取る人が払う税の目安です。${esc(c.cur)}への換算は${esc(code === "TW" ? data.fx.asOf.fedH10 : code === "VN" ? data.fx.asOf.vcb : data.fx.asOf.ecb)}のレートです。</p>
-    <h3>贈り物の場合</h3>
-    <div class="table-wrap"><table><thead><tr><th>中身の値段</th><th class="right">${esc(c.cur)}で</th><th class="right">税の目安</th><th>内訳</th></tr></thead><tbody>${taxRows("gift")}</tbody></table></div>
-    <h3>売った物の場合</h3>
-    <div class="table-wrap"><table><thead><tr><th>中身の値段</th><th class="right">${esc(c.cur)}で</th><th class="right">税の目安</th><th>内訳</th></tr></thead><tbody>${taxRows("sale")}</tbody></table></div>
-
-    <h2>重さごとの送料</h2>
-    <p>日本郵便の料金表で、${esc(c.name)}は第${c.zone}地帯です。上の段が送料、下の段は中身1万円の贈り物を送ったときの、送料と受け取る人の税を足した額です。</p>
-    <div class="table-wrap"><table class="rate-table"><thead><tr><th>重さ</th>${ids.map((id) => `<th class="right">${esc(SHORT_NAME[id])}</th>`).join("")}</tr></thead><tbody>${rateRows}</tbody></table></div>
-    <p>「―」は、その重さでは使えない送り方です（小形包装物と国際エアパケットは2kgまで）。</p>
-
-    <h2>届くまでの日数と、クリスマスの締切</h2>
-    <p>日本郵便の料金計算で、東京都から出す場合の標準日数です。12月24日に届けるための目安は、標準日数にさらに1週間の余裕を足し、土日に当たるときは前の金曜日にした日です。船便は2〜4か月かかります。</p>
-    <div class="table-wrap"><table><thead><tr><th>送り方</th><th class="right">標準日数</th><th>12月24日に届けるための目安</th></tr></thead><tbody>${dayRows}</tbody></table></div>
-    <p>ほかの国と比べた表は<a href="/articles/christmas-overseas-shipping-deadline-2026/">クリスマスの締切の記事</a>にあります。</p>
-
-    <h2>電池の入った物</h2>
-    <p>${esc(lithText)}電池だけやモバイルバッテリーは、どの国へも送れません。</p>
-
-    <h2>ほかの国へ送る場合</h2>
-    <p>${others}</p>
-
-${limitsHtml(data)}
-  </div>
-
-  <aside class="sources">
-    <h2>使ったデータ</h2>
-    <ul>${sourcesHtml(sources)}</ul>
-  </aside>
-</article>
-${calcScript(data)}`;
-}
+// 国ごとのページ（/tools/overseas-shipping/<国>/ の15本）は 2026-11-06 にやめた。
+// 数字を伏せて比べると本文の77%が同じで、要点（贈り物・売った物・電池）はこのページの「国ごとの決まり」の表に、
+// 日数はクリスマスの締切の記事にある。旧URLは public/_redirects でこのページへ301。
