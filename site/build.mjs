@@ -180,7 +180,11 @@ ${noindex ? '<meta name="robots" content="noindex" />' : `<link rel="canonical" 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Shippori+Mincho+B1:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/style.css" />
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}" crossorigin="anonymous"></script>
+${
+  // 検索に出さないページ（404）には広告のタグを入れない。Google パブリッシャー ポリシーは、
+  // お礼・終了・エラーのような行き止まりのページに広告を置かないよう求めている（publisherpolicies/answer/11112688。2026-11-06）
+  noindex ? "" : `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}" crossorigin="anonymous"></script>`
+}
 ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : ""}
 </head>
 <body class="${bodyClass}">
